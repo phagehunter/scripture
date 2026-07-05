@@ -1,0 +1,70 @@
+import type { ChronEvent } from '../types';
+
+/**
+ * Timeline events for the parallel-chronology view. Old-World dates before
+ * the monarchy follow traditional biblical reckoning (flagged approximate);
+ * Book of Mormon dates follow the text's internal year-counts as compiled in
+ * the chronology charts included with the source dataset. Negative = BC.
+ */
+export const CHRON_EVENTS: ChronEvent[] = [
+  // ——— Old World ———
+  { year: -2100, era: 3, track: 'oldworld', label: 'Abraham\'s call & covenant', personIds: ['abraham', 'sarah'], citation: 'Genesis 12', detail: 'Traditional dating (~2100–1900 BC): the covenant of land, seed, and universal blessing.' },
+  { year: -1900, era: 3, track: 'oldworld', label: 'Jacob becomes Israel', personIds: ['jacob_israel'], citation: 'Genesis 32', detail: 'The night-wrestle at Peniel; twelve sons become twelve tribes.' },
+  { year: -1850, era: 3, track: 'oldworld', label: 'Joseph in Egypt', personIds: ['joseph_egypt'], citation: 'Genesis 41', detail: 'Sold, imprisoned, exalted; Israel descends into Egypt in famine.' },
+  { year: -1450, era: 4, track: 'oldworld', label: 'The Exodus', personIds: ['moses', 'aaron_ot', 'miriam', 'israelites'], citation: 'Exodus 14', detail: 'Traditional early date (~1446 BC): deliverance through the sea, covenant at Sinai.' },
+  { year: -1400, era: 5, track: 'oldworld', label: 'Conquest of Canaan', personIds: ['joshua'], citation: 'Joshua 6', detail: 'Jordan crossed, Jericho fallen, land allotted.' },
+  { year: -1200, era: 5, track: 'oldworld', label: 'Age of the Judges', personIds: ['deborah', 'gideon_ot', 'samson'], citation: 'Judges 2', detail: 'The cycle: apostasy, oppression, cry, deliverer — repeated for two centuries.' },
+  { year: -1100, era: 5, track: 'oldworld', label: 'Ruth & the Bethlehem line', personIds: ['ruth', 'naomi', 'boaz'], citation: 'Ruth 4', detail: 'A Moabite convert becomes great-grandmother of David.' },
+  { year: -1050, era: 6, track: 'oldworld', label: 'Samuel anoints Saul', personIds: ['samuel_ot', 'saul_king'], citation: '1 Samuel 10', detail: 'The last judge inaugurates the monarchy he warned against.' },
+  { year: -1010, era: 6, track: 'oldworld', label: 'David\'s reign', personIds: ['david'], citation: '2 Samuel 5', detail: 'Jerusalem taken; the dynastic covenant given through Nathan.' },
+  { year: -966, era: 6, track: 'oldworld', label: 'Solomon\'s temple', personIds: ['solomon'], citation: '1 Kings 8', detail: 'The temple Nephi₁ later says his own New-World temple followed in form.' },
+  { year: -930, era: 7, track: 'oldworld', label: 'The kingdom divides', personIds: ['rehoboam', 'jeroboam'], citation: '1 Kings 12', detail: 'Ten tribes north (Israel), two south (Judah).' },
+  { year: -860, era: 7, track: 'oldworld', label: 'Elijah on Carmel', personIds: ['elijah', 'ahab', 'jezebel'], citation: '1 Kings 18', detail: 'Fire answers by fire; the still small voice follows at Horeb.' },
+  { year: -722, era: 7, track: 'oldworld', label: 'Fall of the northern kingdom', citation: '2 Kings 17', detail: 'Assyria deports the ten tribes — the "lost tribes" whose scattering haunts all three volumes.' },
+  { year: -700, era: 7, track: 'oldworld', label: 'Isaiah\'s ministry', personIds: ['isaiah', 'hezekiah'], citation: 'Isaiah 6', detail: 'The prophet whose words travel to the New World on the plates of brass.' },
+  { year: -621, era: 7, track: 'oldworld', label: 'Josiah\'s reform', personIds: ['josiah'], citation: '2 Kings 22', detail: 'The found book read aloud — one generation before Lehi\'s call.' },
+  { year: -586, era: 8, track: 'oldworld', label: 'Jerusalem falls to Babylon', personIds: ['jeremiah', 'nebuchadnezzar'], citation: '2 Kings 25', detail: 'The destruction Lehi prophesied and fled; Mulek\'s escape party also departs (per Helaman 8:21).' },
+  { year: -550, era: 8, track: 'oldworld', label: 'Daniel in Babylon', personIds: ['daniel', 'ezekiel'], citation: 'Daniel 2', detail: 'Exile prophecy: the image with feet of clay, the valley of dry bones.' },
+  { year: -516, era: 8, track: 'oldworld', label: 'Second temple completed', citation: 'Ezra 6', detail: 'The return under Cyrus\'s decree bears fruit.' },
+  { year: -445, era: 8, track: 'oldworld', label: 'Ezra & Nehemiah', personIds: ['ezra', 'nehemiah'], citation: 'Nehemiah 8', detail: 'Walls rebuilt in fifty-two days; the law read to a weeping assembly.' },
+  { year: -430, era: 8, track: 'oldworld', label: 'Malachi closes the Hebrew canon', personIds: ['malachi'], citation: 'Malachi 4', detail: 'Elijah\'s promised return — the words the risen Christ later dictates at Bountiful.' },
+  { year: -4, era: 11, track: 'oldworld', label: 'Birth of Jesus Christ', personIds: ['jesus_christ', 'mary_mother', 'joseph_nazareth'], citation: 'Luke 2', detail: 'Bethlehem; the sign appears simultaneously in the New World (3 Nephi 1).' },
+  { year: 27, era: 11, track: 'oldworld', label: 'Baptism & ministry begins', personIds: ['john_baptist'], citation: 'Matthew 3', detail: 'Jordan, wilderness, Galilee.' },
+  { year: 30, era: 11, track: 'oldworld', label: 'Sermon on the Mount', personIds: ['twelve_apostles'], citation: 'Matthew 5', detail: 'The sermon redelivered, with covenant reframings, at Bountiful four years later.' },
+  { year: 33, era: 11, track: 'oldworld', label: 'Crucifixion & Resurrection', personIds: ['jesus_christ', 'mary_magdalene', 'pilate'], citation: 'John 19', detail: 'Three hours of darkness in Judea; three days of darkness in the New World.' },
+  { year: 34, era: 11, track: 'oldworld', label: 'Pentecost & the church', personIds: ['peter'], citation: 'Acts 2', detail: 'Three thousand baptized; the apostolic age opens.' },
+  { year: 35, era: 11, track: 'oldworld', label: 'Conversion of Paul', personIds: ['paul'], citation: 'Acts 9', detail: 'The Damascus road — the Old World\'s Alma₂ moment.' },
+  { year: 50, era: 11, track: 'oldworld', label: 'Jerusalem council', personIds: ['james_brother', 'peter', 'paul'], citation: 'Acts 15', detail: 'The Gentile question settled; the mission goes to the nations.' },
+  { year: 95, era: 11, track: 'oldworld', label: 'Revelation on Patmos', personIds: ['john_beloved'], citation: 'Revelation 1', detail: 'The apostle Nephi₁ saw in vision writes "the remainder of these things."' },
+
+  // ——— New World ———
+  { year: -2200, era: 2, track: 'newworld', label: 'Jaredite departure from Babel', personIds: ['jared_bom', 'brother_of_jared', 'jaredites'], citation: 'Ether 1', detail: 'Language preserved, barges built; "the Lord did go before them."' },
+  { year: -2150, era: 2, track: 'newworld', label: 'The Lord appears to the brother of Jared', personIds: ['brother_of_jared', 'jesus_christ'], citation: 'Ether 3', detail: 'The premortal Christ unveiled on the mount — the canon\'s earliest full theophany of the Son.' },
+  { year: -1200, era: 2, track: 'newworld', label: 'Jaredite kingdom cycles', personIds: ['akish'], citation: 'Ether 8', detail: 'Prosperity, captivity, secret combinations — centuries compressed into Moroni\'s abridgment.' },
+  { year: -590, era: 2, track: 'newworld', label: 'Jaredite destruction at Ramah', personIds: ['ether', 'coriantumr_last'], citation: 'Ether 15', detail: 'The last battle; Coriantumr alone survives to be found by the people of Zarahemla.' },
+  { year: -600, era: 9, track: 'newworld', label: 'Lehi leaves Jerusalem', personIds: ['lehi_1', 'sariah', 'nephi_1', 'laman_1'], citation: '1 Nephi 2', detail: 'First year of Zedekiah: the family flees before the destruction Lehi prophesied.' },
+  { year: -597, era: 9, track: 'newworld', label: 'Nephi\'s vision of the tree', personIds: ['nephi_1'], citation: '1 Nephi 11', detail: 'The condescension of God: Mary, the Baptist, the Twelve, and John — seen six centuries early.' },
+  { year: -589, era: 9, track: 'newworld', label: 'Arrival in the promised land', personIds: ['nephi_1', 'lehi_1'], citation: '1 Nephi 18', detail: 'Eight years in Arabia, then the ship Nephi was shown how to build.' },
+  { year: -570, era: 9, track: 'newworld', label: 'Nephite–Lamanite division', personIds: ['nephi_1', 'laman_1', 'nephites', 'lamanites'], citation: '2 Nephi 5', detail: 'After Lehi\'s death the family fractures permanently into two nations.' },
+  { year: -545, era: 9, track: 'newworld', label: 'Jacob\'s temple discourses', personIds: ['jacob_2'], citation: '2 Nephi 9', detail: 'The atonement discourse and, later, Zenos\' olive-tree allegory.' },
+  { year: -420, era: 9, track: 'newworld', label: 'Enos\'s wrestle', personIds: ['enos_bom'], citation: 'Enos 1', detail: 'A whole generation\'s faith distilled into one all-day prayer.' },
+  { year: -200, era: 10, track: 'newworld', label: 'Mosiah₁ discovers Zarahemla', personIds: ['mosiah_1', 'zarahemla_mulek', 'mulekites'], citation: 'Omni 1', detail: 'Two Jerusalem exoduses meet; the Mulekites take Mosiah as king.' },
+  { year: -148, era: 10, track: 'newworld', label: 'Abinadi before King Noah', personIds: ['abinadi', 'king_noah', 'alma_1'], citation: 'Mosiah 13', detail: 'Isaiah 53 recited in chains; one priest believes.' },
+  { year: -124, era: 10, track: 'newworld', label: 'King Benjamin\'s address', personIds: ['king_benjamin', 'mosiah_2'], citation: 'Mosiah 2', detail: 'The tower sermon: a covenant people take the name of Christ.' },
+  { year: -100, era: 10, track: 'newworld', label: 'Alma₂ & the angel', personIds: ['alma_2', 'alma_1', 'ammon_2'], citation: 'Mosiah 27', detail: 'The persecutor struck down — the New World\'s Damascus road, a century early.' },
+  { year: -91, era: 10, track: 'newworld', label: 'Reign of the judges begins', personIds: ['mosiah_2', 'alma_2'], citation: 'Mosiah 29', detail: 'Mosiah₂ abolishes kingship; Alma₂ is first chief judge.' },
+  { year: -90, era: 10, track: 'newworld', label: 'Mission to the Lamanites', personIds: ['ammon_2', 'aaron_3', 'lamoni', 'lamoni_father'], citation: 'Alma 17', detail: 'Fourteen years among enemies; thousands convert and bury their swords.' },
+  { year: -74, era: 10, track: 'newworld', label: 'Title of liberty', personIds: ['captain_moroni', 'amalickiah'], citation: 'Alma 46', detail: 'The rent coat raised: "in memory of our God, our religion, and freedom."' },
+  { year: -64, era: 10, track: 'newworld', label: 'The two thousand at Cumeni', personIds: ['helaman_2', 'two_thousand'], citation: 'Alma 57', detail: 'Every one wounded; not one lost — "they did not doubt."' },
+  { year: -52, era: 10, track: 'newworld', label: 'Gadianton\'s band forms', personIds: ['gadianton', 'kishkumen'], citation: 'Helaman 2', detail: 'The secret combination Mormon names as the nation\'s eventual overthrow.' },
+  { year: -20, era: 10, track: 'newworld', label: 'Nephi₂ receives the sealing power', personIds: ['nephi_2'], citation: 'Helaman 10', detail: '"All things shall be done unto thee according to thy word" — he asks for famine instead of war.' },
+  { year: -6, era: 10, track: 'newworld', label: 'Samuel on the wall', personIds: ['samuel_lamanite'], citation: 'Helaman 14', detail: 'The five-year sign of the birth; the arrows cannot touch him.' },
+  { year: 1, era: 12, track: 'newworld', label: 'The sign of Christ\'s birth', personIds: ['nephi_3'], citation: '3 Nephi 1', detail: 'Night without darkness, on the eve of the believers\' execution.' },
+  { year: 34, era: 12, track: 'newworld', label: 'Destruction & three days of darkness', citation: '3 Nephi 8', detail: 'Cities sink and burn at the crucifixion; a voice in the dark names the Redeemer.' },
+  { year: 34.5, era: 12, track: 'newworld', label: 'Christ at the temple in Bountiful', personIds: ['jesus_christ', 'nephi_3', 'twelve_disciples'], citation: '3 Nephi 11', detail: '2,500 people feel the wounds one by one; the Sermon redelivered; the sacrament instituted.' },
+  { year: 36, era: 12, track: 'newworld', label: 'The Three Nephites tarry', personIds: ['three_nephites'], citation: '3 Nephi 28', detail: 'John\'s wish granted again, an ocean away.' },
+  { year: 100, era: 12, track: 'newworld', label: 'Zion society', citation: '4 Nephi 1', detail: '"There could not be a happier people…" — two centuries without contention, then the slow unravelling.' },
+  { year: 322, era: 12, track: 'newworld', label: 'Mormon receives the records', personIds: ['ammaron', 'mormon'], citation: 'Mormon 1', detail: 'The archive\'s future entrusted to a sober child of ten.' },
+  { year: 385, era: 12, track: 'newworld', label: 'The last battle at Cumorah', personIds: ['mormon', 'moroni_2'], citation: 'Mormon 6', detail: '"O ye fair ones" — the Nephite nation ends; Mormon falls with it.' },
+  { year: 421, era: 12, track: 'newworld', label: 'Moroni seals the record', personIds: ['moroni_2'], citation: 'Moroni 10', detail: 'Alone for decades, he closes with a promise addressed to the future reader — then buries the plates.' },
+];

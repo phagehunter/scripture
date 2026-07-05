@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-950 text-slate-200 font-body antialiased;
+}
+
+::selection {
+  background: rgba(251, 191, 36, 0.28);
+}
+
+/* ——— Custom scrollbars for the academic dark theme ——— */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+/* ——— Dual-thumb range slider (era window) ——— */
+input[type='range'].era-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+  background: transparent;
+}
+input[type='range'].era-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #0f172a;
+  box-shadow: 0 0 0 1px #fbbf24;
+  cursor: ew-resize;
+}
+input[type='range'].era-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #0f172a;
+  box-shadow: 0 0 0 1px #fbbf24;
+  cursor: ew-resize;
+}

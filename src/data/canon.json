@@ -1,0 +1,650 @@
+[
+ {
+  "slug": "genesis",
+  "title": "Genesis",
+  "volume": "ot",
+  "chapters": 50,
+  "verses": 1533,
+  "order": 0
+ },
+ {
+  "slug": "exodus",
+  "title": "Exodus",
+  "volume": "ot",
+  "chapters": 40,
+  "verses": 1213,
+  "order": 1
+ },
+ {
+  "slug": "leviticus",
+  "title": "Leviticus",
+  "volume": "ot",
+  "chapters": 27,
+  "verses": 859,
+  "order": 2
+ },
+ {
+  "slug": "numbers",
+  "title": "Numbers",
+  "volume": "ot",
+  "chapters": 36,
+  "verses": 1288,
+  "order": 3
+ },
+ {
+  "slug": "deuteronomy",
+  "title": "Deuteronomy",
+  "volume": "ot",
+  "chapters": 34,
+  "verses": 959,
+  "order": 4
+ },
+ {
+  "slug": "joshua",
+  "title": "Joshua",
+  "volume": "ot",
+  "chapters": 24,
+  "verses": 658,
+  "order": 5
+ },
+ {
+  "slug": "judges",
+  "title": "Judges",
+  "volume": "ot",
+  "chapters": 21,
+  "verses": 618,
+  "order": 6
+ },
+ {
+  "slug": "ruth",
+  "title": "Ruth",
+  "volume": "ot",
+  "chapters": 4,
+  "verses": 85,
+  "order": 7
+ },
+ {
+  "slug": "1-samuel",
+  "title": "1 Samuel",
+  "volume": "ot",
+  "chapters": 31,
+  "verses": 810,
+  "order": 8
+ },
+ {
+  "slug": "2-samuel",
+  "title": "2 Samuel",
+  "volume": "ot",
+  "chapters": 24,
+  "verses": 695,
+  "order": 9
+ },
+ {
+  "slug": "1-kings",
+  "title": "1 Kings",
+  "volume": "ot",
+  "chapters": 22,
+  "verses": 816,
+  "order": 10
+ },
+ {
+  "slug": "2-kings",
+  "title": "2 Kings",
+  "volume": "ot",
+  "chapters": 25,
+  "verses": 719,
+  "order": 11
+ },
+ {
+  "slug": "1-chronicles",
+  "title": "1 Chronicles",
+  "volume": "ot",
+  "chapters": 29,
+  "verses": 942,
+  "order": 12
+ },
+ {
+  "slug": "2-chronicles",
+  "title": "2 Chronicles",
+  "volume": "ot",
+  "chapters": 36,
+  "verses": 822,
+  "order": 13
+ },
+ {
+  "slug": "ezra",
+  "title": "Ezra",
+  "volume": "ot",
+  "chapters": 10,
+  "verses": 280,
+  "order": 14
+ },
+ {
+  "slug": "nehemiah",
+  "title": "Nehemiah",
+  "volume": "ot",
+  "chapters": 13,
+  "verses": 406,
+  "order": 15
+ },
+ {
+  "slug": "esther",
+  "title": "Esther",
+  "volume": "ot",
+  "chapters": 10,
+  "verses": 167,
+  "order": 16
+ },
+ {
+  "slug": "job",
+  "title": "Job",
+  "volume": "ot",
+  "chapters": 42,
+  "verses": 1070,
+  "order": 17
+ },
+ {
+  "slug": "psalms",
+  "title": "Psalms",
+  "volume": "ot",
+  "chapters": 150,
+  "verses": 2461,
+  "order": 18
+ },
+ {
+  "slug": "proverbs",
+  "title": "Proverbs",
+  "volume": "ot",
+  "chapters": 31,
+  "verses": 915,
+  "order": 19
+ },
+ {
+  "slug": "ecclesiastes",
+  "title": "Ecclesiastes",
+  "volume": "ot",
+  "chapters": 12,
+  "verses": 222,
+  "order": 20
+ },
+ {
+  "slug": "song-of-solomon",
+  "title": "Song of Solomon",
+  "volume": "ot",
+  "chapters": 8,
+  "verses": 117,
+  "order": 21
+ },
+ {
+  "slug": "isaiah",
+  "title": "Isaiah",
+  "volume": "ot",
+  "chapters": 66,
+  "verses": 1292,
+  "order": 22
+ },
+ {
+  "slug": "jeremiah",
+  "title": "Jeremiah",
+  "volume": "ot",
+  "chapters": 52,
+  "verses": 1364,
+  "order": 23
+ },
+ {
+  "slug": "lamentations",
+  "title": "Lamentations",
+  "volume": "ot",
+  "chapters": 5,
+  "verses": 154,
+  "order": 24
+ },
+ {
+  "slug": "ezekiel",
+  "title": "Ezekiel",
+  "volume": "ot",
+  "chapters": 48,
+  "verses": 1273,
+  "order": 25
+ },
+ {
+  "slug": "daniel",
+  "title": "Daniel",
+  "volume": "ot",
+  "chapters": 12,
+  "verses": 357,
+  "order": 26
+ },
+ {
+  "slug": "hosea",
+  "title": "Hosea",
+  "volume": "ot",
+  "chapters": 14,
+  "verses": 197,
+  "order": 27
+ },
+ {
+  "slug": "joel",
+  "title": "Joel",
+  "volume": "ot",
+  "chapters": 3,
+  "verses": 73,
+  "order": 28
+ },
+ {
+  "slug": "amos",
+  "title": "Amos",
+  "volume": "ot",
+  "chapters": 9,
+  "verses": 146,
+  "order": 29
+ },
+ {
+  "slug": "obadiah",
+  "title": "Obadiah",
+  "volume": "ot",
+  "chapters": 1,
+  "verses": 21,
+  "order": 30
+ },
+ {
+  "slug": "jonah",
+  "title": "Jonah",
+  "volume": "ot",
+  "chapters": 4,
+  "verses": 48,
+  "order": 31
+ },
+ {
+  "slug": "micah",
+  "title": "Micah",
+  "volume": "ot",
+  "chapters": 7,
+  "verses": 105,
+  "order": 32
+ },
+ {
+  "slug": "nahum",
+  "title": "Nahum",
+  "volume": "ot",
+  "chapters": 3,
+  "verses": 47,
+  "order": 33
+ },
+ {
+  "slug": "habakkuk",
+  "title": "Habakkuk",
+  "volume": "ot",
+  "chapters": 3,
+  "verses": 56,
+  "order": 34
+ },
+ {
+  "slug": "zephaniah",
+  "title": "Zephaniah",
+  "volume": "ot",
+  "chapters": 3,
+  "verses": 53,
+  "order": 35
+ },
+ {
+  "slug": "haggai",
+  "title": "Haggai",
+  "volume": "ot",
+  "chapters": 2,
+  "verses": 38,
+  "order": 36
+ },
+ {
+  "slug": "zechariah",
+  "title": "Zechariah",
+  "volume": "ot",
+  "chapters": 14,
+  "verses": 211,
+  "order": 37
+ },
+ {
+  "slug": "malachi",
+  "title": "Malachi",
+  "volume": "ot",
+  "chapters": 4,
+  "verses": 55,
+  "order": 38
+ },
+ {
+  "slug": "matthew",
+  "title": "Matthew",
+  "volume": "nt",
+  "chapters": 28,
+  "verses": 1071,
+  "order": 39
+ },
+ {
+  "slug": "mark",
+  "title": "Mark",
+  "volume": "nt",
+  "chapters": 16,
+  "verses": 678,
+  "order": 40
+ },
+ {
+  "slug": "luke",
+  "title": "Luke",
+  "volume": "nt",
+  "chapters": 24,
+  "verses": 1151,
+  "order": 41
+ },
+ {
+  "slug": "john",
+  "title": "John",
+  "volume": "nt",
+  "chapters": 21,
+  "verses": 879,
+  "order": 42
+ },
+ {
+  "slug": "acts",
+  "title": "Acts",
+  "volume": "nt",
+  "chapters": 28,
+  "verses": 1007,
+  "order": 43
+ },
+ {
+  "slug": "romans",
+  "title": "Romans",
+  "volume": "nt",
+  "chapters": 16,
+  "verses": 433,
+  "order": 44
+ },
+ {
+  "slug": "1-corinthians",
+  "title": "1 Corinthians",
+  "volume": "nt",
+  "chapters": 16,
+  "verses": 437,
+  "order": 45
+ },
+ {
+  "slug": "2-corinthians",
+  "title": "2 Corinthians",
+  "volume": "nt",
+  "chapters": 13,
+  "verses": 257,
+  "order": 46
+ },
+ {
+  "slug": "galatians",
+  "title": "Galatians",
+  "volume": "nt",
+  "chapters": 6,
+  "verses": 149,
+  "order": 47
+ },
+ {
+  "slug": "ephesians",
+  "title": "Ephesians",
+  "volume": "nt",
+  "chapters": 6,
+  "verses": 155,
+  "order": 48
+ },
+ {
+  "slug": "philippians",
+  "title": "Philippians",
+  "volume": "nt",
+  "chapters": 4,
+  "verses": 104,
+  "order": 49
+ },
+ {
+  "slug": "colossians",
+  "title": "Colossians",
+  "volume": "nt",
+  "chapters": 4,
+  "verses": 95,
+  "order": 50
+ },
+ {
+  "slug": "1-thessalonians",
+  "title": "1 Thessalonians",
+  "volume": "nt",
+  "chapters": 5,
+  "verses": 89,
+  "order": 51
+ },
+ {
+  "slug": "2-thessalonians",
+  "title": "2 Thessalonians",
+  "volume": "nt",
+  "chapters": 3,
+  "verses": 47,
+  "order": 52
+ },
+ {
+  "slug": "1-timothy",
+  "title": "1 Timothy",
+  "volume": "nt",
+  "chapters": 6,
+  "verses": 113,
+  "order": 53
+ },
+ {
+  "slug": "2-timothy",
+  "title": "2 Timothy",
+  "volume": "nt",
+  "chapters": 4,
+  "verses": 83,
+  "order": 54
+ },
+ {
+  "slug": "titus",
+  "title": "Titus",
+  "volume": "nt",
+  "chapters": 3,
+  "verses": 46,
+  "order": 55
+ },
+ {
+  "slug": "philemon",
+  "title": "Philemon",
+  "volume": "nt",
+  "chapters": 1,
+  "verses": 25,
+  "order": 56
+ },
+ {
+  "slug": "hebrews",
+  "title": "Hebrews",
+  "volume": "nt",
+  "chapters": 13,
+  "verses": 303,
+  "order": 57
+ },
+ {
+  "slug": "james",
+  "title": "James",
+  "volume": "nt",
+  "chapters": 5,
+  "verses": 108,
+  "order": 58
+ },
+ {
+  "slug": "1-peter",
+  "title": "1 Peter",
+  "volume": "nt",
+  "chapters": 5,
+  "verses": 105,
+  "order": 59
+ },
+ {
+  "slug": "2-peter",
+  "title": "2 Peter",
+  "volume": "nt",
+  "chapters": 3,
+  "verses": 61,
+  "order": 60
+ },
+ {
+  "slug": "1-john",
+  "title": "1 John",
+  "volume": "nt",
+  "chapters": 5,
+  "verses": 105,
+  "order": 61
+ },
+ {
+  "slug": "2-john",
+  "title": "2 John",
+  "volume": "nt",
+  "chapters": 1,
+  "verses": 13,
+  "order": 62
+ },
+ {
+  "slug": "3-john",
+  "title": "3 John",
+  "volume": "nt",
+  "chapters": 1,
+  "verses": 14,
+  "order": 63
+ },
+ {
+  "slug": "jude",
+  "title": "Jude",
+  "volume": "nt",
+  "chapters": 1,
+  "verses": 25,
+  "order": 64
+ },
+ {
+  "slug": "revelation",
+  "title": "Revelation",
+  "volume": "nt",
+  "chapters": 22,
+  "verses": 404,
+  "order": 65
+ },
+ {
+  "slug": "1-nephi",
+  "title": "1 Nephi",
+  "volume": "bom",
+  "chapters": 22,
+  "verses": 618,
+  "order": 66
+ },
+ {
+  "slug": "2-nephi",
+  "title": "2 Nephi",
+  "volume": "bom",
+  "chapters": 33,
+  "verses": 779,
+  "order": 67
+ },
+ {
+  "slug": "jacob",
+  "title": "Jacob",
+  "volume": "bom",
+  "chapters": 7,
+  "verses": 203,
+  "order": 68
+ },
+ {
+  "slug": "enos",
+  "title": "Enos",
+  "volume": "bom",
+  "chapters": 1,
+  "verses": 27,
+  "order": 69
+ },
+ {
+  "slug": "jarom",
+  "title": "Jarom",
+  "volume": "bom",
+  "chapters": 1,
+  "verses": 15,
+  "order": 70
+ },
+ {
+  "slug": "omni",
+  "title": "Omni",
+  "volume": "bom",
+  "chapters": 1,
+  "verses": 30,
+  "order": 71
+ },
+ {
+  "slug": "words-of-mormon",
+  "title": "Words of Mormon",
+  "volume": "bom",
+  "chapters": 1,
+  "verses": 18,
+  "order": 72
+ },
+ {
+  "slug": "mosiah",
+  "title": "Mosiah",
+  "volume": "bom",
+  "chapters": 29,
+  "verses": 785,
+  "order": 73
+ },
+ {
+  "slug": "alma",
+  "title": "Alma",
+  "volume": "bom",
+  "chapters": 63,
+  "verses": 1975,
+  "order": 74
+ },
+ {
+  "slug": "helaman",
+  "title": "Helaman",
+  "volume": "bom",
+  "chapters": 16,
+  "verses": 497,
+  "order": 75
+ },
+ {
+  "slug": "3-nephi",
+  "title": "3 Nephi",
+  "volume": "bom",
+  "chapters": 30,
+  "verses": 785,
+  "order": 76
+ },
+ {
+  "slug": "4-nephi",
+  "title": "4 Nephi",
+  "volume": "bom",
+  "chapters": 1,
+  "verses": 49,
+  "order": 77
+ },
+ {
+  "slug": "mormon",
+  "title": "Mormon",
+  "volume": "bom",
+  "chapters": 9,
+  "verses": 227,
+  "order": 78
+ },
+ {
+  "slug": "ether",
+  "title": "Ether",
+  "volume": "bom",
+  "chapters": 15,
+  "verses": 433,
+  "order": 79
+ },
+ {
+  "slug": "moroni",
+  "title": "Moroni",
+  "volume": "bom",
+  "chapters": 10,
+  "verses": 163,
+  "order": 80
+ }
+]
