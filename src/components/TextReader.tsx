@@ -1,68 +1,28 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtlas } from '../context/AtlasContext';
-import { BOOK_BY_SLUG, CANON, VOLUME_COLORS, VOLUME_LABELS } from '../data/canonHelpers';
-import { NAME_REGEX, resolveName } from '../data/nameRules';
-import { PERSON_BY_ID } from '../data/people';
+import { BOOK_BY_SLUG, CANON, VOLUME_COLORS, VOLUME_LABELS, parseCitation } from '../data/canonHelpers';
+import { loadBook, type BookText } from '../data/textClient';
 import { loadRefs, type BookRefs } from '../data/refsClient';
-import type { Volume } from '../types';
+import LinkedVerse from './LinkedVerse';
+import type { ReaderLocation, Volume } from '../types';
 
-interface BookText {
-  volume: Volume;
-  title: string;
-  slug: string;
-  chapters: string[][];
-}
-
-/** In-memory cache: each book fetched at most once per session. */
-const bookCache = new Map<string, BookText>();
-
-/**
- * Character names are live, CONTEXT-AWARE links: "Nephi" in Helaman resolves
- * to Nephi₂, in 3 Nephi to Nephi₃; "Alma" in the book of Alma is the younger.
- * Hover spotlights the node in the network; click flies the camera to it.
- */
-function LinkedVerse({ text, slug, volume }: { text: string; slug: string; volume: Volume }) {
-  const { setHighlight } = useAtlas();
-  const parts = text.split(NAME_REGEX);
-  return (
-    <>
-      {parts.map((part, idx): ReactNode => {
-        const id = resolveName(part, slug, volume);
-        if (!id || !PERSON_BY_ID[id]) return part;
-        const person = PERSON_BY_ID[id];
-        return (
-          <span
-            key={idx}
-            role="button"
-            tabIndex={0}
-            className="text-amber-300/95 border-b border-dotted border-amber-500/50 cursor-pointer rounded-sm hover:text-amber-200 hover:bg-amber-900/30 transition-colors"
-            title={`${person.name} — ${person.disambiguator}`}
-            onMouseEnter={() => setHighlight({ id, focus: false })}
-            onMouseLeave={() => setHighlight(null)}
-            onClick={() => setHighlight({ id, focus: true })}
-            onKeyDown={(e) => e.key === 'Enter' && setHighlight({ id, focus: true })}
-          >
-            {part}
-          </span>
-        );
-      })}
-    </>
-  );
-}
-
-/** Per-verse cross-reference chips: footnote refs first, phrase matches behind an expander. */
-function VerseRefs({ refs }: { refs: { f: string[]; p: string[] } }) {
-  const { openText } = useAtlas();
+/** Per-verse cross-reference chips. Click = read side-by-side in Compare. */
+function VerseRefs({ refs, here }: { refs: { f: string[]; p: string[] }; here: ReaderLocation }) {
+  const { openCompare } = useAtlas();
   const [showPhrase, setShowPhrase] = useState(false);
+  const go = (r: string) => {
+    const target = parseCitation(r);
+    if (target) openCompare(here, target);
+  };
   const Chip = ({ r, dim }: { r: string; dim?: boolean }) => (
     <button
-      onClick={() => openText(r)}
+      onClick={() => go(r)}
       className={`text-[10.5px] px-1.5 py-px rounded-full border transition-colors ${
         dim
           ? 'border-slate-700 text-slate-500 hover:text-slate-300 hover:border-slate-500'
           : 'border-amber-700/60 text-amber-300/90 hover:text-amber-200 hover:border-amber-500'
       }`}
-      title={dim ? `Phrase parallel: ${r}` : `Footnote reference: ${r}`}
+      title={`${dim ? 'Phrase parallel' : 'Footnote reference'}: ${r} — click to compare side-by-side`}
     >
       {r}
     </button>
@@ -91,10 +51,11 @@ function VerseRefs({ refs }: { refs: { f: string[]; p: string[] } }) {
 
 export default function TextReader() {
   const { readerLoc, setReaderLoc } = useAtlas();
-  const [book, setBook] = useState<BookText | null>(bookCache.get(readerLoc.slug) ?? null);
+  const [book, setBook] = useState<BookText | null>(null);
   const [refs, setRefs] = useState<BookRefs>({});
   const [showRefs, setShowRefs] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [flashVerse, setFlashVerse] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const meta = BOOK_BY_SLUG[readerLoc.slug];
@@ -102,34 +63,16 @@ export default function TextReader() {
 
   useEffect(() => {
     let alive = true;
-    scrollRef.current?.scrollTo({ top: 0 });
-    if (bookCache.has(readerLoc.slug)) {
-      setBook(bookCache.get(readerLoc.slug)!);
-      setFailed(false);
-      return;
-    }
-    setBook(null);
     setFailed(false);
-    fetch(`${import.meta.env.BASE_URL}text/${readerLoc.slug}.json`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((d: BookText) => {
-        bookCache.set(readerLoc.slug, d);
-        if (alive) setBook(d);
-      })
+    setBook(null);
+    loadBook(readerLoc.slug)
+      .then((d) => alive && setBook(d))
       .catch(() => alive && setFailed(true));
     return () => {
       alive = false;
     };
   }, [readerLoc.slug]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0 });
-  }, [chapter]);
-
-  // Cross-reference corpus for this book (footnotes + concordance, both directions).
   useEffect(() => {
     let alive = true;
     setRefs({});
@@ -138,6 +81,23 @@ export default function TextReader() {
       alive = false;
     };
   }, [readerLoc.slug]);
+
+  const verses = book?.chapters[chapter - 1] ?? null;
+
+  // Scroll to (and briefly highlight) the cited verse; otherwise scroll to top.
+  useEffect(() => {
+    if (!verses) return;
+    if (readerLoc.verse) {
+      const el = document.getElementById(`sv-${readerLoc.slug}-${chapter}-${readerLoc.verse}`);
+      if (el) {
+        el.scrollIntoView({ block: 'center' });
+        setFlashVerse(readerLoc.verse);
+        const t = setTimeout(() => setFlashVerse(null), 2400);
+        return () => clearTimeout(t);
+      }
+    }
+    scrollRef.current?.scrollTo({ top: 0 });
+  }, [verses, readerLoc, chapter]);
 
   const booksOfVolume = useMemo(
     () => (meta ? CANON.filter((b) => b.volume === meta.volume) : []),
@@ -151,13 +111,10 @@ export default function TextReader() {
       setReaderLoc({ slug: readerLoc.slug, chapter: target });
       return;
     }
-    // roll into the previous/next book of the whole canon
     const idx = CANON.findIndex((b) => b.slug === readerLoc.slug);
     const next = CANON[idx + Math.sign(delta)];
     if (next) setReaderLoc({ slug: next.slug, chapter: delta > 0 ? 1 : next.chapters });
   };
-
-  const verses = book?.chapters[chapter - 1] ?? null;
 
   return (
     <div className="flex flex-col min-h-0 h-full">
@@ -234,11 +191,20 @@ export default function TextReader() {
             <div className="space-y-2.5">
               {verses.map((v, i) => {
                 const vr = refs[`${chapter}:${i + 1}`];
+                const flashed = flashVerse === i + 1;
                 return (
-                  <p key={i} className="font-reading text-[16px] leading-[1.75] text-slate-100">
+                  <p
+                    key={i}
+                    id={`sv-${book.slug}-${chapter}-${i + 1}`}
+                    className={`font-reading text-[16px] leading-[1.75] text-slate-100 rounded-md transition-colors duration-700 ${
+                      flashed ? 'bg-amber-900/35 ring-1 ring-amber-600/50 px-2 -mx-2' : ''
+                    }`}
+                  >
                     <sup className="text-[10.5px] text-slate-500 font-body font-semibold mr-1.5 select-none">{i + 1}</sup>
                     <LinkedVerse text={v} slug={book.slug} volume={book.volume} />
-                    {showRefs && vr && (vr.f.length > 0 || vr.p.length > 0) && <VerseRefs refs={vr} />}
+                    {showRefs && vr && (vr.f.length > 0 || vr.p.length > 0) && (
+                      <VerseRefs refs={vr} here={{ slug: book.slug, chapter, verse: i + 1 }} />
+                    )}
                   </p>
                 );
               })}
@@ -247,12 +213,15 @@ export default function TextReader() {
 
           <div className="mt-8 pt-4 border-t border-slate-800 text-[11px] text-slate-500 leading-relaxed space-y-2">
             <p>
-              <span className="text-amber-400/80">Names are linked and context-aware</span> — the same name can
-              denote different people in different books (four Nephis, two Almas). Hover any name to see who it
-              resolves to here and to spotlight them in the network; click to fly to their node.
+              <span className="text-amber-400/80">Names are linked and context-aware.</span> Hover any name to
+              see who it resolves to here and to spotlight them in the network; click to fly to their node.
             </p>
             <p>
-              Text: King James Version & Book of Mormon, from the public-domain LDS Scriptures dataset
+              <span className="text-amber-400/80">Cross-reference chips open the Compare tab</span> so you can
+              read both passages side by side.
+            </p>
+            <p>
+              Text: King James Version &amp; Book of Mormon, from the public-domain LDS Scriptures dataset
               (scriptures.nephi.org, 2020 edition).
             </p>
           </div>

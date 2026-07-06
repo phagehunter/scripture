@@ -20,13 +20,19 @@ const fmtYear = (y: number) => (y < 0 ? `${Math.abs(Math.round(y))} BC` : `AD ${
  * runs *alongside* the Bible — Jaredites parallel to the patriarchs, Lehi
  * leaving during Jeremiah's ministry, Christ's sign spanning both hemispheres.
  */
+const ZOOM_LEVELS = [1, 1.5, 2.25, 3.5, 5, 7.5];
+
 export default function ChronologyView() {
   const { eraRange, setSelection } = useAtlas();
   const { ref, width } = useElementSize<HTMLDivElement>();
   const [hover, setHover] = useState<ChronEvent | null>(null);
+  const [zoomIdx, setZoomIdx] = useState(0);
 
-  const height = 520;
-  const innerW = Math.max(width - MARGIN.left - MARGIN.right, 100);
+  const zoom = ZOOM_LEVELS[zoomIdx];
+  const height = 560;
+  const baseW = Math.max(width - 32, 200);
+  const svgW = Math.round(baseW * zoom);
+  const innerW = Math.max(svgW - MARGIN.left - MARGIN.right, 100);
   const innerH = height - MARGIN.top - MARGIN.bottom;
 
   // Piecewise x-scale: [-2300 … -650] → 28% of width; [-650 … 450] → 72%.
@@ -43,7 +49,7 @@ export default function ChronologyView() {
     };
   }, [innerW]);
 
-  const trackY = { oldworld: innerH * 0.26, newworld: innerH * 0.72 };
+  const trackY = { oldworld: innerH * 0.24, newworld: innerH * 0.74 };
 
   const inWindow = (era: number) => era >= eraRange[0] && era <= eraRange[1];
 
@@ -58,19 +64,52 @@ export default function ChronologyView() {
 
   return (
     <div ref={ref} className="relative w-full h-full overflow-y-auto p-4">
-      <div className="mb-1">
-        <h2 className="font-display text-lg text-sepia-200">Parallel Chronology — two hemispheres, one timeline</h2>
-        <p className="text-xs text-slate-400 max-w-3xl">
-          Bible above, Book of Mormon below, on a shared axis (deep past compressed; dates before the
-          monarchy are traditional, Book of Mormon dates follow the text&apos;s internal year-counts).
-          Hover events for detail; click to pin commentary. Note the synchronisms: Lehi departs during
-          Jeremiah&apos;s ministry; the sign at Bethlehem is a night without darkness in the New World.
-        </p>
+      <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="font-display text-lg text-sepia-200">Parallel Chronology — two hemispheres, one timeline</h2>
+          <p className="text-xs text-slate-400 max-w-3xl">
+            Bible above, Book of Mormon below, on a shared axis (deep past compressed; dates before the
+            monarchy are traditional, Book of Mormon dates follow the text&apos;s internal year-counts).
+            Hover events for detail; click to pin commentary. Zoom in on any period and scroll sideways.
+          </p>
+        </div>
+        {/* zoom controls */}
+        <div className="flex items-center gap-1 shrink-0">
+          <button
+            onClick={() => setZoomIdx(Math.max(0, zoomIdx - 1))}
+            disabled={zoomIdx === 0}
+            className="w-7 h-7 rounded-md border border-slate-700 text-slate-300 hover:text-amber-200 hover:border-amber-600/60 disabled:opacity-30 flex items-center justify-center"
+            title="Zoom out"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          <span className="text-[11px] text-slate-400 tabular-nums w-12 text-center">{Math.round(zoom * 100)}%</span>
+          <button
+            onClick={() => setZoomIdx(Math.min(ZOOM_LEVELS.length - 1, zoomIdx + 1))}
+            disabled={zoomIdx === ZOOM_LEVELS.length - 1}
+            className="w-7 h-7 rounded-md border border-slate-700 text-slate-300 hover:text-amber-200 hover:border-amber-600/60 disabled:opacity-30 flex items-center justify-center"
+            title="Zoom in"
+            aria-label="Zoom in"
+          >
+            +
+          </button>
+          {zoomIdx > 0 && (
+            <button
+              onClick={() => setZoomIdx(0)}
+              className="text-[11px] text-slate-400 hover:text-slate-200 ml-1 underline decoration-dotted"
+              title="Reset zoom"
+            >
+              fit
+            </button>
+          )}
+        </div>
       </div>
 
       {width > 0 && (
+        <div className="overflow-x-auto pb-1">
         <svg
-          width={width - 32}
+          width={svgW}
           height={height}
           onMouseLeave={() => setHover(null)}
         >
@@ -157,6 +196,7 @@ export default function ChronologyView() {
             })}
           </g>
         </svg>
+        </div>
       )}
 
       {/* hover card */}

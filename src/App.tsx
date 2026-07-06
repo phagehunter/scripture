@@ -43,8 +43,27 @@ export default function App() {
                 Scripture&thinsp;Atlas
               </h1>
               <p className="text-[12px] text-slate-400 mt-1 tracking-wide">
-                A literary companion to the King James Bible &amp; the Book of Mormon — network · intertext ·
-                chronology · full text
+                A literary companion to the King James Bible &amp; the Book of Mormon
+              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Project by{' '}
+                <a
+                  href="https://curtishoffmann.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-slate-400 hover:text-amber-300 underline decoration-dotted underline-offset-2"
+                >
+                  Curtis Hoffmann
+                </a>
+                {' · '}
+                <a
+                  href="https://forms.gle/J22xpsZJvzWgWrVN6"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-slate-400 hover:text-amber-300 underline decoration-dotted underline-offset-2"
+                >
+                  Feedback ↗
+                </a>
               </p>
             </div>
           </div>

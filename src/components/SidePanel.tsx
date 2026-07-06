@@ -2,12 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtlas } from '../context/AtlasContext';
 import { notifyLayoutChange } from '../hooks/useElementSize';
 import CommentaryPanel from './CommentaryPanel';
+import CompareView from './CompareView';
 import TextReader from './TextReader';
 import type { PanelTab } from '../types';
 
 const TABS: { id: PanelTab; label: string }[] = [
   { id: 'commentary', label: 'Commentary' },
-  { id: 'text', label: 'Text' },
+  { id: 'compare', label: 'Compare' },
+  { id: 'text', label: 'Scripture' },
 ];
 
 const DEFAULT_WIDTH = 410;
@@ -22,7 +24,7 @@ const maxWidth = () => Math.round(window.innerWidth * 0.72);
  * collapsible entirely.
  */
 export default function SidePanel() {
-  const { panelTab, setPanelTab } = useAtlas();
+  const { panelTab, setPanelTab, canBack, canForward, goBack, goForward } = useAtlas();
   const [collapsed, setCollapsed] = useState(false);
   const [width, setWidth] = useState(() => {
     const saved = Number(localStorage.getItem(STORAGE_KEY));
@@ -65,7 +67,7 @@ export default function SidePanel() {
           ⟨
         </button>
         <span className="mt-4 text-[10px] uppercase tracking-widest text-slate-500 [writing-mode:vertical-rl]">
-          Commentary · Text
+          Commentary · Compare · Scripture
         </span>
       </aside>
     );
@@ -88,12 +90,33 @@ export default function SidePanel() {
         <div className="absolute left-1 top-0 bottom-0 w-[3px] bg-transparent group-hover:bg-amber-500/60 group-active:bg-amber-400 transition-colors" />
       </div>
 
-      <div className="flex items-center gap-1 px-3 py-2 border-b border-slate-800">
+      <div className="flex items-center gap-1 px-2.5 py-2 border-b border-slate-800">
+        {/* history: back / forward through jumps & selections */}
+        <div className="flex items-center mr-1">
+          <button
+            onClick={goBack}
+            disabled={!canBack}
+            className="w-7 h-7 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-amber-200 disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-slate-300 transition-colors"
+            title="Back to where you were"
+            aria-label="Back"
+          >
+            ←
+          </button>
+          <button
+            onClick={goForward}
+            disabled={!canForward}
+            className="w-7 h-7 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-800 hover:text-amber-200 disabled:opacity-25 disabled:hover:bg-transparent disabled:hover:text-slate-300 transition-colors"
+            title="Forward"
+            aria-label="Forward"
+          >
+            →
+          </button>
+        </div>
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setPanelTab(t.id)}
-            className={`px-3 py-1 rounded-md text-sm transition-colors ${
+            className={`px-2.5 py-1 rounded-md text-sm transition-colors ${
               panelTab === t.id
                 ? 'bg-amber-900/40 text-amber-200 border border-amber-600/50'
                 : 'text-slate-400 hover:text-slate-200 border border-transparent'
@@ -111,7 +134,11 @@ export default function SidePanel() {
           ⟩
         </button>
       </div>
-      <div className="flex-1 min-h-0">{panelTab === 'commentary' ? <CommentaryPanel /> : <TextReader />}</div>
+      <div className="flex-1 min-h-0">
+        {panelTab === 'commentary' && <CommentaryPanel />}
+        {panelTab === 'compare' && <CompareView />}
+        {panelTab === 'text' && <TextReader />}
+      </div>
     </aside>
   );
 }

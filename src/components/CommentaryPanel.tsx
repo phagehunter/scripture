@@ -4,7 +4,7 @@ import { ALL_RELATIONSHIPS } from '../data/relationships';
 import { ERA_BY_ID } from '../data/eras';
 import { GROUP_COLORS, useAtlas } from '../context/AtlasContext';
 import { REL_COLORS, REL_LABELS } from './NetworkGraph';
-import { BOOK_BY_SLUG, VOLUME_COLORS } from '../data/canonHelpers';
+import { BOOK_BY_SLUG, VOLUME_COLORS, parseCitation } from '../data/canonHelpers';
 import { loadRefs } from '../data/refsClient';
 import type { BookPair, Relationship } from '../types';
 
@@ -55,7 +55,7 @@ function RelCard({ r, from }: { r: Relationship; from?: string }) {
 
 /** Browsable verse-pair list for an aggregated book-pair arc. */
 function BookPairCard({ pair }: { pair: BookPair }) {
-  const { openText } = useAtlas();
+  const { openCompare } = useAtlas();
   const [rows, setRows] = useState<{ from: string; to: string; curated: boolean }[] | null>(null);
   const [showAll, setShowAll] = useState(false);
   const sBook = BOOK_BY_SLUG[pair.s];
@@ -94,21 +94,27 @@ function BookPairCard({ pair }: { pair: BookPair }) {
       </div>
       <p className="text-[13px] text-slate-400 leading-relaxed">
         Footnote references come from the official study apparatus; phrase matches are mechanical echoes of
-        shared wording — generous by design, best browsed critically. Click any pair to read.
+        shared wording — generous by design, best browsed critically. Click any pair to read both passages
+        side by side.
       </p>
       {!rows && <p className="text-sm text-slate-500 italic">Loading verse pairs…</p>}
       {rows && (
         <div className="space-y-1">
           {shown.map((r, i) => (
-            <div key={i} className="flex items-center justify-between gap-2 rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1">
-              <button onClick={() => openText(r.from)} className="text-[12px] font-mono text-slate-300 hover:text-amber-200 hover:underline">
-                {r.from}
-              </button>
+            <button
+              key={i}
+              onClick={() => {
+                const a = parseCitation(r.from);
+                const b = parseCitation(r.to);
+                if (a && b) openCompare(a, b);
+              }}
+              className="w-full flex items-center justify-between gap-2 rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1 hover:border-amber-700/60 hover:bg-slate-900 transition-colors"
+              title="Read these two passages side by side"
+            >
+              <span className="text-[12px] font-mono text-slate-300">{r.from}</span>
               <span className={`text-[10px] ${r.curated ? 'text-amber-400' : 'text-slate-600'}`}>{r.curated ? '⇢' : '≈'}</span>
-              <button onClick={() => openText(r.to)} className="text-[12px] font-mono text-slate-300 hover:text-amber-200 hover:underline">
-                {r.to}
-              </button>
-            </div>
+              <span className="text-[12px] font-mono text-slate-300">{r.to}</span>
+            </button>
           ))}
           {rows.length > shown.length && (
             <button onClick={() => setShowAll(true)} className="text-xs text-slate-400 hover:text-slate-200 underline decoration-dotted">
@@ -123,7 +129,7 @@ function BookPairCard({ pair }: { pair: BookPair }) {
 
 /** Commentary tab: cards for whatever is selected across all three views. */
 export default function CommentaryPanel() {
-  const { selection, setSelection, focusId, setFocusId, setHighlight } = useAtlas();
+  const { selection, setSelection, focusId, setFocusId, setHighlight, openCompare: openCompareGlobal } = useAtlas();
 
   return (
     <div className="h-full overflow-y-auto p-4 space-y-3">
@@ -144,8 +150,8 @@ export default function CommentaryPanel() {
             citations here.
           </p>
           <p>
-            Every citation links into the <b className="text-slate-100">Text</b> tab. Names in the text are
-            context-aware: the reader knows which of the four Nephis a verse means.
+            Every citation links into the <b className="text-slate-100">Scripture</b> tab. Names in the text are
+            context-aware.
           </p>
           <p className="text-[13px] text-slate-500 italic font-reading">
             One canon, two hemispheres, a dozen eras — and a network of quotation binding it together.
@@ -241,15 +247,20 @@ export default function CommentaryPanel() {
             <div className="text-xs text-slate-500 -mt-2 capitalize">{c.type} · weight {c.weight}</div>
             <p className="text-[15px] text-slate-100 leading-relaxed">{c.note}</p>
             <div className="rounded-lg border border-slate-700 bg-slate-900/70 p-3 space-y-2">
-              <div className="text-[11px] uppercase tracking-widest text-slate-500">Read side by side</div>
-              <div className="flex flex-col gap-1 text-sm">
+              <button
+                onClick={() => {
+                  const a = parseCitation(c.sourceRef);
+                  const b = parseCitation(c.targetRef);
+                  if (a && b) openCompareGlobal(a, b);
+                }}
+                className="w-full text-sm px-2.5 py-1.5 rounded-md bg-amber-900/40 border border-amber-600/50 text-amber-200 hover:bg-amber-900/60 transition-colors"
+              >
+                ⇆ Read side by side in Compare
+              </button>
+              <div className="flex justify-between gap-1 text-sm">
                 <CitationLink citation={c.sourceRef} />
                 <CitationLink citation={c.targetRef} />
               </div>
-              <p className="text-[11px] text-slate-500">
-                Tip: open one passage, read it, then come back and open the other — the Text tab keeps your place
-                per click.
-              </p>
             </div>
           </>
         );

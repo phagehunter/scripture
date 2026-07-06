@@ -1,16 +1,16 @@
-import { GROUP_COLORS, GROUP_LABELS, useAtlas } from '../context/AtlasContext';
+import { useAtlas } from '../context/AtlasContext';
 import { VOLUME_COLORS, VOLUME_LABELS } from '../data/canonHelpers';
-import { ERAS, ERA_BY_ID } from '../data/eras';
-import type { Group, Volume } from '../types';
+import { ERA_BY_ID } from '../data/eras';
+import type { Volume } from '../types';
 
-/** Global controls: volume chips, era window slider, group toggles. */
+/** Global controls: volume chips + era window slider (group toggles live in the network view). */
 export default function ControlsBar() {
-  const { volumes, toggleVolume, groups, toggleGroup, eraRange, setEraRange } = useAtlas();
+  const { volumes, toggleVolume, eraRange, setEraRange } = useAtlas();
   const [from, to] = eraRange;
   const pct = (v: number) => ((v - 1) / 11) * 100;
 
   return (
-    <div className="border-b border-slate-800 px-5 py-2.5 flex flex-wrap items-center gap-x-6 gap-y-2 bg-slate-900/40">
+    <div className="border-b border-slate-800 px-5 py-2.5 flex flex-wrap items-center gap-x-8 gap-y-2 bg-slate-900/40">
       {/* Volume chips */}
       <div className="flex items-center gap-1.5">
         {(Object.keys(VOLUME_LABELS) as Volume[]).map((v) => (
@@ -29,7 +29,7 @@ export default function ControlsBar() {
       </div>
 
       {/* Era window */}
-      <div className="flex items-center gap-3 min-w-[260px] flex-1 max-w-lg">
+      <div className="flex items-center gap-3 min-w-[280px] flex-1 max-w-xl">
         <span className="text-xs uppercase tracking-widest text-slate-400 whitespace-nowrap">Eras</span>
         <div className="relative flex-1 h-8">
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-1 rounded bg-slate-700" />
@@ -54,23 +54,6 @@ export default function ControlsBar() {
           {from === to ? ERA_BY_ID[from].short : `${ERA_BY_ID[from].short} → ${ERA_BY_ID[to].short}`}
         </span>
       </div>
-
-      {/* Group toggles */}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        {(Object.keys(GROUP_LABELS) as Group[]).map((g) => (
-          <label
-            key={g}
-            className="flex items-center gap-1 text-[11px] text-slate-300 cursor-pointer select-none hover:text-slate-100"
-            title={GROUP_LABELS[g]}
-          >
-            <input type="checkbox" checked={groups[g]} onChange={() => toggleGroup(g)} className="accent-amber-500 w-3 h-3" />
-            <span className="inline-block w-2 h-2 rounded-full" style={{ background: GROUP_COLORS[g] }} />
-            {GROUP_LABELS[g].split(' ')[0]}
-          </label>
-        ))}
-      </div>
     </div>
   );
 }
-
-export { ERAS };

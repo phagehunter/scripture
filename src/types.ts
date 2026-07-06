@@ -87,11 +87,19 @@ export interface ChronEvent {
   detail?: string;
 }
 
-export type PanelTab = 'commentary' | 'text';
+export type PanelTab = 'commentary' | 'compare' | 'text';
 
 export interface ReaderLocation {
   slug: string; // canon book slug
   chapter: number; // 1-based
+  /** Optional verse to scroll to and briefly highlight. */
+  verse?: number;
+}
+
+/** The two passages shown in the side-by-side Compare tab. */
+export interface CompareState {
+  a: ReaderLocation;
+  b: ReaderLocation;
 }
 
 export interface Highlight {

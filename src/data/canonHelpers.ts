@@ -33,13 +33,15 @@ export const VOLUME_COLORS: Record<Volume, string> = {
 
 /**
  * Parse a human citation ("2 Nephi 12–24", "Mosiah 14:1-12", "Psalms 23")
- * into a reader location. Returns null if the book isn't in the canon.
+ * into a reader location, including the starting verse when present.
+ * Returns null if the book isn't in the canon.
  */
-export function parseCitation(ref: string): { slug: string; chapter: number } | null {
-  const m = ref.trim().match(/^(.*?)\s+(\d+)/);
+export function parseCitation(ref: string): { slug: string; chapter: number; verse?: number } | null {
+  const m = ref.trim().match(/^(.*?)\s+(\d+)(?::(\d+))?/);
   const title = m ? m[1].trim() : ref.trim();
   const book = BOOK_BY_TITLE[title];
   if (!book) return null;
   const chapter = m ? Math.min(Number(m[2]), book.chapters) : 1;
-  return { slug: book.slug, chapter };
+  const verse = m?.[3] ? Number(m[3]) : undefined;
+  return { slug: book.slug, chapter, verse };
 }

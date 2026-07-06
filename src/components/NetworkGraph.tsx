@@ -6,7 +6,7 @@ import { ALL_RELATIONSHIPS } from '../data/relationships';
 import { GROUP_COLORS, useAtlas } from '../context/AtlasContext';
 import { useElementSize } from '../hooks/useElementSize';
 import PlaybackControls from './PlaybackControls';
-import type { Person, RelType, Relationship } from '../types';
+import type { Group, Person, RelType, Relationship } from '../types';
 
 interface GraphNode {
   id: string;
@@ -53,9 +53,10 @@ export const REL_LABELS: Record<RelType, string> = {
 const DASHED_TYPES: RelType[] = ['vision', 'quotes'];
 
 export default function NetworkGraph() {
-  const { volumes, groups, eraRange, search, setSearch, setSelection, highlight, setHighlight, focusId, setFocusId } = useAtlas();
+  const { volumes, groups, toggleGroup, eraRange, search, setSearch, setSelection, highlight, setHighlight, focusId, setFocusId } = useAtlas();
   const { ref, width, height } = useElementSize<HTMLDivElement>();
   const [hoverNode, setHoverNode] = useState<GraphNode | null>(null);
+  const [groupsOpen, setGroupsOpen] = useState(true);
   const mousePos = useRef({ x: 0, y: 0 });
   const fgRef = useRef<any>(null);
   const nodeCache = useRef<Map<string, GraphNode>>(new Map());
@@ -134,6 +135,12 @@ export default function NetworkGraph() {
     const node = nodeCache.current.get(highlight.id);
     if (node && node.x !== undefined) fgRef.current?.centerAt(node.x, node.y, 700);
   }, [highlight]);
+
+  // Auto-collapse the groups panel when the view gets narrow.
+  const narrow = width < 950;
+  useEffect(() => {
+    setGroupsOpen(!narrow);
+  }, [narrow]);
 
   const highlightId = highlight?.id ?? null;
   const nodeRadius = (n: GraphNode) => 3 + Math.sqrt(n.degree) * 1.25;
@@ -303,25 +310,39 @@ export default function NetworkGraph() {
         </div>
       )}
 
-      {/* Legend */}
-      <div
-        className="absolute bottom-3 left-3 bg-slate-900/85 border border-slate-700 rounded-lg px-3 py-2 text-[11px] space-y-1 pointer-events-none max-w-[240px]"
-        style={{ display: width < 950 ? 'none' : undefined }}
-      >
-        <div className="text-slate-400 uppercase tracking-widest text-[9px] mb-1">Groups</div>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
-          {Object.entries(GROUP_COLORS).map(([g, c]) => (
-            <span key={g} className="flex items-center gap-1.5 text-slate-300 capitalize">
-              <span className="w-2 h-2 rounded-full" style={{ background: c }} />
-              {g}
-            </span>
-          ))}
-        </div>
-        <div className="pt-1 border-t border-slate-700/60 text-slate-400 space-y-0.5">
-          <div>◌ dashed ring = collective node</div>
-          <div>┄ dashed edge = vision / quotation (crosses eras)</div>
-          <div>size ∝ degree centrality · width ∝ weight</div>
-        </div>
+      {/* Groups panel: filter toggles + legend, local to this view */}
+      <div className="absolute bottom-3 left-3 bg-slate-900/90 border border-slate-700 rounded-lg text-[11px] max-w-[250px]">
+        <button
+          onClick={() => setGroupsOpen(!groupsOpen)}
+          className="w-full flex items-center justify-between px-3 py-1.5 text-slate-300 hover:text-slate-100"
+          aria-expanded={groupsOpen}
+        >
+          <span className="uppercase tracking-widest text-[9px] text-slate-400">Groups</span>
+          <span className="text-slate-500">{groupsOpen ? '▾' : '▸'}</span>
+        </button>
+        {groupsOpen && (
+          <div className="px-3 pb-2 space-y-1">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+              {(Object.keys(GROUP_COLORS) as Group[]).map((g) => (
+                <label key={g} className="flex items-center gap-1.5 text-slate-300 capitalize cursor-pointer select-none hover:text-slate-100">
+                  <input
+                    type="checkbox"
+                    checked={groups[g]}
+                    onChange={() => toggleGroup(g)}
+                    className="accent-amber-500 w-3 h-3"
+                  />
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ background: GROUP_COLORS[g] }} />
+                  {g}
+                </label>
+              ))}
+            </div>
+            <div className="pt-1 border-t border-slate-700/60 text-slate-400 space-y-0.5">
+              <div>◌ dashed ring = collective node</div>
+              <div>┄ dashed edge = vision / quotation</div>
+              <div>size ∝ degree centrality · width ∝ weight</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Hover lookup card */}

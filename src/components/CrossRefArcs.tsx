@@ -7,6 +7,7 @@ import { useElementSize } from '../hooks/useElementSize';
 import type { BookPair, CrossRef, CrossRefType, Volume } from '../types';
 
 const MATRIX = refMatrix as BookPair[];
+const TOTAL_PAIRS = MATRIX.reduce((s, bp) => s + bp.f + bp.p, 0);
 
 const TYPE_COLORS: Record<CrossRefType, string> = {
   quotation: '#fbbf24',
@@ -25,7 +26,7 @@ const TYPE_LABELS: Record<CrossRefType, string> = {
 type Mode = 'web' | 'highlights';
 type SourceMode = 'f' | 'fp';
 
-const MARGIN = { top: 40, right: 24, bottom: 130, left: 24 };
+const MARGIN = { top: 40, right: 96, bottom: 150, left: 24 };
 
 /**
  * Intertextual view, two layers:
@@ -42,8 +43,8 @@ export default function CrossRefArcs() {
   const [hoverPair, setHoverPair] = useState<BookPair | null>(null);
   const [hoverRef, setHoverRef] = useState<CrossRef | null>(null);
 
-  const height = 560;
-  const innerW = Math.max(width - MARGIN.left - MARGIN.right, 100);
+  const height = 580;
+  const innerW = Math.max(width - 32 - MARGIN.left - MARGIN.right, 100);
   const axisY = height - MARGIN.bottom;
 
   const pairCount = (bp: BookPair) => (sourceMode === 'f' ? bp.f : bp.f + bp.p);
@@ -115,13 +116,14 @@ export default function CrossRefArcs() {
     <div ref={ref} className="relative w-full h-full overflow-y-auto p-4">
       <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-lg text-sepia-200">Cross-References — one canon quoting itself</h2>
+          <h2 className="font-display text-lg text-sepia-200">Cross-References</h2>
           <p className="text-xs text-slate-400 max-w-2xl">
             {mode === 'web' ? (
               <>
-                The complete extracted reference web: <b className="text-slate-300">14,031 verse-pairs</b> from
-                the official footnotes and a phrase-matching concordance, aggregated by book. Click an arc to
-                browse its verse pairs.
+                The complete extracted reference web:{' '}
+                <b className="text-slate-300">{TOTAL_PAIRS.toLocaleString()} verse-pairs</b> from the official
+                footnotes and a phrase-matching concordance, aggregated by book. Click an arc to browse its
+                verse pairs.
               </>
             ) : (
               <>Fifty-five annotated links with editorial commentary — the guided tour of the corpus.</>
@@ -271,11 +273,16 @@ export default function CrossRefArcs() {
 
       {/* legend for web mode */}
       {mode === 'web' && (
-        <div className="flex flex-wrap gap-x-5 gap-y-1 text-[11px] text-slate-300 -mt-2">
-          <span className="flex items-center gap-1.5"><span className="w-4 h-[3px] rounded bg-amber-400" /> Bible ↔ Book of Mormon</span>
-          <span className="flex items-center gap-1.5"><span className="w-4 h-[3px] rounded bg-sky-400" /> within the Bible</span>
-          <span className="flex items-center gap-1.5"><span className="w-4 h-[3px] rounded bg-emerald-400" /> within the Book of Mormon</span>
-          <span className="text-slate-500">arc thickness ∝ log(reference count) · loops = a book citing itself</span>
+        <div className="mt-1 pt-2 border-t border-slate-800 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-[11px] text-slate-300">
+          <span className="inline-flex items-center gap-2 whitespace-nowrap">
+            <span className="inline-block w-5 h-[3px] rounded bg-amber-400" />
+            Bible ↔ Book of Mormon
+          </span>
+          <span className="inline-flex items-center gap-2 whitespace-nowrap">
+            <span className="inline-block w-5 h-[3px] rounded bg-emerald-400" />
+            within the Book of Mormon
+          </span>
+          <span className="text-slate-500 whitespace-nowrap">arc thickness ∝ log(reference count) · loops = a book citing itself</span>
         </div>
       )}
 
