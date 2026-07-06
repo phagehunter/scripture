@@ -62,7 +62,7 @@ export default function App() {
                   rel="noreferrer"
                   className="text-slate-400 hover:text-amber-300 underline decoration-dotted underline-offset-2"
                 >
-                  Feedback ↗
+                  Share Your Feedback ↗
                 </a>
               </p>
             </div>

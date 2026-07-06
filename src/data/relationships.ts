@@ -58,6 +58,20 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'satan', target: 'job', type: 'conflict', weight: 3, summary: 'The wager in the heavenly court: "doth Job fear God for nought?"', citation: 'Job 1:9-12' },
   { source: 'god_father', target: 'job', type: 'divine', weight: 4, summary: 'The answer from the whirlwind: "Where wast thou when I laid the foundations of the earth?"', citation: 'Job 38:4' },
 
+  // ═══════ GENEALOGY CHAINS (per Genesis 5, Ruth 4, Matthew 1) ═══════
+  { source: 'enoch_ot', target: 'methuselah', type: 'family', weight: 2, summary: 'Son born to the man who walked with God — begotten before the walking began.', citation: 'Genesis 5:21-22' },
+  { source: 'methuselah', target: 'noah_ot', type: 'family', weight: 2, summary: 'Grandfather of Noah through Lamech; his 969 years end, by the arithmetic, in the Flood year.', citation: 'Genesis 5:25-29' },
+  { source: 'rahab', target: 'boaz', type: 'family', weight: 3, summary: 'Matthew\'s genealogy names her mother of Boaz — the Jericho outsider inside the royal line.', citation: 'Matthew 1:5' },
+  { source: 'boaz', target: 'david', type: 'family', weight: 3, summary: 'Great-grandfather of the king: "Boaz begat Obed, and Obed begat Jesse, and Jesse begat David."', citation: 'Ruth 4:21-22' },
+  { source: 'david', target: 'zerubbabel', type: 'family', weight: 2, summary: 'The royal line survives the exile in him — Matthew\'s genealogy runs straight through.', citation: 'Matthew 1:12-13' },
+  { source: 'zerubbabel', target: 'joseph_nazareth', type: 'family', weight: 2, summary: 'Ancestor of the carpenter of Nazareth in both New Testament genealogies.', citation: 'Matthew 1:12-16' },
+  { source: 'david', target: 'joseph_nazareth', type: 'family', weight: 2, summary: 'The angel\'s address says it all: "Joseph, thou son of David."', citation: 'Matthew 1:20' },
+
+  // ═══════ MELCHIZEDEK (three-volume figure) ═══════
+  { source: 'melchizedek', target: 'abraham', type: 'divine', weight: 4, summary: 'Bread, wine, and blessing after the battle of the kings; Abraham gives him tithes of all.', citation: 'Genesis 14:18-20' },
+  { source: 'jesus_christ', target: 'melchizedek', type: 'quotes', weight: 3, summary: 'Hebrews builds its whole high-priest christology on him: "a priest for ever after the order of Melchisedec."', citation: 'Hebrews 7:1-17' },
+  { source: 'alma_2', target: 'melchizedek', type: 'quotes', weight: 3, summary: 'Alma\'s priesthood sermon reaches back to the king of Salem: "none were greater; therefore, of him they have more particularly made mention."', citation: 'Alma 13:14-19' },
+
   // ═══════ EXODUS ═══════
   { source: 'jesus_christ', target: 'moses', type: 'divine', weight: 5, summary: 'The burning bush and the name I AM — the theophany later claimed by Jesus in John 8.', citation: 'Exodus 3:14' },
   { source: 'moses', target: 'aaron_ot', type: 'family', weight: 3, summary: 'Brothers yoked as prophet and spokesman.', citation: 'Exodus 4:14-16' },
@@ -68,6 +82,11 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'moses', target: 'joshua', type: 'succession', weight: 4, summary: 'The minister who never left the tabernacle receives the mantle: "as I was with Moses, so I will be with thee."', citation: 'Joshua 1:5' },
   { source: 'aaron_ot', target: 'israelites', type: 'teaches', weight: 3, summary: 'First high priest — and maker of the calf they demanded.', citation: 'Exodus 32:2-4' },
   { source: 'joshua', target: 'israelites', type: 'teaches', weight: 3, summary: 'Conquest, allotment, and the covenant at Shechem: "choose you this day whom ye will serve."', citation: 'Joshua 24:15' },
+  { source: 'balaam', target: 'israelites', type: 'conflict', weight: 3, summary: 'Hired to curse, compelled to bless — then teaching Balak to corrupt what he could not curse.', citation: 'Numbers 24:10-13' },
+  { source: 'jesus_christ', target: 'balaam', type: 'divine', weight: 2, summary: 'The angel with the drawn sword, visible first to the donkey: "thy way is perverse before me."', citation: 'Numbers 22:31-33' },
+  { source: 'moses', target: 'caleb', type: 'alliance', weight: 3, summary: 'One of the twelve spies — and with Joshua, one of only two believing reports.', citation: 'Numbers 14:6-9' },
+  { source: 'joshua', target: 'caleb', type: 'alliance', weight: 3, summary: 'The two faithful spies outlive their whole generation into the land; Caleb claims Hebron at eighty-five.', citation: 'Joshua 14:6-14' },
+  { source: 'rahab', target: 'joshua', type: 'alliance', weight: 3, summary: 'Hides the two spies under the flax and bargains for her household with a scarlet cord.', citation: 'Joshua 2:1-21' },
 
   // ═══════ JUDGES & RUTH ═══════
   { source: 'deborah', target: 'israelites', type: 'teaches', weight: 3, summary: 'Judges Israel beneath her palm; leads the Kishon victory Barak would not claim alone.', citation: 'Judges 4:4-9' },
@@ -105,6 +124,10 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'isaiah', target: 'hezekiah', type: 'alliance', weight: 3, summary: 'Prophet and king together face Assyria; fifteen years added by the shadow\'s retreat.', citation: 'Isaiah 38:1-8' },
   { source: 'jesus_christ', target: 'isaiah', type: 'divine', weight: 4, summary: 'The temple vision: the seraphim, the coal, and "whom shall I send?"', citation: 'Isaiah 6:1-8' },
   { source: 'jesus_christ', target: 'jonah', type: 'divine', weight: 3, summary: 'The runaway commission, the fish, and the gourd-shaded lesson in divine pity.', citation: 'Jonah 4:10-11' },
+  { source: 'elisha', target: 'naaman', type: 'teaches', weight: 3, summary: 'Seven dips in the Jordan for the proud captain — healing on terms humble enough to almost refuse.', citation: '2 Kings 5:9-14' },
+  { source: 'jesus_christ', target: 'naaman', type: 'quotes', weight: 2, summary: 'Cited at Nazareth as proof that prophets bless outsiders: "none of them was cleansed, saving Naaman the Syrian."', citation: 'Luke 4:27' },
+  { source: 'jesus_christ', target: 'hosea_prophet', type: 'divine', weight: 3, summary: 'The command to live the oracle: marry Gomer, name the children No-Mercy and Not-My-People — then unsay both names.', citation: 'Hosea 1:2-10' },
+  { source: 'hosea_prophet', target: 'israelites', type: 'teaches', weight: 3, summary: 'Covenant infidelity preached as a broken marriage: "I will heal their backsliding, I will love them freely."', citation: 'Hosea 14:1-4' },
   { source: 'josiah', target: 'israelites', type: 'teaches', weight: 3, summary: 'The found book read aloud; the great Passover of the reform.', citation: '2 Kings 23:1-3' },
   { source: 'micah_ot', target: 'israelites', type: 'teaches', weight: 2, summary: '"What doth the Lord require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?"', citation: 'Micah 6:8' },
   { source: 'jesus_christ', target: 'jeremiah', type: 'divine', weight: 3, summary: '"Before I formed thee in the belly I knew thee" — the reluctant call.', citation: 'Jeremiah 1:4-9' },
@@ -118,6 +141,12 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'ezra', target: 'israelites', type: 'teaches', weight: 3, summary: 'The law read from a pulpit of wood while the people stand and weep.', citation: 'Nehemiah 8:4-9' },
   { source: 'nehemiah', target: 'israelites', type: 'teaches', weight: 3, summary: 'The wall in fifty-two days, half the servants holding spears.', citation: 'Nehemiah 4:16-18' },
   { source: 'gabriel', target: 'daniel', type: 'divine', weight: 3, summary: '"O Daniel… I am now come forth to give thee skill and understanding."', citation: 'Daniel 9:21-23' },
+  { source: 'daniel', target: 'belshazzar', type: 'conflict', weight: 4, summary: 'Reads the wall for the king the queen remembered: MENE, MENE, TEKEL, UPHARSIN — "God hath numbered thy kingdom, and finished it."', citation: 'Daniel 5:17-28' },
+  { source: 'nebuchadnezzar', target: 'belshazzar', type: 'family', weight: 2, summary: '"Father" in the chapter\'s court idiom — the predecessor whose humbling Belshazzar knew and ignored.', citation: 'Daniel 5:18-22' },
+  { source: 'cyrus', target: 'israelites', type: 'alliance', weight: 3, summary: 'The decree of return: "The Lord God of heaven… hath charged me to build him an house at Jerusalem."', citation: 'Ezra 1:1-4' },
+  { source: 'isaiah', target: 'cyrus', type: 'vision', weight: 3, summary: 'Named generations early — "my shepherd," even "his anointed" — an outsider drafted by prophecy.', citation: 'Isaiah 44:28' },
+  { source: 'zerubbabel', target: 'israelites', type: 'alliance', weight: 3, summary: 'Foundation and finish of the second temple, while elders who saw the first weep aloud.', citation: 'Ezra 3:8-13' },
+  { source: 'cyrus', target: 'zerubbabel', type: 'alliance', weight: 2, summary: 'The decree finds its builder: the Davidic governor leads the first return.', citation: 'Ezra 2:1-2' },
 
   // ═══════ NEW TESTAMENT — HOLY FAMILY & FORERUNNER ═══════
   { source: 'gabriel', target: 'mary_mother', type: 'divine', weight: 5, summary: 'The Annunciation: "Hail, thou that art highly favoured… thou shalt call his name JESUS."', citation: 'Luke 1:28-33' },
@@ -174,6 +203,24 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'mark_evangelist', target: 'barnabas', type: 'family', weight: 2, summary: 'The cousin over whom Paul and Barnabas part company.', citation: 'Acts 15:37-39' },
   { source: 'mark_evangelist', target: 'peter', type: 'alliance', weight: 3, summary: '"Marcus my son" — tradition makes his Gospel Peter\'s memoirs.', citation: '1 Peter 5:13' },
   { source: 'jesus_christ', target: 'john_baptist', type: 'quotes', weight: 2, summary: '"Among them that are born of women there hath not risen a greater" — the eulogy of the forerunner.', citation: 'Matthew 11:11' },
+  { source: 'jesus_christ', target: 'nathanael', type: 'teaches', weight: 3, summary: 'Seen under the fig tree before Philip called him: "an Israelite indeed, in whom is no guile!"', citation: 'John 1:47-51' },
+  { source: 'philip_apostle', target: 'nathanael', type: 'alliance', weight: 3, summary: '"Come and see" — the recruitment that answers the sneer about Nazareth.', citation: 'John 1:45-46' },
+  { source: 'jesus_christ', target: 'philip_apostle', type: 'teaches', weight: 3, summary: '"Have I been so long time with you, and yet hast thou not known me, Philip?"', citation: 'John 14:8-9' },
+  { source: 'jesus_christ', target: 'zacchaeus', type: 'teaches', weight: 3, summary: 'Called down from the sycomore by name: "this day is salvation come to this house."', citation: 'Luke 19:1-10' },
+  { source: 'philip_evangelist', target: 'samaritans', type: 'teaches', weight: 3, summary: 'The scattered church\'s first mission field: "the people with one accord gave heed."', citation: 'Acts 8:5-8' },
+  { source: 'philip_evangelist', target: 'isaiah', type: 'quotes', weight: 3, summary: 'From the Gaza-road chariot, Isaiah 53 opened: "began at the same scripture, and preached unto him Jesus."', citation: 'Acts 8:30-35' },
+  { source: 'philip_evangelist', target: 'stephen', type: 'alliance', weight: 2, summary: 'Fellow deacon of the seven, chosen together to serve tables.', citation: 'Acts 6:5' },
+  { source: 'ananias_damascus', target: 'paul', type: 'teaches', weight: 4, summary: 'The reluctant healer of the persecutor: "Brother Saul, the Lord… hath sent me, that thou mightest receive thy sight."', citation: 'Acts 9:10-18' },
+  { source: 'peter', target: 'cornelius', type: 'teaches', weight: 4, summary: 'Rooftop vision meets centurion\'s angel: "God is no respecter of persons" — the first Gentile baptism.', citation: 'Acts 10:34-48' },
+  { source: 'paul', target: 'lydia', type: 'teaches', weight: 3, summary: 'By the river at Philippi, "whose heart the Lord opened" — Europe\'s first convert and first host.', citation: 'Acts 16:13-15' },
+  { source: 'paul', target: 'silas', type: 'alliance', weight: 4, summary: 'Chosen for the second journey; hymns at midnight in the Philippian stocks until the doors fly open.', citation: 'Acts 16:25-34' },
+  { source: 'priscilla', target: 'aquila', type: 'family', weight: 3, summary: 'The tentmaking couple, named always together — six times in the New Testament.', citation: 'Acts 18:2-3' },
+  { source: 'paul', target: 'priscilla', type: 'alliance', weight: 3, summary: 'Same craft, shared roof, and a house-church greeting: "my helpers in Christ Jesus, who have for my life laid down their own necks."', citation: 'Romans 16:3-4' },
+  { source: 'paul', target: 'aquila', type: 'alliance', weight: 2, summary: 'Lodging and livelihood at Corinth: "because he was of the same craft, he abode with them."', citation: 'Acts 18:1-3' },
+  { source: 'priscilla', target: 'apollos', type: 'teaches', weight: 3, summary: 'The eloquent Alexandrian taken aside: "expounded unto him the way of God more perfectly."', citation: 'Acts 18:24-26' },
+  { source: 'paul', target: 'apollos', type: 'alliance', weight: 3, summary: 'Rival banners at Corinth resolved: "I have planted, Apollos watered; but God gave the increase."', citation: '1 Corinthians 3:4-6' },
+  { source: 'paul', target: 'titus_nt', type: 'teaches', weight: 3, summary: '"Mine own son after the common faith" — envoy to Corinth, steward of the collection, organizer of Crete.', citation: 'Titus 1:4-5' },
+  { source: 'paul', target: 'philemon_nt', type: 'teaches', weight: 3, summary: 'The letter for Onesimus: "receive him… not now as a servant, but above a servant, a brother beloved."', citation: 'Philemon 1:10-17' },
 
   // ═══════ BOOK OF MORMON — FOUNDING FAMILY ═══════
   { source: 'lehi_1', target: 'sariah', type: 'family', weight: 4, summary: 'Visionary and skeptic reconciled over returned sons: "now I know of a surety."', citation: '1 Nephi 5:1-8' },

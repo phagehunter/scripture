@@ -174,6 +174,37 @@ export const NAME_RULES: Record<string, NameRule[]> = {
   Ammaron: [{ id: 'ammaron' }], Ether: [{ id: 'ether' }], Akish: [{ id: 'akish' }],
   Coriantumr: [{ id: 'coriantumr_last' }],
 
+  // ——— Willmington-list additions (Bible figures) ———
+  Balaam: [{ id: 'balaam' }],
+  Belshazzar: [{ id: 'belshazzar' }],
+  Caleb: [{ id: 'caleb' }],
+  Cyrus: [{ id: 'cyrus' }],
+  Hosea: [{ id: 'hosea_prophet' }],
+  Melchizedek: [{ id: 'melchizedek' }],
+  Melchisedec: [{ id: 'melchizedek' }], // KJV NT spelling
+  Methuselah: [{ id: 'methuselah' }],
+  Naaman: [{ id: 'naaman' }],
+  Rahab: [{ id: 'rahab' }],
+  Rachab: [{ id: 'rahab' }], // KJV Matthew 1:5
+  Zerubbabel: [{ id: 'zerubbabel' }],
+  Zorobabel: [{ id: 'zerubbabel' }], // KJV NT spelling
+  Nathanael: [{ id: 'nathanael' }],
+  Bartholomew: [{ id: 'nathanael' }],
+  Zacchaeus: [{ id: 'zacchaeus' }],
+  Cornelius: [{ id: 'cornelius' }],
+  Lydia: [{ id: 'lydia' }],
+  Silas: [{ id: 'silas' }],
+  Priscilla: [{ id: 'priscilla' }],
+  Aquila: [{ id: 'aquila' }],
+  Apollos: [{ id: 'apollos' }],
+  Titus: [{ volume: 'nt', id: 'titus_nt' }],
+  Philemon: [{ id: 'philemon_nt' }],
+  Ananias: [{ id: 'ananias_damascus' }], // bare-name default; the high priest & Sapphira's husband stay unlinked contextually
+  Philip: [
+    { books: ['acts'], id: 'philip_evangelist' },
+    { volume: 'nt', id: 'philip_apostle' },
+  ],
+
   // ——— Collectives ———
   Nephites: [{ id: 'nephites' }], Lamanites: [{ id: 'lamanites' }], Zoramites: [{ id: 'zoramites_bom' }],
   Jaredites: [{ id: 'jaredites' }], Pharisees: [{ id: 'pharisees' }], Samaritans: [{ id: 'samaritans' }],
