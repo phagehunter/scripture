@@ -26,7 +26,7 @@ const TYPE_LABELS: Record<CrossRefType, string> = {
 type Mode = 'web' | 'highlights';
 type SourceMode = 'f' | 'fp';
 
-const MARGIN = { top: 40, right: 96, bottom: 150, left: 24 };
+const MARGIN = { top: 24, right: 96, bottom: 165, left: 24 };
 
 /**
  * Intertextual view, two layers:
@@ -36,14 +36,15 @@ const MARGIN = { top: 40, right: 96, bottom: 150, left: 24 };
  */
 export default function CrossRefArcs() {
   const { volumes, setSelection } = useAtlas();
-  const { ref, width } = useElementSize<HTMLDivElement>();
+  const { ref, width, height: containerH } = useElementSize<HTMLDivElement>();
   const [mode, setMode] = useState<Mode>('web');
   const [sourceMode, setSourceMode] = useState<SourceMode>('f');
   const [minCount, setMinCount] = useState(4);
   const [hoverPair, setHoverPair] = useState<BookPair | null>(null);
   const [hoverRef, setHoverRef] = useState<CrossRef | null>(null);
 
-  const height = 580;
+  // Fill the available vertical space (header block ≈ 150px + legend ≈ 40px).
+  const height = Math.max(460, Math.min((containerH || 620) - 190, 780));
   const innerW = Math.max(width - 32 - MARGIN.left - MARGIN.right, 100);
   const axisY = height - MARGIN.bottom;
 
@@ -90,6 +91,17 @@ export default function CrossRefArcs() {
     return (slug: string) => map.get(slug) ?? 0;
   }, [axisBooks, innerW]);
 
+  // Longest span currently visible — arcs scale to it so the diagram always
+  // uses the full height instead of huddling near the axis when filters
+  // remove the longest arcs.
+  const maxSpan = useMemo(() => {
+    let m = 1;
+    for (const bp of visiblePairs) m = Math.max(m, Math.abs(xOf(bp.s) - xOf(bp.t)));
+    for (const c of visibleRefs)
+      m = Math.max(m, Math.abs(xOf(BOOK_BY_TITLE[c.sourceBook].slug) - xOf(BOOK_BY_TITLE[c.targetBook].slug)));
+    return m;
+  }, [visiblePairs, visibleRefs, xOf]);
+
   const arcPath = (sSlug: string, tSlug: string) => {
     const x1 = xOf(sSlug);
     const x2 = xOf(tSlug);
@@ -97,8 +109,10 @@ export default function CrossRefArcs() {
       // self-loop (internal references within one book)
       return `M ${x1 - 5} ${axisY} A 9 12 0 1 1 ${x1 + 5} ${axisY}`;
     }
-    const rise = Math.min(Math.abs(x2 - x1) * 0.42 + 26, axisY - 16);
-    return `M ${x1} ${axisY} Q ${(x1 + x2) / 2} ${axisY - rise} ${x2} ${axisY}`;
+    // Quadratic Bézier: the visual apex sits at half the control-point offset,
+    // so double the target height to make the tallest arc actually reach it.
+    const apex = 26 + (Math.abs(x2 - x1) / maxSpan) * (axisY - 56);
+    return `M ${x1} ${axisY} Q ${(x1 + x2) / 2} ${axisY - 2 * apex} ${x2} ${axisY}`;
   };
 
   /** Arc colour: PGP arcs purple; Bible↔BoM gold; intra-Bible sky; intra-BoM emerald. */
@@ -247,23 +261,25 @@ export default function CrossRefArcs() {
                     className="fill-slate-300"
                     style={{ fontSize: axisBooks.length > 46 ? 8.5 : 10, fontWeight: emph ? 700 : 400 }}
                   >
-                    {b.title}
+                    {b.title.replace('Joseph Smith--', 'JS—')}
                   </text>
                 </g>
               );
             })}
 
-            {/* volume span labels */}
+            {/* volume span labels (abbreviated when the span is too narrow) */}
             {(['ot', 'nt', 'bom', 'pgp'] as Volume[]).map((v) => {
               const vb = axisBooks.filter((b) => b.volume === v);
               if (!vb.length) return null;
               const x1 = xOf(vb[0].slug);
               const x2 = xOf(vb[vb.length - 1].slug);
+              const SHORT: Record<Volume, string> = { ot: 'OT', nt: 'NT', bom: 'BoM', pgp: 'PGP' };
+              const label = x2 - x1 > 130 ? VOLUME_LABELS[v] : SHORT[v];
               return (
                 <g key={v}>
-                  <line x1={x1} x2={x2} y1={axisY + 86} y2={axisY + 86} stroke={VOLUME_COLORS[v]} strokeWidth={2.5} strokeLinecap="round" />
-                  <text x={(x1 + x2) / 2} y={axisY + 102} textAnchor="middle" className="text-[11px] font-semibold" fill={VOLUME_COLORS[v]}>
-                    {VOLUME_LABELS[v]}
+                  <line x1={x1} x2={x2} y1={axisY + 96} y2={axisY + 96} stroke={VOLUME_COLORS[v]} strokeWidth={2.5} strokeLinecap="round" />
+                  <text x={(x1 + x2) / 2} y={axisY + 112} textAnchor="middle" className="text-[11px] font-semibold" fill={VOLUME_COLORS[v]}>
+                    {label}
                   </text>
                 </g>
               );
