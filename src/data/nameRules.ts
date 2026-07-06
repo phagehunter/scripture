@@ -53,7 +53,9 @@ export const NAME_RULES: Record<string, NameRule[]> = {
   Moroni: [
     { books: ['alma'], id: 'captain_moroni' },
     { volume: 'bom', id: 'moroni_2' },
+    { volume: 'pgp', id: 'moroni_2' }, // the messenger of Joseph Smith--History
   ],
+  'Joseph Smith': [{ id: 'joseph_smith' }],
   Mormon: [
     { books: ['mosiah'], id: 'alma_1' }, // "waters of Mormon" context — the place; nearest figure is Alma₁ (noted in card)
     { volume: 'bom', id: 'mormon' },
@@ -115,8 +117,12 @@ export const NAME_RULES: Record<string, NameRule[]> = {
     // Bare "John" defaults to the apostle; the Baptist is caught by epithet.
     { volume: 'nt', id: 'john_beloved' },
     { volume: 'bom', id: 'john_beloved' }, // 1 Nephi 14, 3 Nephi 28
+    { volume: 'pgp', id: 'john_beloved' }, // "Peter, James and John" of the history
   ],
-  James: [{ volume: 'nt', id: 'james_zebedee' }],
+  James: [
+    { volume: 'nt', id: 'james_zebedee' },
+    { volume: 'pgp', id: 'james_brother' }, // "the epistle of James" in Joseph Smith--History 1:11
+  ],
   Judas: [{ volume: 'nt', id: 'judas_iscariot' }],
   Simon: [{ volume: 'nt', id: 'peter' }],
   Timothy: [{ volume: 'nt', id: 'timothy_nt' }],

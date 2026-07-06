@@ -350,6 +350,19 @@ export const RELATIONSHIPS: Relationship[] = [
   { source: 'mormon', target: 'samuel_lamanite', type: 'quotes', weight: 2, summary: 'The abridger preserves the outsider-prophet\'s sermon entire — as the risen Christ directed.', citation: 'Helaman 13:1-2' },
   { source: 'moroni_2', target: 'brother_of_jared', type: 'quotes', weight: 3, summary: 'Abridging Ether, Moroni withholds the full vision "until the Gentiles shall repent" — editor and seer across two millennia.', citation: 'Ether 4:1-7' },
 
+  // ═══════ PEARL OF GREAT PRICE ═══════
+  { source: 'jesus_christ', target: 'enoch_ot', type: 'vision', weight: 4, summary: 'The weeping God: "How is it that thou canst weep?" — Enoch shown all the families of the earth, and heaven not unmoved.', citation: 'Moses 7:28-37' },
+  { source: 'enoch_ot', target: 'zion_enoch', type: 'teaches', weight: 4, summary: 'One heart, one mind, no poor among them — the city so righteous it is received up whole.', citation: 'Moses 7:18-21' },
+  { source: 'satan', target: 'moses', type: 'conflict', weight: 3, summary: '"Moses, son of man, worship me" — the counterfeit unmasked by comparison: "where is thy glory?"', citation: 'Moses 1:12-22' },
+  { source: 'jesus_christ', target: 'moses', type: 'vision', weight: 3, summary: '"Worlds without number have I created… for mine own purpose" — the cosmic prologue to Genesis.', citation: 'Moses 1:33-39' },
+  { source: 'jesus_christ', target: 'abraham', type: 'vision', weight: 3, summary: 'The stars and the spirits shown one order at a time: "These I will make my rulers… Abraham, thou art one of them."', citation: 'Abraham 3:22-23' },
+  { source: 'jesus_christ', target: 'adam', type: 'divine', weight: 2, summary: 'An angel, then the voice: "this thing is a similitude of the sacrifice of the Only Begotten."', citation: 'Moses 5:6-9' },
+  { source: 'god_father', target: 'joseph_smith', type: 'divine', weight: 5, summary: 'The First Vision, in his own telling: "This is My Beloved Son. Hear Him!"', citation: 'Joseph Smith--History 1:16-17' },
+  { source: 'jesus_christ', target: 'joseph_smith', type: 'divine', weight: 4, summary: 'The answer to the grove-side question, per the history: none of them — "they draw near to me with their lips, but their hearts are far from me."', citation: 'Joseph Smith--History 1:17-19' },
+  { source: 'moroni_2', target: 'joseph_smith', type: 'divine', weight: 5, summary: 'The record\'s last historian returns as its herald: three night visits, four years of annual instruction at the hill, and the plates at last.', citation: 'Joseph Smith--History 1:30-54' },
+  { source: 'john_baptist', target: 'joseph_smith', type: 'divine', weight: 3, summary: 'The forerunner\'s second forerunning, per the history: authority to baptize restored under angelic hands on the Susquehanna.', citation: 'Joseph Smith--History 1:68-72' },
+  { source: 'joseph_smith', target: 'malachi', type: 'quotes', weight: 2, summary: 'Moroni\'s midnight sermon quotes Malachi "with a little variation" — Elijah\'s return re-promised.', citation: 'Joseph Smith--History 1:36-39' },
+
   // ═══════ NATIONS ═══════
   { source: 'nephites', target: 'lamanites', type: 'conflict', weight: 5, summary: 'The thousand-year sibling war — interrupted twice: by missionaries, and by the risen Christ.', citation: '2 Nephi 5:25' },
   { source: 'nephites', target: 'mulekites', type: 'alliance', weight: 3, summary: 'Union under Mosiah₁: numbers from Zarahemla, records and kingship from Nephi.', citation: 'Omni 1:19' },

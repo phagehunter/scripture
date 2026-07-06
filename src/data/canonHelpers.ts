@@ -23,12 +23,14 @@ export const VOLUME_LABELS: Record<Volume, string> = {
   ot: 'Old Testament',
   nt: 'New Testament',
   bom: 'Book of Mormon',
+  pgp: 'Pearl of Great Price',
 };
 
 export const VOLUME_COLORS: Record<Volume, string> = {
   ot: '#fbbf24', // amber
   nt: '#38bdf8', // sky
   bom: '#34d399', // emerald
+  pgp: '#c084fc', // purple
 };
 
 /**

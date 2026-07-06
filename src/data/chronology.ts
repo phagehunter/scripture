@@ -67,4 +67,11 @@ export const CHRON_EVENTS: ChronEvent[] = [
   { year: 322, era: 12, track: 'newworld', label: 'Mormon receives the records', personIds: ['ammaron', 'mormon'], citation: 'Mormon 1', detail: 'The archive\'s future entrusted to a sober child of ten.' },
   { year: 385, era: 12, track: 'newworld', label: 'The last battle at Cumorah', personIds: ['mormon', 'moroni_2'], citation: 'Mormon 6', detail: '"O ye fair ones" — the Nephite nation ends; Mormon falls with it.' },
   { year: 421, era: 12, track: 'newworld', label: 'Moroni seals the record', personIds: ['moroni_2'], citation: 'Moroni 10', detail: 'Alone for decades, he closes with a promise addressed to the future reader — then buries the plates.' },
+
+  // ——— The Restoration (Pearl of Great Price frame) ———
+  { year: 1820, era: 13, track: 'newworld', label: 'The First Vision', personIds: ['joseph_smith', 'god_father', 'jesus_christ'], citation: 'Joseph Smith--History 1', detail: 'James 1:5 sends a fourteen-year-old into the grove; his history records the Father and the Son in answer.' },
+  { year: 1823, era: 13, track: 'newworld', label: 'Moroni\'s night visits', personIds: ['joseph_smith', 'moroni_2'], citation: 'Joseph Smith--History 1', detail: 'The Book of Mormon\'s final historian, fourteen centuries on, appears three times in one night quoting Malachi, Isaiah, and Joel.' },
+  { year: 1827, era: 13, track: 'newworld', label: 'The plates entrusted', personIds: ['joseph_smith', 'moroni_2'], citation: 'Joseph Smith--History 1', detail: 'After four annual visits to the hill, the record Moroni buried changes hands.' },
+  { year: 1829, era: 13, track: 'newworld', label: 'Baptismal authority restored', personIds: ['joseph_smith', 'john_baptist'], citation: 'Joseph Smith--History 1', detail: 'The history\'s account of John the Baptist — forerunner twice over — on the banks of the Susquehanna.' },
+  { year: 1830, era: 13, track: 'newworld', label: 'The Book of Mormon published', personIds: ['joseph_smith'], citation: 'Joseph Smith--History 1', detail: 'Mormon\'s abridgment reaches its addressed reader: "it shall come forth by way of the Gentile."' },
 ];

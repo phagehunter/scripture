@@ -7,7 +7,7 @@ import type { Volume } from '../types';
 export default function ControlsBar() {
   const { volumes, toggleVolume, eraRange, setEraRange } = useAtlas();
   const [from, to] = eraRange;
-  const pct = (v: number) => ((v - 1) / 11) * 100;
+  const pct = (v: number) => ((v - 1) / 12) * 100;
 
   return (
     <div className="border-b border-slate-800 px-5 py-2.5 flex flex-wrap items-center gap-x-8 gap-y-2 bg-slate-900/40">
@@ -38,13 +38,13 @@ export default function ControlsBar() {
             style={{ left: `${pct(from)}%`, right: `${100 - pct(to)}%` }}
           />
           <input
-            type="range" min={1} max={12} value={from}
+            type="range" min={1} max={13} value={from}
             onChange={(e) => setEraRange([Math.min(Number(e.target.value), to), to])}
             className="era-thumb absolute inset-0 w-full h-full z-20"
             aria-label="First era"
           />
           <input
-            type="range" min={1} max={12} value={to}
+            type="range" min={1} max={13} value={to}
             onChange={(e) => setEraRange([from, Math.max(Number(e.target.value), from)])}
             className="era-thumb absolute inset-0 w-full h-full z-30"
             aria-label="Last era"

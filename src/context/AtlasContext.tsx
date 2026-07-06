@@ -77,11 +77,11 @@ interface AtlasState {
 const AtlasContext = createContext<AtlasState | null>(null);
 
 export function AtlasProvider({ children }: { children: ReactNode }) {
-  const [volumes, setVolumes] = useState<Record<Volume, boolean>>({ ot: true, nt: true, bom: true });
+  const [volumes, setVolumes] = useState<Record<Volume, boolean>>({ ot: true, nt: true, bom: true, pgp: true });
   const [groups, setGroups] = useState<Record<Group, boolean>>({
     deity: true, prophet: true, ruler: true, disciple: true, adversary: true, kin: true, collective: true,
   });
-  const [eraRange, setEraRange] = useState<[number, number]>([1, 12]);
+  const [eraRange, setEraRange] = useState<[number, number]>([1, 13]);
   const [search, setSearch] = useState('');
   const [selection, setSelectionRaw] = useState<Selection | null>(null);
   const [highlight, setHighlight] = useState<Highlight | null>(null);
@@ -135,7 +135,7 @@ export function AtlasProvider({ children }: { children: ReactNode }) {
   // Era playback (survives view switches).
   useEffect(() => {
     if (!playing || playEra === null) return;
-    if (playEra >= 12) {
+    if (playEra >= 13) {
       setPlaying(false);
       return;
     }
@@ -204,14 +204,14 @@ export function AtlasProvider({ children }: { children: ReactNode }) {
         if (playing) {
           setPlaying(false);
         } else {
-          if (playEra === null || playEra >= 12) setPlayEra(1);
+          if (playEra === null || playEra >= 13) setPlayEra(1);
           setPlaying(true);
         }
       },
       playReset: () => {
         setPlaying(false);
         setPlayEra(null);
-        setEraRange([1, 12]);
+        setEraRange([1, 13]);
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -67,14 +67,18 @@ const ABBR = {
   '1 Ne.': '1 Nephi', '2 Ne.': '2 Nephi', 'Jacob': 'Jacob', 'Enos': 'Enos', 'Jarom': 'Jarom',
   'Omni': 'Omni', 'W of M': 'Words of Mormon', 'Mosiah': 'Mosiah', 'Alma': 'Alma', 'Hel.': 'Helaman',
   '3 Ne.': '3 Nephi', '4 Ne.': '4 Nephi', 'Morm.': 'Mormon', 'Ether': 'Ether', 'Moro.': 'Moroni',
+  'Moses': 'Moses', 'Abr.': 'Abraham', 'JS—M': 'Joseph Smith--Matthew', 'JS-M': 'Joseph Smith--Matthew',
+  'JS—H': 'Joseph Smith--History', 'JS-H': 'Joseph Smith--History', 'A of F': 'Articles of Faith',
 };
 
-/** BoM book detection in page headers (de-spaced smallcaps). */
+/** BoM + PGP book detection in page headers (de-spaced smallcaps, dashes stripped). */
 const HEADER_BOOKS = {
   '1NEPHI': '1 Nephi', '2NEPHI': '2 Nephi', 'JACOB': 'Jacob', 'ENOS': 'Enos', 'JAROM': 'Jarom',
   'OMNI': 'Omni', 'WORDSOFMORMON': 'Words of Mormon', 'MOSIAH': 'Mosiah', 'ALMA': 'Alma',
   'HELAMAN': 'Helaman', '3NEPHI': '3 Nephi', '4NEPHI': '4 Nephi', 'MORMON': 'Mormon',
   'ETHER': 'Ether', 'MORONI': 'Moroni',
+  'MOSES': 'Moses', 'ABRAHAM': 'Abraham', 'JOSEPHSMITHMATTHEW': 'Joseph Smith--Matthew',
+  'JOSEPHSMITHHISTORY': 'Joseph Smith--History', 'ARTICLESOFFAITH': 'Articles of Faith',
 };
 
 // ————— collected pairs, tagged by source —————
@@ -168,8 +172,11 @@ async function parseTriple() {
       .join('')
       .replace(/\s+/g, '')
       .toUpperCase();
-    const hm = headerText.match(
-      /(1NEPHI|2NEPHI|JACOB|ENOS|JAROM|OMNI|WORDSOFMORMON|MOSIAH|ALMA|HELAMAN|3NEPHI|4NEPHI|MORMON|ETHER|MORONI)(\d+)(?::(\d+))?(?:[–-](?:(\d+):)?(\d+))?/,
+    // Strip dashes from the book-name region only (JS—MATTHEW → JSMATTHEW would
+    // break ranges, so we normalize the whole header then re-match ranges last).
+    const headerNorm = headerText.replace(/JOSEPH\s*SMITH[—–-]\s*/g, 'JOSEPHSMITH');
+    const hm = headerNorm.match(
+      /(1NEPHI|2NEPHI|JACOB|ENOS|JAROM|OMNI|WORDSOFMORMON|MOSIAH|ALMA|HELAMAN|3NEPHI|4NEPHI|MORMON|ETHER|MORONI|MOSES|ABRAHAM|JOSEPHSMITHMATTHEW|JOSEPHSMITHHISTORY|ARTICLESOFFAITH)(\d+)(?::(\d+))?(?:[–-](?:(\d+):)?(\d+))?/,
     );
     if (!hm) continue;
     const srcBook = HEADER_BOOKS[hm[1]];

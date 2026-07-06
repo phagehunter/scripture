@@ -646,5 +646,45 @@
   "chapters": 10,
   "verses": 163,
   "order": 80
+ },
+ {
+  "slug": "moses",
+  "title": "Moses",
+  "volume": "pgp",
+  "chapters": 8,
+  "verses": 356,
+  "order": 81
+ },
+ {
+  "slug": "abraham",
+  "title": "Abraham",
+  "volume": "pgp",
+  "chapters": 5,
+  "verses": 136,
+  "order": 82
+ },
+ {
+  "slug": "joseph-smith--matthew",
+  "title": "Joseph Smith--Matthew",
+  "volume": "pgp",
+  "chapters": 1,
+  "verses": 55,
+  "order": 83
+ },
+ {
+  "slug": "joseph-smith--history",
+  "title": "Joseph Smith--History",
+  "volume": "pgp",
+  "chapters": 1,
+  "verses": 75,
+  "order": 84
+ },
+ {
+  "slug": "articles-of-faith",
+  "title": "Articles of Faith",
+  "volume": "pgp",
+  "chapters": 1,
+  "verses": 13,
+  "order": 85
  }
 ]

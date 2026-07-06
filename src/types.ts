@@ -1,6 +1,6 @@
 /** Shared domain types for the Scripture Atlas. */
 
-export type Volume = 'ot' | 'nt' | 'bom';
+export type Volume = 'ot' | 'nt' | 'bom' | 'pgp';
 
 /** Role-based grouping used for node colouring and filter toggles. */
 export type Group =

@@ -28,13 +28,13 @@ export default function PlaybackControls() {
             {era ? era.label : 'Play the canon'}
           </span>
           <span className="text-[11px] text-slate-400 whitespace-nowrap">
-            {active ? `era ${playEra} of 12` : 'era by era'}
+            {active ? `era ${playEra} of 13` : 'era by era'}
           </span>
         </div>
         <div className="mt-1 h-1 rounded bg-slate-700 overflow-hidden">
           <div
             className="h-full bg-amber-400 transition-[width] duration-500 ease-out"
-            style={{ width: `${((playEra ?? 0) / 12) * 100}%` }}
+            style={{ width: `${((playEra ?? 0) / 13) * 100}%` }}
           />
         </div>
       </div>

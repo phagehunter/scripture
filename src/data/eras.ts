@@ -33,6 +33,8 @@ export const ERAS: EraDef[] = [
     blurb: 'The life of Jesus Christ, the Twelve, and the apostolic church from Jerusalem to Rome.' },
   { id: 12, label: 'Christ in America & Nephite Twilight', short: 'Zion → Cumorah', start: 33, end: 421, track: 'newworld',
     blurb: 'The risen Christ ministers at Bountiful; two centuries of peace dissolve into the final destruction witnessed by Mormon and Moroni.' },
+  { id: 13, label: 'The Restoration', short: 'Restoration', start: 1805, end: 1844, track: 'newworld',
+    blurb: 'The Pearl of Great Price\'s modern frame: a grove in New York, an angel who was once the record\'s last historian, and the buried plates brought to light — the canon\'s two hemispheres finally meeting.' },
 ];
 
 export const ERA_BY_ID: Record<number, EraDef> = Object.fromEntries(ERAS.map((e) => [e.id, e]));

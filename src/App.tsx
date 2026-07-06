@@ -43,7 +43,8 @@ export default function App() {
                 Scripture&thinsp;Atlas
               </h1>
               <p className="text-[12px] text-slate-400 mt-1 tracking-wide">
-                A literary companion to the King James Bible &amp; the Book of Mormon
+                A literary companion to the King James Bible, the Book of Mormon &amp; the Pearl of
+                Great Price
               </p>
               <p className="text-[11px] text-slate-500 mt-0.5">
                 Project by{' '}

@@ -119,6 +119,24 @@ export const CROSSREFS: CrossRef[] = [
   { id: 'john17-3ne19', sourceBook: 'John', targetBook: '3 Nephi', sourceRef: 'John 17', targetRef: '3 Nephi 19:19–29', type: 'allusion', weight: 2,
     note: 'A second intercessory prayer, this time with the praying Christ visible: "Father, I thank thee that thou hast purified those whom I have chosen."' },
 
+  // ═══════ PEARL OF GREAT PRICE ═══════
+  { id: 'gen-moses', sourceBook: 'Genesis', targetBook: 'Moses', sourceRef: 'Genesis 1–6', targetRef: 'Moses 2–8', type: 'quotation', weight: 5,
+    note: 'The book of Moses runs parallel to the opening of Genesis — the same narrative retold with a cosmic prologue and substantial expansions, framed as revelation to Moses "in a day when the mountains were before him."' },
+  { id: 'gen5-moses7', sourceBook: 'Genesis', targetBook: 'Moses', sourceRef: 'Genesis 5:18–24', targetRef: 'Moses 6–7', type: 'allusion', weight: 3,
+    note: 'Five verses of Genesis Enoch become two chapters: the preaching, the city of Zion taken up, and the vision of the weeping God — the canon\'s largest single expansion of a biblical figure.' },
+  { id: 'gen-abr', sourceBook: 'Genesis', targetBook: 'Abraham', sourceRef: 'Genesis 11–17', targetRef: 'Abraham 1–2', type: 'allusion', weight: 3,
+    note: 'Ur, Haran, Egypt, and the covenant retold in Abraham\'s own first person — with an altar-rescue prologue and an astronomy lesson Genesis never gives.' },
+  { id: 'mat24-jsm', sourceBook: 'Matthew', targetBook: 'Joseph Smith--Matthew', sourceRef: 'Matthew 24', targetRef: 'Joseph Smith--Matthew 1', type: 'quotation', weight: 4,
+    note: 'The Olivet discourse re-given: Matthew 24 with reordered sequence and clarifying expansions — the Pearl of Great Price\'s direct engagement with the Gospel text.' },
+  { id: 'jas-jsh', sourceBook: 'James', targetBook: 'Joseph Smith--History', sourceRef: 'James 1:5', targetRef: 'Joseph Smith--History 1:11–13', type: 'quotation', weight: 2,
+    note: '"If any of you lack wisdom…" — quoted in the history as the verse that "did enter with more power into the heart" than any other, and sent a fourteen-year-old to the grove.' },
+  { id: 'mal-jsh', sourceBook: 'Malachi', targetBook: 'Joseph Smith--History', sourceRef: 'Malachi 3–4', targetRef: 'Joseph Smith--History 1:36–39', type: 'quotation', weight: 2,
+    note: 'Moroni quotes Malachi\'s closing chapters "with a little variation" — the same chapters the risen Christ dictated at Bountiful, now framing the Restoration.' },
+  { id: 'isa11-jsh', sourceBook: 'Isaiah', targetBook: 'Joseph Smith--History', sourceRef: 'Isaiah 11', targetRef: 'Joseph Smith--History 1:40', type: 'quotation', weight: 1,
+    note: 'The stem-of-Jesse chapter cited by Moroni as "about to be fulfilled."' },
+  { id: 'joel-jsh', sourceBook: 'Joel', targetBook: 'Joseph Smith--History', sourceRef: 'Joel 2:28–32', targetRef: 'Joseph Smith--History 1:41', type: 'quotation', weight: 1,
+    note: 'Peter\'s Pentecost text quoted a second time — Moroni adds that it "was not yet fulfilled, but was soon to be."' },
+
   // ═══════ INTRA-BIBLE ANCHORS (for orientation) ═══════
   { id: 'gen1-john1', sourceBook: 'Genesis', targetBook: 'John', sourceRef: 'Genesis 1:1–3', targetRef: 'John 1:1–5', type: 'allusion', weight: 2,
     note: '"In the beginning" answered with "In the beginning was the Word" — John rewrites the creation overture around the Logos.' },

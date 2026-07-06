@@ -101,10 +101,11 @@ export default function CrossRefArcs() {
     return `M ${x1} ${axisY} Q ${(x1 + x2) / 2} ${axisY - rise} ${x2} ${axisY}`;
   };
 
-  /** Arc colour by hemisphere relation: Bible↔BoM gold, intra-Bible sky, intra-BoM emerald. */
+  /** Arc colour: PGP arcs purple; Bible↔BoM gold; intra-Bible sky; intra-BoM emerald. */
   const pairColor = (bp: BookPair) => {
     const sv = BOOK_BY_SLUG[bp.s].volume;
     const tv = BOOK_BY_SLUG[bp.t].volume;
+    if (sv === 'pgp' || tv === 'pgp') return '#c084fc';
     const cross = (sv === 'bom') !== (tv === 'bom');
     if (cross) return '#fbbf24';
     return sv === 'bom' || tv === 'bom' ? '#34d399' : '#38bdf8';
@@ -253,7 +254,7 @@ export default function CrossRefArcs() {
             })}
 
             {/* volume span labels */}
-            {(['ot', 'nt', 'bom'] as Volume[]).map((v) => {
+            {(['ot', 'nt', 'bom', 'pgp'] as Volume[]).map((v) => {
               const vb = axisBooks.filter((b) => b.volume === v);
               if (!vb.length) return null;
               const x1 = xOf(vb[0].slug);
@@ -281,6 +282,10 @@ export default function CrossRefArcs() {
           <span className="inline-flex items-center gap-2 whitespace-nowrap">
             <span className="inline-block w-5 h-[3px] rounded bg-emerald-400" />
             within the Book of Mormon
+          </span>
+          <span className="inline-flex items-center gap-2 whitespace-nowrap">
+            <span className="inline-block w-5 h-[3px] rounded bg-purple-400" />
+            involving the Pearl of Great Price
           </span>
           <span className="text-slate-500 whitespace-nowrap">arc thickness ∝ log(reference count) · loops = a book citing itself</span>
         </div>

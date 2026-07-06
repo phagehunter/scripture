@@ -129,7 +129,7 @@ function BookPairCard({ pair }: { pair: BookPair }) {
 
 /** Commentary tab: cards for whatever is selected across all three views. */
 export default function CommentaryPanel() {
-  const { selection, setSelection, focusId, setFocusId, setHighlight, openCompare: openCompareGlobal } = useAtlas();
+  const { selection, setSelection, focusId, setFocusId, highlight, setHighlight, openCompare: openCompareGlobal } = useAtlas();
 
   return (
     <div className="h-full overflow-y-auto p-4 space-y-3">
@@ -207,10 +207,16 @@ export default function CommentaryPanel() {
                 {focusId === p.id ? 'Exit focus' : 'Focus in network'}
               </button>
               <button
-                onClick={() => setHighlight({ id: p.id, focus: true })}
-                className="text-xs px-2.5 py-1 rounded-md border border-slate-600 text-slate-300 hover:border-amber-600/60 hover:text-amber-200 transition-colors"
+                onClick={() =>
+                  highlight?.id === p.id ? setHighlight(null) : setHighlight({ id: p.id, focus: true })
+                }
+                className={`text-xs px-2.5 py-1 rounded-md border transition-colors ${
+                  highlight?.id === p.id
+                    ? 'bg-amber-900/50 border-amber-600/60 text-amber-200'
+                    : 'border-slate-600 text-slate-300 hover:border-amber-600/60 hover:text-amber-200'
+                }`}
               >
-                Spotlight node
+                {highlight?.id === p.id ? 'Spotlight off' : 'Spotlight node'}
               </button>
             </div>
             <div className="text-[11px] uppercase tracking-widest text-slate-500 pt-1">

@@ -35,17 +35,23 @@ export default function ChronologyView() {
   const innerW = Math.max(svgW - MARGIN.left - MARGIN.right, 100);
   const innerH = height - MARGIN.top - MARGIN.bottom;
 
-  // Piecewise x-scale: [-2300 … -650] → 28% of width; [-650 … 450] → 72%.
+  // Piecewise x-scale, three segments: deep past compressed, the well-dated
+  // scriptural core expanded, and the long gap to the Restoration compressed.
+  // [-2300…-650] → 24% · [-650…450] → 58% · [450…1850] → 18%.
   const x = useMemo(() => {
-    const BREAK = -650;
-    const leftFrac = 0.28;
+    const B1 = -650;
+    const B2 = 450;
+    const f1 = 0.24;
+    const f2 = 0.82;
     return (year: number) => {
-      if (year <= BREAK) {
-        const t = (year - -2300) / (BREAK - -2300);
-        return Math.max(0, t) * innerW * leftFrac;
+      if (year <= B1) {
+        const t = Math.max(0, (year + 2300) / (B1 + 2300));
+        return t * innerW * f1;
       }
-      const t = (year - BREAK) / (450 - BREAK);
-      return innerW * (leftFrac + Math.min(1, t) * (1 - leftFrac));
+      if (year <= B2) {
+        return innerW * (f1 + ((year - B1) / (B2 - B1)) * (f2 - f1));
+      }
+      return innerW * (f2 + Math.min(1, (year - B2) / (1850 - B2)) * (1 - f2));
     };
   }, [innerW]);
 
@@ -151,7 +157,7 @@ export default function ChronologyView() {
             ))}
 
             {/* year ticks */}
-            {[-2000, -1500, -1000, -600, -400, -200, 1, 200, 400].map((yr) => (
+            {[-2000, -1500, -1000, -600, -400, -200, 1, 200, 400, 1820].map((yr) => (
               <g key={yr}>
                 <line x1={x(yr)} x2={x(yr)} y1={0} y2={innerH} stroke="#1e293b" strokeWidth={1} />
                 <text x={x(yr)} y={innerH + 16} textAnchor="middle" className="fill-slate-500 text-[10px]">

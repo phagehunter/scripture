@@ -21,6 +21,7 @@ const VOLUME_KEY = {
   'Old Testament': 'ot',
   'New Testament': 'nt',
   'Book of Mormon': 'bom',
+  'Pearl of Great Price': 'pgp',
 };
 
 const slugify = (title) =>
@@ -38,7 +39,7 @@ const books = new Map();
 
 for (const v of verses) {
   const volume = VOLUME_KEY[v.volume_title];
-  if (!volume) continue; // skip D&C / Pearl of Great Price
+  if (!volume) continue; // skip Doctrine & Covenants
   const slug = slugify(v.book_title);
   if (!books.has(slug)) {
     books.set(slug, { volume, title: v.book_title, slug, chapters: [] });
