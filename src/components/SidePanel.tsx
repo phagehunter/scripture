@@ -15,6 +15,8 @@ const TABS: { id: PanelTab; label: string }[] = [
 const DEFAULT_WIDTH = 410;
 const MIN_WIDTH = 300;
 const STORAGE_KEY = 'scripture-atlas-panel-width';
+const SHEET_KEY = 'scripture-atlas-sheet-height';
+const DEFAULT_SHEET_PCT = 46;
 
 const maxWidth = () => Math.round(window.innerWidth * 0.72);
 
@@ -35,6 +37,12 @@ export default function SidePanel() {
   });
   const widthRef = useRef(width);
   widthRef.current = width;
+  const [sheetPct, setSheetPct] = useState(() => {
+    const s = Number(localStorage.getItem(SHEET_KEY));
+    return s >= 25 && s <= 85 ? s : DEFAULT_SHEET_PCT;
+  });
+  const sheetRef = useRef(sheetPct);
+  sheetRef.current = sheetPct;
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
@@ -45,7 +53,34 @@ export default function SidePanel() {
 
   useEffect(() => {
     notifyLayoutChange();
-  }, [width, collapsed, isMobile]);
+  }, [width, collapsed, isMobile, sheetPct]);
+
+  /** Mobile: drag the sheet's grab bar up/down to resize (touch + mouse). */
+  const startSheetDrag = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    const target = e.currentTarget as HTMLElement;
+    const main = target.closest('main');
+    const rect = main?.getBoundingClientRect();
+    if (!rect) return;
+    try {
+      target.setPointerCapture(e.pointerId);
+    } catch {
+      /* synthetic events may lack a capturable pointer */
+    }
+    const move = (ev: PointerEvent) => {
+      const pct = ((rect.bottom - ev.clientY) / rect.height) * 100;
+      setSheetPct(Math.min(85, Math.max(25, pct)));
+    };
+    const up = () => {
+      target.removeEventListener('pointermove', move);
+      target.removeEventListener('pointerup', up);
+      target.removeEventListener('pointercancel', up);
+      localStorage.setItem(SHEET_KEY, String(Math.round(sheetRef.current)));
+    };
+    target.addEventListener('pointermove', move);
+    target.addEventListener('pointerup', up);
+    target.addEventListener('pointercancel', up);
+  }, []);
 
   const startDrag = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -126,8 +161,26 @@ export default function SidePanel() {
       );
     }
     return (
-      <aside className="w-full h-[46%] shrink-0 border-t border-slate-800 bg-slate-950/95 flex flex-col min-h-0">
-        <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-800">
+      <aside
+        className="w-full shrink-0 border-t border-slate-800 bg-slate-950/95 flex flex-col min-h-0"
+        style={{ height: `${sheetPct}%` }}
+      >
+        {/* Grab bar: drag to resize the sheet; double-tap to reset */}
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          aria-label="Resize reading panel"
+          title="Drag to resize · double-tap to reset"
+          onPointerDown={startSheetDrag}
+          onDoubleClick={() => {
+            setSheetPct(DEFAULT_SHEET_PCT);
+            localStorage.setItem(SHEET_KEY, String(DEFAULT_SHEET_PCT));
+          }}
+          className="w-full pt-1.5 pb-1 cursor-row-resize touch-none flex justify-center shrink-0"
+        >
+          <div className="w-10 h-1 rounded-full bg-slate-600" />
+        </div>
+        <div className="flex items-center gap-0.5 px-2 pb-1.5 border-b border-slate-800">
           {historyButtons}
           {tabButtons}
           <button
