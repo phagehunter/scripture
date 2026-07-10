@@ -35,11 +35,11 @@ export default function App() {
   return (
     <AtlasProvider>
       <div className="h-full flex flex-col bg-slate-950">
-        <header className="border-b border-slate-800 px-5 py-3 flex flex-wrap items-center gap-x-8 gap-y-2">
+        <header className="border-b border-slate-800 px-4 sm:px-5 py-2 sm:py-3 flex flex-wrap items-center gap-x-8 gap-y-1.5">
           <div className="flex items-center gap-3">
             <BrandMark />
             <div>
-              <h1 className="font-display font-bold text-[22px] leading-none text-sepia-200 uppercase tracking-[0.22em]">
+              <h1 className="font-display font-bold text-[17px] sm:text-[22px] leading-none text-sepia-200 uppercase tracking-[0.14em] sm:tracking-[0.22em]">
                 Scripture&thinsp;Atlas
               </h1>
               <p className="text-[12px] text-slate-400 mt-1 tracking-wide">
@@ -68,13 +68,13 @@ export default function App() {
               </p>
             </div>
           </div>
-          <nav className="flex gap-1 ml-auto">
+          <nav className="flex flex-wrap gap-1 ml-auto">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setView(t.id)}
                 title={t.sub}
-                className={`px-3.5 py-1.5 rounded-md text-[15px] transition-colors border ${
+                className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-md text-[13px] sm:text-[15px] transition-colors border ${
                   view === t.id
                     ? 'bg-amber-900/40 border-amber-600/60 text-amber-200'
                     : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
@@ -88,7 +88,7 @@ export default function App() {
 
         <ControlsBar />
 
-        <main className="flex-1 flex min-h-0">
+        <main className="flex-1 flex flex-col md:flex-row min-h-0">
           <section className="flex-1 min-w-0 min-h-0">
             {view === 'network' && <NetworkGraph />}
             {view === 'crossrefs' && <CrossRefArcs />}

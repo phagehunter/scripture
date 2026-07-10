@@ -12,7 +12,7 @@ export default function PlaybackControls() {
   const era = active ? ERA_BY_ID[playEra!] : null;
 
   return (
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 bg-slate-900/90 border border-slate-700 rounded-full pl-2 pr-4 py-1.5 shadow-xl backdrop-blur-sm">
+    <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-30 max-w-[95vw] flex items-center gap-2 sm:gap-3 bg-slate-900/90 border border-slate-700 rounded-full pl-2 pr-3 sm:pr-4 py-1.5 shadow-xl backdrop-blur-sm">
       <button
         onClick={playToggle}
         className="w-9 h-9 rounded-full bg-amber-500 hover:bg-amber-400 text-slate-950 flex items-center justify-center text-sm transition-colors"
@@ -22,12 +22,12 @@ export default function PlaybackControls() {
         {playing ? '❚❚' : '▶'}
       </button>
 
-      <div className="w-64">
-        <div className="flex items-baseline justify-between gap-2">
-          <span className="text-sm text-slate-100 font-semibold whitespace-nowrap">
+      <div className="w-40 sm:w-64">
+        <div className="flex items-baseline justify-between gap-2 min-w-0">
+          <span className="text-sm text-slate-100 font-semibold truncate">
             {era ? era.label : 'Play the canon'}
           </span>
-          <span className="text-[11px] text-slate-400 whitespace-nowrap">
+          <span className="hidden sm:inline text-[11px] text-slate-400 whitespace-nowrap">
             {active ? `era ${playEra} of 13` : 'era by era'}
           </span>
         </div>
@@ -39,7 +39,7 @@ export default function PlaybackControls() {
         </div>
       </div>
 
-      <div className="flex rounded-md overflow-hidden border border-slate-700 text-[11px]">
+      <div className="hidden sm:flex rounded-md overflow-hidden border border-slate-700 text-[11px]">
         {(
           [
             ['cumulative', 'Growing'],

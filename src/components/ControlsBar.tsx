@@ -10,7 +10,7 @@ export default function ControlsBar() {
   const pct = (v: number) => ((v - 1) / 12) * 100;
 
   return (
-    <div className="border-b border-slate-800 px-5 py-2.5 flex flex-wrap items-center gap-x-8 gap-y-2 bg-slate-900/40">
+    <div className="border-b border-slate-800 px-4 sm:px-5 py-2 sm:py-2.5 flex flex-wrap items-center gap-x-6 sm:gap-x-8 gap-y-1.5 bg-slate-900/40">
       {/* Volume chips */}
       <div className="flex items-center gap-1.5">
         {(Object.keys(VOLUME_LABELS) as Volume[]).map((v) => (
@@ -29,7 +29,7 @@ export default function ControlsBar() {
       </div>
 
       {/* Era window */}
-      <div className="flex items-center gap-3 min-w-[280px] flex-1 max-w-xl">
+      <div className="flex items-center gap-2.5 sm:gap-3 min-w-[230px] flex-1 max-w-xl">
         <span className="text-xs uppercase tracking-widest text-slate-400 whitespace-nowrap">Eras</span>
         <div className="relative flex-1 h-8">
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-1 rounded bg-slate-700" />

@@ -59,3 +59,12 @@ input[type='range'].era-thumb::-moz-range-thumb {
   box-shadow: 0 0 0 1px #fbbf24;
   cursor: ew-resize;
 }
+
+/* Mobile browsers: track the dynamic viewport (URL bar show/hide) */
+@supports (height: 100dvh) {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+  }
+}
