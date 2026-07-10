@@ -114,18 +114,23 @@ export default function NetworkGraph() {
     // Centering gravity keeps disconnected clusters from drifting apart.
     fg.d3Force('x', forceX(0).strength(0.07));
     fg.d3Force('y', forceY(0).strength(0.07));
-    const t1 = setTimeout(() => fgRef.current?.zoomToFit(400, 80), 350);
-    const t2 = setTimeout(() => fgRef.current?.zoomToFit(400, 80), 1500);
+    // Small canvases can't afford 80px of fit padding
+    const pad = width < 768 ? 28 : 80;
+    const t1 = setTimeout(() => fgRef.current?.zoomToFit(400, pad), 350);
+    const t2 = setTimeout(() => fgRef.current?.zoomToFit(400, pad), 1500);
+    // final pass once the simulation has fully settled
+    const t3 = setTimeout(() => fgRef.current?.zoomToFit(400, pad), 3200);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, [graphData]);
 
   // Re-fit when the canvas itself resizes (panel drag).
   useEffect(() => {
     if (!width || !height) return;
-    const t = setTimeout(() => fgRef.current?.zoomToFit(300, 80), 250);
+    const t = setTimeout(() => fgRef.current?.zoomToFit(300, width < 768 ? 28 : 80), 250);
     return () => clearTimeout(t);
   }, [width, height]);
 
@@ -136,8 +141,10 @@ export default function NetworkGraph() {
     if (node && node.x !== undefined) fgRef.current?.centerAt(node.x, node.y, 700);
   }, [highlight]);
 
-  // Auto-collapse the groups panel when the view gets narrow.
+  // Auto-collapse the groups panel when the view gets narrow; on phones it's
+  // hidden entirely (group toggles live in the Filters disclosure instead).
   const narrow = width < 950;
+  const phone = width < 768;
   useEffect(() => {
     setGroupsOpen(!narrow);
   }, [narrow]);
@@ -240,7 +247,8 @@ export default function NetworkGraph() {
           nodeCanvasObject={drawNode}
           nodePointerAreaPaint={(node: any, color, ctx) => {
             ctx.beginPath();
-            ctx.arc(node.x, node.y, nodeRadius(node as GraphNode) + 4, 0, 2 * Math.PI);
+            // Finger-sized hit area on phones
+            ctx.arc(node.x, node.y, nodeRadius(node as GraphNode) + (phone ? 11 : 4), 0, 2 * Math.PI);
             ctx.fillStyle = color;
             ctx.fill();
           }}
@@ -271,13 +279,13 @@ export default function NetworkGraph() {
         />
       )}
 
-      {/* Search box */}
-      <div className="absolute top-3 left-3 z-30 w-72">
+      {/* Search box: full-width on phones for an easy tap target */}
+      <div className="absolute top-3 left-3 right-3 md:right-auto md:w-72 z-30">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search characters… (e.g. Nephi, Alma, Mary)"
-          className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-amber-500/70"
+          className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 md:py-1.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-amber-500/70"
         />
         {searchResults.length > 0 && (
           <ul className="mt-1 bg-slate-900/95 border border-slate-700 rounded-lg overflow-hidden divide-y divide-slate-800">
@@ -289,7 +297,7 @@ export default function NetworkGraph() {
                     setHighlight({ id: p.id, focus: true });
                     setSearch('');
                   }}
-                  className="w-full text-left px-3 py-1.5 hover:bg-slate-800/80"
+                  className="w-full text-left px-3 py-2 md:py-1.5 hover:bg-slate-800/80"
                 >
                   <span className="text-sm text-slate-100">{p.name}</span>
                   <span className="text-[11px] text-slate-400 ml-2">{p.disambiguator}</span>
@@ -310,7 +318,10 @@ export default function NetworkGraph() {
         </div>
       )}
 
-      {/* Groups panel: filter toggles + legend, local to this view */}
+      {/* Groups panel: filter toggles + legend, local to this view.
+          Hidden on phones — groups live in the Filters disclosure there,
+          which also keeps the playback pill unobstructed. */}
+      {!phone && (
       <div className="absolute bottom-3 left-3 bg-slate-900/90 border border-slate-700 rounded-lg text-[11px] max-w-[250px]">
         <button
           onClick={() => setGroupsOpen(!groupsOpen)}
@@ -344,9 +355,11 @@ export default function NetworkGraph() {
           </div>
         )}
       </div>
+      )}
 
-      {/* Hover lookup card */}
-      {hoverNode && (
+      {/* Hover lookup card — desktop only: touch has no hover, and a tap
+          already opens the full card in the reading panel */}
+      {hoverNode && !phone && (
         <div
           className="absolute z-40 w-80 bg-slate-900/95 border border-slate-600 rounded-lg shadow-2xl p-3 pointer-events-none"
           style={{

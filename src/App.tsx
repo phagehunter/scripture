@@ -8,11 +8,14 @@ import SidePanel from './components/SidePanel';
 
 type View = 'network' | 'crossrefs' | 'chronology';
 
-const TABS: { id: View; label: string; sub: string }[] = [
-  { id: 'network', label: 'Character Network', sub: '167 figures across three volumes, carefully disambiguated' },
-  { id: 'crossrefs', label: 'Cross-References', sub: 'quotation, allusion, fulfillment & typology between the volumes' },
-  { id: 'chronology', label: 'Parallel Chronology', sub: 'Old World and New World on one time axis' },
+const TABS: { id: View; label: string; short: string; sub: string }[] = [
+  { id: 'network', label: 'Character Network', short: 'Network', sub: '192 figures across four volumes, carefully disambiguated' },
+  { id: 'crossrefs', label: 'Cross-References', short: 'Cross-Refs', sub: 'quotation, allusion, fulfillment & typology between the volumes' },
+  { id: 'chronology', label: 'Parallel Chronology', short: 'Timeline', sub: 'Old World and New World on one time axis' },
 ];
+
+/** User guide, hosted as a Google Doc. */
+const GUIDE_URL = 'https://docs.google.com/document/d/11qWwthj7PTjc7jW1NmDICVVSdKQHQF6jCMX5ensh4Gg/edit?usp=sharing';
 
 /** Brand mark: the compass-star (after the Liahona, the "director" of 1 Nephi 16). */
 function BrandMark() {
@@ -35,18 +38,18 @@ export default function App() {
   return (
     <AtlasProvider>
       <div className="h-full flex flex-col bg-slate-950">
-        <header className="border-b border-slate-800 px-4 sm:px-5 py-2 sm:py-3 flex flex-wrap items-center gap-x-8 gap-y-1.5">
+        <header className="relative border-b border-slate-800 px-4 sm:px-5 py-2 sm:py-3 flex flex-wrap items-center gap-x-8 gap-y-1.5">
           <div className="flex items-center gap-3">
             <BrandMark />
             <div>
               <h1 className="font-display font-bold text-[17px] sm:text-[22px] leading-none text-sepia-200 uppercase tracking-[0.14em] sm:tracking-[0.22em]">
                 Scripture&thinsp;Atlas
               </h1>
-              <p className="text-[12px] text-slate-400 mt-1 tracking-wide">
-                A literary companion to the King James Bible, the Book of Mormon &amp; the Pearl of
-                Great Price
+              <p className="hidden sm:block text-[12px] text-slate-400 mt-1 tracking-wide">
+                A literary companion to the King James Bible, Book of Mormon &amp; Pearl of Great
+                Price
               </p>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <p className="text-[11px] text-slate-500 mt-1 sm:mt-0.5">
                 Project by{' '}
                 <a
                   href="https://curtishoffmann.com"
@@ -68,22 +71,33 @@ export default function App() {
               </p>
             </div>
           </div>
-          <nav className="flex flex-wrap gap-1 ml-auto">
+          <nav className="w-full sm:w-auto grid grid-cols-3 sm:flex gap-1 sm:ml-auto">
             {TABS.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setView(t.id)}
                 title={t.sub}
-                className={`px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-md text-[13px] sm:text-[15px] transition-colors border ${
+                className={`px-1 sm:px-3.5 py-2 sm:py-1.5 rounded-md text-[13px] sm:text-[15px] text-center transition-colors border ${
                   view === t.id
                     ? 'bg-amber-900/40 border-amber-600/60 text-amber-200'
-                    : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    : 'border-slate-800 sm:border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                 }`}
               >
-                {t.label}
+                <span className="sm:hidden">{t.short}</span>
+                <span className="hidden sm:inline">{t.label}</span>
               </button>
             ))}
           </nav>
+          <a
+            href={GUIDE_URL}
+            target="_blank"
+            rel="noreferrer"
+            title="User guide"
+            aria-label="Open the user guide"
+            className="absolute top-2.5 right-3 sm:static sm:ml-1 w-7 h-7 shrink-0 rounded-full border border-slate-600 text-slate-400 hover:text-amber-200 hover:border-amber-600/60 flex items-center justify-center text-[13px] font-semibold transition-colors"
+          >
+            ?
+          </a>
         </header>
 
         <ControlsBar />

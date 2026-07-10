@@ -60,6 +60,18 @@ input[type='range'].era-thumb::-moz-range-thumb {
   cursor: ew-resize;
 }
 
+/* Touch screens: finger-sized slider thumbs */
+@media (pointer: coarse) {
+  input[type='range'].era-thumb::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  input[type='range'].era-thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* Mobile browsers: track the dynamic viewport (URL bar show/hide) */
 @supports (height: 100dvh) {
   html,

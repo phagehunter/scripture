@@ -45,7 +45,7 @@ export default function CrossRefArcs() {
 
   // Fill the available vertical space (header block ≈ 150px + legend ≈ 40px).
   const height = Math.max(460, Math.min((containerH || 620) - 190, 780));
-  const innerW = Math.max(width - 32 - MARGIN.left - MARGIN.right, 100);
+  const isPhone = width < 640;
   const axisY = height - MARGIN.bottom;
 
   const pairCount = (bp: BookPair) => (sourceMode === 'f' ? bp.f : bp.f + bp.p);
@@ -83,6 +83,13 @@ export default function CrossRefArcs() {
     }
     return [...slugs].map((s) => BOOK_BY_SLUG[s]).filter(Boolean).sort((a, b) => a.order - b.order);
   }, [visiblePairs, visibleRefs]);
+
+  // Phones: instead of shrinking the diagram (and its labels) to the screen,
+  // give every book a fixed slot and let the whole thing scroll sideways.
+  const diagramW = isPhone
+    ? Math.max(width - 32, MARGIN.left + 40 + axisBooks.length * 30)
+    : width - 32;
+  const innerW = Math.max(diagramW - MARGIN.left - (isPhone ? 40 : MARGIN.right), 100);
 
   const xOf = useMemo(() => {
     const n = axisBooks.length;
@@ -132,7 +139,8 @@ export default function CrossRefArcs() {
       <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="font-display text-lg text-sepia-200">Cross-References</h2>
-          <p className="text-xs text-slate-400 max-w-2xl">
+          {/* the full description costs too much height on phones */}
+          <p className="hidden sm:block text-xs text-slate-400 max-w-2xl">
             {mode === 'web' ? (
               <>
                 The complete extracted reference web:{' '}
@@ -174,7 +182,7 @@ export default function CrossRefArcs() {
                   type="checkbox"
                   checked={sourceMode === 'fp'}
                   onChange={() => setSourceMode(sourceMode === 'f' ? 'fp' : 'f')}
-                  className="accent-amber-500 w-3 h-3"
+                  className="accent-amber-500 w-4 h-4"
                 />
                 include phrase-concordance matches
               </label>
@@ -202,8 +210,12 @@ export default function CrossRefArcs() {
         </div>
       </div>
 
+      {isPhone && (
+        <p className="text-[10px] text-slate-500 mb-1">← swipe the diagram sideways · tap an arc for its verse pairs →</p>
+      )}
       {width > 0 && axisBooks.length > 0 && (
-        <svg width={width - 32} height={height}>
+        <div className="overflow-x-auto">
+        <svg width={diagramW} height={height}>
           <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
             {/* ——— arcs ——— */}
             {mode === 'web' &&
@@ -212,36 +224,51 @@ export default function CrossRefArcs() {
                 const n = pairCount(bp);
                 const w = 0.6 + (Math.log(n) / Math.log(maxCount || 2)) * 6;
                 return (
-                  <path
-                    key={`${bp.s}>${bp.t}`}
-                    d={arcPath(bp.s, bp.t)}
-                    fill="none"
-                    stroke={pairColor(bp)}
-                    strokeWidth={active ? w + 1.5 : w}
-                    strokeOpacity={hoverPair ? (active ? 0.95 : 0.08) : 0.4}
-                    className="cursor-pointer"
-                    onMouseEnter={() => setHoverPair(bp)}
-                    onMouseLeave={() => setHoverPair(null)}
-                    onClick={() => setSelection({ kind: 'bookpair', pair: bp })}
-                  />
+                  <g key={`${bp.s}>${bp.t}`}>
+                    <path
+                      d={arcPath(bp.s, bp.t)}
+                      fill="none"
+                      stroke={pairColor(bp)}
+                      strokeWidth={active ? w + 1.5 : w}
+                      strokeOpacity={hoverPair ? (active ? 0.95 : 0.08) : 0.4}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoverPair(bp)}
+                      onMouseLeave={() => setHoverPair(null)}
+                      onClick={() => setSelection({ kind: 'bookpair', pair: bp })}
+                    />
+                    {isPhone && (
+                      <path
+                        d={arcPath(bp.s, bp.t)}
+                        fill="none"
+                        stroke="transparent"
+                        strokeWidth={14}
+                        onClick={() => setSelection({ kind: 'bookpair', pair: bp })}
+                      />
+                    )}
+                  </g>
                 );
               })}
             {mode === 'highlights' &&
               visibleRefs.map((c) => {
                 const active = hoverRef?.id === c.id;
+                const d = arcPath(BOOK_BY_TITLE[c.sourceBook].slug, BOOK_BY_TITLE[c.targetBook].slug);
                 return (
-                  <path
-                    key={c.id}
-                    d={arcPath(BOOK_BY_TITLE[c.sourceBook].slug, BOOK_BY_TITLE[c.targetBook].slug)}
-                    fill="none"
-                    stroke={TYPE_COLORS[c.type]}
-                    strokeWidth={active ? 1.5 + c.weight * 1.3 : 0.8 + c.weight * 0.9}
-                    strokeOpacity={hoverRef ? (active ? 0.95 : 0.12) : 0.55}
-                    className="cursor-pointer"
-                    onMouseEnter={() => setHoverRef(c)}
-                    onMouseLeave={() => setHoverRef(null)}
-                    onClick={() => setSelection({ kind: 'crossref', ref: c })}
-                  />
+                  <g key={c.id}>
+                    <path
+                      d={d}
+                      fill="none"
+                      stroke={TYPE_COLORS[c.type]}
+                      strokeWidth={active ? 1.5 + c.weight * 1.3 : 0.8 + c.weight * 0.9}
+                      strokeOpacity={hoverRef ? (active ? 0.95 : 0.12) : 0.55}
+                      className="cursor-pointer"
+                      onMouseEnter={() => setHoverRef(c)}
+                      onMouseLeave={() => setHoverRef(null)}
+                      onClick={() => setSelection({ kind: 'crossref', ref: c })}
+                    />
+                    {isPhone && (
+                      <path d={d} fill="none" stroke="transparent" strokeWidth={14} onClick={() => setSelection({ kind: 'crossref', ref: c })} />
+                    )}
+                  </g>
                 );
               })}
 
@@ -259,7 +286,7 @@ export default function CrossRefArcs() {
                     x={8}
                     y={4}
                     className="fill-slate-300"
-                    style={{ fontSize: axisBooks.length > 46 ? 8.5 : 10, fontWeight: emph ? 700 : 400 }}
+                    style={{ fontSize: isPhone ? 11 : axisBooks.length > 46 ? 8.5 : 10, fontWeight: emph ? 700 : 400 }}
                   >
                     {b.title.replace('Joseph Smith--', 'JS—')}
                   </text>
@@ -286,6 +313,7 @@ export default function CrossRefArcs() {
             })}
           </g>
         </svg>
+        </div>
       )}
 
       {/* legend for web mode */}
@@ -307,8 +335,8 @@ export default function CrossRefArcs() {
         </div>
       )}
 
-      {/* hover tooltips */}
-      {hoverPair && (
+      {/* hover tooltips — desktop only: tap already opens the full verse list */}
+      {hoverPair && !isPhone && (
         <div className="absolute top-28 right-8 z-30 w-72 bg-slate-900/95 border border-slate-600 rounded-lg p-3 shadow-2xl pointer-events-none">
           <div className="font-display text-sepia-200 text-sm">
             {BOOK_BY_SLUG[hoverPair.s].title} → {BOOK_BY_SLUG[hoverPair.t].title}
@@ -320,7 +348,7 @@ export default function CrossRefArcs() {
           <div className="mt-1.5 text-[10px] text-slate-500">Click to browse the verse pairs</div>
         </div>
       )}
-      {hoverRef && (
+      {hoverRef && !isPhone && (
         <div className="absolute top-28 right-8 z-30 w-80 bg-slate-900/95 border border-slate-600 rounded-lg p-3 shadow-2xl pointer-events-none">
           <div className="flex items-center justify-between gap-2">
             <span className="font-display text-sepia-200 text-sm">

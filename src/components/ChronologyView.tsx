@@ -72,8 +72,12 @@ export default function ChronologyView() {
     <div ref={ref} className="relative w-full h-full overflow-y-auto p-4">
       <div className="mb-1 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-lg text-sepia-200">Parallel Chronology — two hemispheres, one timeline</h2>
-          <p className="text-xs text-slate-400 max-w-3xl">
+          <h2 className="font-display text-lg text-sepia-200">
+            <span className="sm:hidden">Parallel Chronology</span>
+            <span className="hidden sm:inline">Parallel Chronology — two hemispheres, one timeline</span>
+          </h2>
+          {/* the full description costs too much height on phones */}
+          <p className="hidden sm:block text-xs text-slate-400 max-w-3xl">
             Bible above, Book of Mormon below, on a shared axis (deep past compressed; dates before the
             monarchy are traditional, Book of Mormon dates follow the text&apos;s internal year-counts).
             Hover events for detail; click to pin commentary. Zoom in on any period and scroll sideways.
