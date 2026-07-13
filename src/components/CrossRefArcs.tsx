@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CROSSREFS } from '../data/crossrefs';
 import refMatrix from '../data/refMatrix.json';
 import { BOOK_BY_SLUG, BOOK_BY_TITLE, VOLUME_COLORS, VOLUME_LABELS } from '../data/canonHelpers';
@@ -42,10 +42,18 @@ export default function CrossRefArcs() {
   const [minCount, setMinCount] = useState(4);
   const [hoverPair, setHoverPair] = useState<BookPair | null>(null);
   const [hoverRef, setHoverRef] = useState<CrossRef | null>(null);
+  // Device detection must use the viewport, NOT the container width — on
+  // desktop the reading panel can squeeze this pane well below 640px.
+  const [isPhone, setIsPhone] = useState(() => window.matchMedia('(max-width: 767px)').matches);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const onChange = (e: MediaQueryListEvent) => setIsPhone(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
 
   // Fill the available vertical space (header block ≈ 150px + legend ≈ 40px).
   const height = Math.max(460, Math.min((containerH || 620) - 190, 780));
-  const isPhone = width < 640;
   const axisY = height - MARGIN.bottom;
 
   const pairCount = (bp: BookPair) => (sourceMode === 'f' ? bp.f : bp.f + bp.p);

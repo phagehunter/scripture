@@ -57,6 +57,15 @@ export default function NetworkGraph() {
   const { ref, width, height } = useElementSize<HTMLDivElement>();
   const [hoverNode, setHoverNode] = useState<GraphNode | null>(null);
   const [groupsOpen, setGroupsOpen] = useState(true);
+  // Device detection must use the viewport, NOT the container width — on
+  // desktop the reading panel can squeeze this pane well below 768px.
+  const [phone, setPhone] = useState(() => window.matchMedia('(max-width: 767px)').matches);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const onChange = (e: MediaQueryListEvent) => setPhone(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
   const mousePos = useRef({ x: 0, y: 0 });
   const fgRef = useRef<any>(null);
   const nodeCache = useRef<Map<string, GraphNode>>(new Map());
@@ -144,7 +153,6 @@ export default function NetworkGraph() {
   // Auto-collapse the groups panel when the view gets narrow; on phones it's
   // hidden entirely (group toggles live in the Filters disclosure instead).
   const narrow = width < 950;
-  const phone = width < 768;
   useEffect(() => {
     setGroupsOpen(!narrow);
   }, [narrow]);
