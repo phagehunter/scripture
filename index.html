@@ -4,14 +4,118 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0f172a" />
-    <meta
-      name="description"
-      content="Scripture Atlas — a literary-analysis companion to the King James Bible, the Book of Mormon, and the Pearl of Great Price: character networks with careful disambiguation, intertextual cross-references, parallel chronology, and the full text readable alongside."
-    />
+    <meta name="description" content="A visual companion to the King James Bible, Book of Mormon and Pearl of Great Price: 192 figures, 14,076 cross-references, a chronology and the full text." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Scripture Atlas — Visual Literary Analysis</title>
+    <meta name="author" content="Curtis Hoffmann" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://curtishoffmann.com/scripture/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Scripture Atlas" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Scripture Atlas — Visual Literary Analysis" />
+    <meta property="og:description" content="A visual companion to the King James Bible, Book of Mormon and Pearl of Great Price: 192 figures, 14,076 cross-references, a chronology and the full text." />
+    <meta property="og:url" content="https://curtishoffmann.com/scripture/" />
+    <meta property="og:image" content="https://curtishoffmann.com/scripture/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Scripture Atlas: visual literary analysis of the King James Bible, the Book of Mormon and the Pearl of Great Price" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Scripture Atlas — Visual Literary Analysis" />
+    <meta name="twitter:description" content="A visual companion to the King James Bible, Book of Mormon and Pearl of Great Price: 192 figures, 14,076 cross-references, a chronology and the full text." />
+    <meta name="twitter:image" content="https://curtishoffmann.com/scripture/og-image.png" />
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "@id": "https://curtishoffmann.com/scripture/",
+   "url": "https://curtishoffmann.com/scripture/",
+   "name": "Scripture Atlas",
+   "headline": "Scripture Atlas — Visual Literary Analysis",
+   "description": "A visual companion to the King James Bible, Book of Mormon and Pearl of Great Price: 192 figures, 14,076 cross-references, a chronology and the full text.",
+   "inLanguage": "en",
+   "applicationCategory": "EducationalApplication",
+   "operatingSystem": "Any (web browser)",
+   "browserRequirements": "Requires JavaScript",
+   "isAccessibleForFree": true,
+   "author": {
+    "@type": "Person",
+    "name": "Curtis Hoffmann",
+    "url": "https://curtishoffmann.com/"
+   },
+   "isPartOf": {
+    "@type": "WebSite",
+    "name": "Curtis Hoffmann",
+    "url": "https://curtishoffmann.com/"
+   },
+   "image": "https://curtishoffmann.com/scripture/og-image.png",
+   "about": [
+    {
+     "@type": "Book",
+     "name": "The Holy Bible, King James Version"
+    },
+    {
+     "@type": "Book",
+     "name": "The Book of Mormon"
+    },
+    {
+     "@type": "Book",
+     "name": "The Pearl of Great Price"
+    }
+   ]
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Curtis Hoffmann",
+     "item": "https://curtishoffmann.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Scripture Atlas",
+     "item": "https://curtishoffmann.com/scripture/"
+    }
+   ]
+  }
+ ]
+}
+    </script>
   </head>
   <body>
+    <!-- Pre-rendered introduction: readable without JavaScript and by crawlers; hidden once the app has mounted. -->
+    <style>
+      #intro { font-family: "Source Serif 4", Georgia, serif; background: #020617; color: #e2e8f0; padding: 40px 20px 48px; line-height: 1.6; }
+      #intro .wrap { max-width: 760px; margin: 0 auto; }
+      #intro h1 { font-family: "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif; color: #e7d7ba; font-size: 2rem; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 0.2em; }
+      #intro .sub { color: #94a3b8; margin: 0 0 1.4em; }
+      #intro h2 { font-family: "Cormorant Garamond", Georgia, serif; color: #d9c19a; font-size: 1.3rem; margin: 1.4em 0 0.4em; }
+      #intro p { margin: 0 0 1em; }
+      #intro ul { padding-left: 1.2em; margin: 0 0 1em; }
+      #intro li { margin: 0 0 0.4em; }
+      #intro a { color: #d9c19a; }
+      body:has(#root:not(:empty)) #intro { display: none; }
+    </style>
+    <section id="intro">
+      <div class="wrap">
+        <h1>Scripture Atlas</h1>
+        <p class="sub">A visual literary companion to the King James Bible, the Book of Mormon and the Pearl of Great Price, by <a href="https://curtishoffmann.com/">Curtis Hoffmann</a></p>
+        <p>This single-page dashboard reads three volumes of scripture at a distance and up close at once: visualizations built from 192 curated figures and collectives, 14,076 validated verse-pair cross-references and a two-hemisphere chronology, beside a reader with the complete 38,341-verse text of all 81 books.</p>
+        <p>Use the volume chips, the twelve-era window and the seven role-group toggles to filter every view, and press play to watch the network assemble era by era. Search any figure; homonyms carry subscript numbers (Alma₁ and Alma₂, Nephi₁ to Nephi₃) so they are never confused, and focus mode isolates one figure's network. Clicking a node, edge or arc opens the commentary panel, and every citation links into the Text tab, where a name resolves to the right person for its chapter.</p>
+        <h2>What the three views show</h2>
+        <ul>
+          <li><strong>Character Network.</strong> A force-directed graph with node size by degree centrality, color by role group and eight typed edge classes: family, succession, teaching, conflict, alliance, divine encounter, vision and quotation. Cross-volume edges are the connective tissue, from Nephi₁ seeing Mary in vision to Moroni₂ returning as the messenger of Joseph Smith's history.</li>
+          <li><strong>Cross-References.</strong> The complete web of 14,076 verse pairs (7,543 study-edition footnotes plus 6,533 phrase-matching parallels, labelled as such), aggregated into 1,171 book-to-book arcs with source and threshold controls, plus 63 annotated highlights with commentary. Any pair opens side by side in the Compare tab, and references appear verse by verse in the reader.</li>
+          <li><strong>Parallel Chronology.</strong> Old World and New World on one zoomable time axis: the Jaredites beside the patriarchs, Lehi departing during Jeremiah's ministry, the darkness of AD 33 marked in both hemispheres, and the Restoration era of the Pearl of Great Price.</li>
+        </ul>
+        <p>Text: the public-domain LDS Scriptures dataset (scriptures.nephi.org, 2020 edition). Characters, relationships, cross-references and dates are hand-curated; Book of Mormon dating follows the text's internal year counts, and Old World dates before the monarchy are flagged as traditional. The application needs JavaScript; it is loading now, or <a href="https://github.com/phagehunter/scripture">read the source on GitHub</a>.</p>
+      </div>
+    </section>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
