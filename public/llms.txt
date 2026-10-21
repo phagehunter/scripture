@@ -1,0 +1,29 @@
+# Scripture Atlas
+
+> A single-page digital-humanities dashboard by Curtis Hoffmann for the visual literary analysis of the King James Bible, the Book of Mormon and the Pearl of Great Price. Distant reading (character network, cross-reference web, parallel chronology) beside close reading (commentary, careful character disambiguation, and the complete 38,341-verse text of all 81 books).
+
+Site: https://curtishoffmann.com/scripture/
+Source: https://github.com/phagehunter/scripture
+
+## Views
+
+- Character Network: 192 curated figures and collectives across four volumes, force-directed; node size by degree centrality, color by role group; eight typed edge classes (family, succession, teaching, conflict, alliance, divine encounter, vision, quotation). Homonyms carry subscript numbers (Alma₁/Alma₂, Nephi₁–₃, Moroni₁/₂).
+- Cross-References: 14,076 validated verse pairs, 7,543 from official study-edition footnotes (including the Pearl of Great Price apparatus) and 6,533 from a phrase-matching concordance, labelled as mechanical; aggregated into 1,171 book-to-book arcs; 63 annotated highlights with commentary; references shown verse by verse in the reader; any pair opens side by side in the Compare tab.
+- Parallel Chronology: Old World and New World on one piecewise, zoomable time axis, from the patriarchs and the Jaredites to the Restoration era.
+- Text tab: full reader with volume, book and chapter navigation and context-aware linked names.
+
+## Controls
+
+- Volume chips (OT / NT / BoM), a dual-thumb window over twelve eras (Primeval to Nephite Twilight), seven role-group toggles, era playback, character search with disambiguators, focus mode, resizable reading panel.
+
+## Data and method
+
+- Text: public-domain LDS Scriptures dataset (scriptures.nephi.org, 2020-12-08 edition), preprocessed into per-book JSON.
+- Characters, relationships, cross-references and chronology are hand-curated TypeScript datasets in `src/data/`. Book of Mormon dating follows the text's internal year counts; Old World pre-monarchy dates are flagged as traditional.
+- All client-side; no backend, no API keys, one URL (state-driven, no router).
+
+## Contact
+
+- Author: Curtis Hoffmann, https://curtishoffmann.com/
+- Issues: https://github.com/phagehunter/scripture/issues
+- Sitemap: https://curtishoffmann.com/scripture/sitemap.xml
