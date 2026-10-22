@@ -27,6 +27,7 @@ export default function ChronologyView() {
   const { ref, width } = useElementSize<HTMLDivElement>();
   const [hover, setHover] = useState<ChronEvent | null>(null);
   const [zoomIdx, setZoomIdx] = useState(0);
+  const [showTable, setShowTable] = useState(false);
 
   const zoom = ZOOM_LEVELS[zoomIdx];
   const height = 560;
@@ -94,7 +95,7 @@ export default function ChronologyView() {
           >
             −
           </button>
-          <span className="text-[11px] text-slate-400 tabular-nums w-12 text-center">{Math.round(zoom * 100)}%</span>
+          <span className="text-[12px] text-slate-400 tabular-nums w-12 text-center">{Math.round(zoom * 100)}%</span>
           <button
             onClick={() => setZoomIdx(Math.min(ZOOM_LEVELS.length - 1, zoomIdx + 1))}
             disabled={zoomIdx === ZOOM_LEVELS.length - 1}
@@ -107,7 +108,7 @@ export default function ChronologyView() {
           {zoomIdx > 0 && (
             <button
               onClick={() => setZoomIdx(0)}
-              className="text-[11px] text-slate-400 hover:text-slate-200 ml-1 underline decoration-dotted"
+              className="text-[12px] text-slate-400 hover:text-slate-200 ml-1 underline decoration-dotted"
               title="Reset zoom"
             >
               fit
@@ -116,11 +117,39 @@ export default function ChronologyView() {
         </div>
       </div>
 
-      {width > 0 && (
+      <button
+        type="button"
+        onClick={() => setShowTable((v) => !v)}
+        aria-pressed={showTable}
+        className="mb-2 min-h-[40px] px-3 py-1.5 rounded-md border border-slate-700 bg-slate-900/90 text-[12px] text-slate-200 hover:border-amber-500 transition-colors duration-150"
+      >
+        {showTable ? 'Show timeline' : 'Show as table'}
+      </button>
+
+      {showTable && (
+        <table className="w-full max-w-3xl text-[13px] text-slate-200 mb-4">
+          <caption className="text-left text-slate-400 mb-2">{CHRON_EVENTS.length} dated events, both hemispheres, in order.</caption>
+          <thead><tr className="text-left text-slate-400 border-b border-slate-700"><th className="py-1 pr-3 font-semibold">Year</th><th className="py-1 pr-3 font-semibold">Track</th><th className="py-1 pr-3 font-semibold">Event</th><th className="py-1 font-semibold">Citation</th></tr></thead>
+          <tbody>
+            {[...CHRON_EVENTS].sort((a, b) => a.year - b.year).map((e, i) => (
+              <tr key={i} className={`border-b border-slate-800 align-top ${inWindow(e.era) ? '' : 'text-slate-400'}`}>
+                <td className="py-1 pr-3 tabular-nums whitespace-nowrap">{fmtYear(e.year)}</td>
+                <td className="py-1 pr-3">{e.track === 'oldworld' ? 'Old World' : 'New World'}</td>
+                <td className="py-1 pr-3">{e.label}{e.detail && <span className="text-slate-400">. {e.detail}</span>}</td>
+                <td className="py-1 whitespace-nowrap">{e.citation}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {width > 0 && !showTable && (
         <div className="overflow-x-auto pb-1">
         <svg
           width={svgW}
           height={height}
+          role="img"
+          aria-label="Timeline of Old World and New World events; the table view lists the same events"
           onMouseLeave={() => setHover(null)}
         >
           <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
@@ -145,7 +174,7 @@ export default function ChronologyView() {
                     strokeWidth={1}
                   />
                   {x2 - x1 > 54 && (
-                    <text x={(x1 + x2) / 2} y={y + 3.5} textAnchor="middle" className="fill-slate-300 text-[9.5px]">
+                    <text x={(x1 + x2) / 2} y={y + 3.5} textAnchor="middle" className="fill-slate-300 text-[12px]">
                       {era.short}
                     </text>
                   )}
@@ -155,7 +184,7 @@ export default function ChronologyView() {
 
             {/* track labels */}
             {(['oldworld', 'newworld'] as const).map((t) => (
-              <text key={t} x={0} y={trackY[t] - 26} className="text-[11px] font-semibold" fill={TRACK_COLORS[t]}>
+              <text key={t} x={0} y={trackY[t] - 26} className="text-[12px] font-semibold" fill={TRACK_COLORS[t]}>
                 {TRACK_LABELS[t]}
               </text>
             ))}
@@ -164,7 +193,7 @@ export default function ChronologyView() {
             {[-2000, -1500, -1000, -600, -400, -200, 1, 200, 400, 1820].map((yr) => (
               <g key={yr}>
                 <line x1={x(yr)} x2={x(yr)} y1={0} y2={innerH} stroke="#1e293b" strokeWidth={1} />
-                <text x={x(yr)} y={innerH + 16} textAnchor="middle" className="fill-slate-500 text-[10px]">
+                <text x={x(yr)} y={innerH + 16} textAnchor="middle" className="fill-slate-400 text-[12px]">
                   {fmtYear(yr)}
                 </text>
               </g>
@@ -176,7 +205,7 @@ export default function ChronologyView() {
               y1={trackY.oldworld} y2={trackY.newworld}
               stroke="#e879f9" strokeWidth={1} strokeDasharray="3 3" opacity={0.7}
             />
-            <text x={x(33) + 5} y={(trackY.oldworld + trackY.newworld) / 2} className="fill-fuchsia-300 text-[9px]">
+            <text x={x(33) + 5} y={(trackY.oldworld + trackY.newworld) / 2} className="fill-fuchsia-300 text-[12px]">
               AD 33 — darkness in both hemispheres
             </text>
 
@@ -197,7 +226,7 @@ export default function ChronologyView() {
                   <line x1={x(e.year)} x2={x(e.year)} y1={y} y2={ey} stroke="#475569" strokeWidth={1} />
                   <circle cx={x(e.year)} cy={ey} r={hovered ? 5 : 3.5} fill={TRACK_COLORS[e.track]} stroke="#020617" strokeWidth={1} />
                   {hovered && (
-                    <text x={x(e.year)} y={flip ? ey + 16 : ey - 9} textAnchor="middle" className="fill-slate-100 text-[10px] font-semibold">
+                    <text x={x(e.year)} y={flip ? ey + 16 : ey - 9} textAnchor="middle" className="fill-slate-100 text-[12px] font-semibold">
                       {e.label}
                     </text>
                   )}
@@ -221,14 +250,14 @@ export default function ChronologyView() {
             <div className="flex flex-wrap gap-1 mt-1.5">
               {hover.personIds.map((id) =>
                 PERSON_BY_ID[id] ? (
-                  <span key={id} className="text-[10px] px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                  <span key={id} className="text-[12px] px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
                     {PERSON_BY_ID[id].name}
                   </span>
                 ) : null,
               )}
             </div>
           )}
-          <div className="mt-1.5 text-[10px] text-slate-500">Click to pin in the Commentary panel</div>
+          <div className="mt-1.5 text-[12px] text-slate-400">Click to pin in the Commentary panel</div>
         </div>
       )}
     </div>

@@ -136,41 +136,47 @@ if (fileF !== matrixF) warn('matrix', `footnote count mismatch: matrix=${matrixF
 if (fileP !== matrixP) warn('matrix', `phrase count mismatch: matrix=${matrixP} files=${fileP}`);
 
 // ═══════ A2. curated datasets ═══════
-const src = (f) => readFileSync(join(root, 'src', 'data', f), 'utf8');
+const data = (f) => JSON.parse(readFileSync(join(root, 'data', f), 'utf8'));
+const people = data('people.json'), relationships = data('relationships.json'), crossrefs = data('crossrefs.json'), chronology = data('chronology.json'), eras = data('eras.json');
+const personIds = new Set(people.map((p) => p.id));
+for (const p of people) {
+  if (personIds.size !== people.length) break;
+  if (!p.name || !p.disambiguator || !p.group || !p.blurb) warn('people', `${p.id} missing fields`);
+  for (const r of p.keyRefs) checkCitation('people', r);
+}
+if (personIds.size !== people.length) warn('people', 'duplicate ids');
+for (const r of relationships) {
+  if (!personIds.has(r.source)) warn('relationships', `unknown source ${r.source}`);
+  if (!personIds.has(r.target)) warn('relationships', `unknown target ${r.target}`);
+  if (r.citation) checkCitation('relationships', r.citation);
+}
+for (const c of crossrefs) { checkCitation('crossrefs', c.sourceRef); checkCitation('crossrefs', c.targetRef); }
+const eraIds = new Set(eras.map((e) => e.id));
+for (const e of chronology) {
+  if (e.citation) checkCitation('chronology', e.citation);
+  if (!eraIds.has(e.era)) warn('chronology', `${e.label}: unknown era ${e.era}`);
+  for (const id of e.personIds ?? []) if (!personIds.has(id)) warn('chronology', `${e.label}: unknown person ${id}`);
+}
 
-const crossrefs = src('crossrefs.ts');
-for (const m of crossrefs.matchAll(/(sourceRef|targetRef): '([^']+)'/g)) checkCitation('crossrefs', m[2]);
-
-const rel = src('relationships.ts');
-for (const m of rel.matchAll(/citation: '([^']+)'/g)) checkCitation('relationships', m[1]);
-
-const ppl = src('people.ts');
-for (const m of ppl.matchAll(/keyRefs: \[([^\]]+)\]/g))
-  for (const r of m[1].split(',').map((x) => x.replace(/'/g, '').trim()).filter(Boolean)) checkCitation('people', r);
-
-const chron = src('chronology.ts');
-for (const m of chron.matchAll(/citation: '([^']+)'/g)) checkCitation('chronology', m[1]);
-
-const rules = src('nameRules.ts');
+const rules = readFileSync(join(root, 'src', 'data', 'nameRules.ts'), 'utf8');
 for (const m of rules.matchAll(/books: \[([^\]]+)\]/g))
   for (const s of m[1].split(',').map((x) => x.replace(/'/g, '').trim()).filter(Boolean))
     if (!BY_SLUG[s]) warn('nameRules', `unknown book slug '${s}'`);
 
 // ═══════ C. ground-truth panel — must-exist connections ═══════
-// Panel restricted to connections the two sources can actually contain
-// (footnotes of BoM pages; Bible↔BoM concordance; generated quotation blocks).
+// Panel restricted to what the two remaining sources contain: the dataset's
+// reference listing ("p") and the verse-aligned quotation blocks ("f").
 const GROUND_TRUTH = [
-  ['1-nephi', '3:7', 'Philippians 4:13'], // famous footnote
-  ['mosiah', '14:5', 'Isaiah 53:5'], // Abinadi quoting the suffering servant
+  ['1-nephi', '3:7', 'Philippians 4:13'], // reference listing
+  ['mosiah', '14:5', 'Isaiah 53:5'], // Abinadi quoting the suffering servant (aligned block)
   ['isaiah', '53:5', 'Mosiah 14:5'], // …and its reverse link
   ['2-nephi', '12:2', 'Isaiah 2:2'], // quotation block, verse-aligned
   ['2-nephi', '24:12', 'Isaiah 14:12'], // quotation block, far end
   ['1-nephi', '20:1', 'Isaiah 48:1'], // quotation block with negative offset
   ['3-nephi', '12:3', 'Matthew 5:3'], // Sermon at the Temple
   ['3-nephi', '24:1', 'Malachi 3:1'], // Malachi dictated at Bountiful
-  ['helaman', '8:14', 'Numbers 21:9'], // brass serpent (v9 per the footnote)
-  ['moroni', '10:4', 'James 1:5'], // ask-of-God pairing
-  ['john', '3:14', '1 Nephi 17:41'], // reverse link from a BoM footnote
+  ['helaman', '8:14', 'Numbers 21:9'], // brass serpent, reference listing
+  ['moroni', '10:4', 'James 1:5'], // ask-of-God pairing, reference listing
 ];
 for (const [slug, vk, target] of GROUND_TRUTH) {
   const data = JSON.parse(readFileSync(join(refsDir, `${slug}.json`), 'utf8'));
@@ -181,7 +187,8 @@ for (const [slug, vk, target] of GROUND_TRUTH) {
 
 // ═══════ report ═══════
 console.log(`Canon: ${canon.length} books, ${Object.values(verseCounts).flat().reduce((a, b) => a + b, 0)} verses`);
-console.log(`Extracted corpus: ${refEntries} verse entries, ${refTargets} directed ref mentions, ${fileF} curated + ${fileP} phrase unique pairs`);
+console.log(`Reference corpus: ${refEntries} verse entries, ${refTargets} directed mentions, ${fileF} aligned-quotation + ${fileP} listing unique pairs`);
+console.log(`Curated data: ${people.length} people, ${relationships.length} relationships, ${crossrefs.length} annotated cross-references, ${chronology.length} events, ${eras.length} eras`);
 console.log(`Ground-truth panel: ${GROUND_TRUTH.length} checks`);
 if (problems.length === 0) {
   console.log('\n✅ ALL CHECKS PASSED');

@@ -80,3 +80,13 @@ input[type='range'].era-thumb::-moz-range-thumb {
     height: 100dvh;
   }
 }
+
+/* Respect the system's reduced-motion setting */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,33 @@
+MIT License
+
+Copyright (c) 2026 Curtis Hoffmann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+The files under data/ (people, relationships, annotated cross-references,
+chronology, eras) are editorial work by Curtis Hoffmann and are released under
+the Creative Commons Attribution 4.0 International license
+(https://creativecommons.org/licenses/by/4.0/).
+
+The scripture text under public/text/ and the reference listing under
+public/refs/ derive from the LDS Scriptures dataset (scriptures.nephi.org,
+2020-12-08 edition), which publishes them as public domain. The verse-aligned
+quotation pairs in public/refs/ are computed from that text.

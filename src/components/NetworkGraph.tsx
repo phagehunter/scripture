@@ -57,6 +57,7 @@ export default function NetworkGraph() {
   const { ref, width, height } = useElementSize<HTMLDivElement>();
   const [hoverNode, setHoverNode] = useState<GraphNode | null>(null);
   const [groupsOpen, setGroupsOpen] = useState(true);
+  const [showTable, setShowTable] = useState(false);
   // Device detection must use the viewport, NOT the container width — on
   // desktop the reading panel can squeeze this pane well below 768px.
   const [phone, setPhone] = useState(() => window.matchMedia('(max-width: 767px)').matches);
@@ -237,12 +238,49 @@ export default function NetworkGraph() {
   return (
     <div
       ref={ref}
+      role="region"
+      aria-label="Force-directed network of figures and their relationships; the table view gives the same data as text"
       className="relative w-full h-full overflow-hidden"
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         mousePos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
       }}
     >
+      <button
+        type="button"
+        onClick={() => setShowTable((v) => !v)}
+        aria-pressed={showTable}
+        className="absolute top-3 right-3 z-40 min-h-[40px] px-3 py-1.5 rounded-md border border-slate-700 bg-slate-900/90 text-[12px] text-slate-200 hover:border-amber-500 transition-colors duration-150"
+      >
+        {showTable ? 'Show graph' : 'Show as table'}
+      </button>
+
+      {showTable && (
+        <div className="absolute inset-0 z-30 overflow-auto bg-slate-950 p-4 pt-14" aria-label="Relationships in the current filters, as a table">
+          <table className="w-full text-[13px] text-slate-200">
+            <caption className="text-left text-slate-400 mb-2">{filteredRels.length} relationships for the current volumes, eras and groups.</caption>
+            <thead>
+              <tr className="text-left text-slate-400 border-b border-slate-700">
+                <th className="py-1.5 pr-3 font-semibold">Between</th>
+                <th className="py-1.5 pr-3 font-semibold">Type</th>
+                <th className="py-1.5 pr-3 font-semibold text-right">Weight</th>
+                <th className="py-1.5 font-semibold">Summary and citation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRels.map((r, idx) => (
+                <tr key={idx} className="border-b border-slate-800 align-top">
+                  <td className="py-1.5 pr-3">{PERSON_BY_ID[r.source]?.name} and {PERSON_BY_ID[r.target]?.name}</td>
+                  <td className="py-1.5 pr-3">{REL_LABELS[r.type]}</td>
+                  <td className="py-1.5 pr-3 tabular-nums text-right">{r.weight}</td>
+                  <td className="py-1.5">{r.summary}{r.citation && <span className="text-slate-400"> ({r.citation})</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       {width > 0 && height > 0 && (
         <ForceGraph2D
           ref={fgRef}
@@ -289,11 +327,14 @@ export default function NetworkGraph() {
 
       {/* Search box: full-width on phones for an easy tap target */}
       <div className="absolute top-3 left-3 right-3 md:right-auto md:w-72 z-30">
+        <label htmlFor="atlas-search" className="sr-only">Search figures</label>
         <input
+          id="atlas-search"
+          type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search characters… (e.g. Nephi, Alma, Mary)"
-          className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 md:py-1.5 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-amber-500/70"
+          placeholder="Search figures (Nephi, Alma, Mary)"
+          className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 md:py-1.5 text-sm text-slate-200 placeholder:text-slate-400 focus:outline-none focus:border-amber-500/70"
         />
         {searchResults.length > 0 && (
           <ul className="mt-1 bg-slate-900/95 border border-slate-700 rounded-lg overflow-hidden divide-y divide-slate-800">
@@ -308,7 +349,7 @@ export default function NetworkGraph() {
                   className="w-full text-left px-3 py-2 md:py-1.5 hover:bg-slate-800/80"
                 >
                   <span className="text-sm text-slate-100">{p.name}</span>
-                  <span className="text-[11px] text-slate-400 ml-2">{p.disambiguator}</span>
+                  <span className="text-[12px] text-slate-400 ml-2">{p.disambiguator}</span>
                 </button>
               </li>
             ))}
@@ -330,14 +371,14 @@ export default function NetworkGraph() {
           Hidden on phones — groups live in the Filters disclosure there,
           which also keeps the playback pill unobstructed. */}
       {!phone && (
-      <div className="absolute bottom-3 left-3 bg-slate-900/90 border border-slate-700 rounded-lg text-[11px] max-w-[250px]">
+      <div className="absolute bottom-3 left-3 bg-slate-900/90 border border-slate-700 rounded-lg text-[12px] max-w-[250px]">
         <button
           onClick={() => setGroupsOpen(!groupsOpen)}
           className="w-full flex items-center justify-between px-3 py-1.5 text-slate-300 hover:text-slate-100"
           aria-expanded={groupsOpen}
         >
-          <span className="uppercase tracking-widest text-[9px] text-slate-400">Groups</span>
-          <span className="text-slate-500">{groupsOpen ? '▾' : '▸'}</span>
+          <span className="uppercase tracking-widest text-[12px] text-slate-400">Groups</span>
+          <span className="text-slate-400">{groupsOpen ? '▾' : '▸'}</span>
         </button>
         {groupsOpen && (
           <div className="px-3 pb-2 space-y-1">
@@ -378,7 +419,7 @@ export default function NetworkGraph() {
           <div className="flex items-baseline justify-between gap-2">
             <span className="font-display text-lg text-sepia-200">{hoverNode.person.name}</span>
             <span
-              className="text-[10px] px-1.5 py-0.5 rounded-full border capitalize whitespace-nowrap"
+              className="text-[12px] px-1.5 py-0.5 rounded-full border capitalize whitespace-nowrap"
               style={{ color: GROUP_COLORS[hoverNode.person.group], borderColor: GROUP_COLORS[hoverNode.person.group] }}
             >
               {hoverNode.person.group}
@@ -398,7 +439,7 @@ export default function NetworkGraph() {
           </div>
           {hoverConnections.length > 0 && (
             <div className="mt-2 pt-1.5 border-t border-slate-700">
-              <div className="text-[10px] uppercase tracking-widest text-slate-500 mb-1">Connections (by weight)</div>
+              <div className="text-[12px] uppercase tracking-widest text-slate-400 mb-1">Connections (by weight)</div>
               <ul className="text-xs space-y-0.5">
                 {hoverConnections.slice(0, 6).map(({ person, w }) => (
                   <li key={person.id} className="flex justify-between">
@@ -406,13 +447,13 @@ export default function NetworkGraph() {
                       <span className="w-1.5 h-1.5 rounded-full" style={{ background: GROUP_COLORS[person.group] }} />
                       {person.name}
                     </span>
-                    <span className="text-slate-500 tabular-nums">{w}</span>
+                    <span className="text-slate-400 tabular-nums">{w}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          <div className="mt-1.5 text-[10px] text-slate-500">Click node for full card · click an edge for commentary</div>
+          <div className="mt-1.5 text-[12px] text-slate-400">Click node for full card · click an edge for commentary</div>
         </div>
       )}
 

@@ -6,7 +6,9 @@
   "description": "Visual literary analysis of the King James Bible and the Book of Mormon — character networks, intertextual cross-references, and parallel chronology",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/validate-data.mjs && tsc && vite build && node scripts/prerender.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "refs": "node scripts/rebuild-refs.mjs",
     "preview": "vite preview",
     "canon": "node scripts/build-canon.mjs"
   },

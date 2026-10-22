@@ -1,6 +1,6 @@
 # Scripture Atlas
 
-> A single-page digital-humanities dashboard by Curtis Hoffmann for the visual literary analysis of the King James Bible, the Book of Mormon and the Pearl of Great Price. Distant reading (character network, cross-reference web, parallel chronology) beside close reading (commentary, careful character disambiguation, and the complete 38,341-verse text of all 81 books).
+> A single-page digital-humanities dashboard by Curtis Hoffmann for the visual literary analysis of the King James Bible, the Book of Mormon and the Pearl of Great Price. Distant reading (character network, cross-reference web, parallel chronology) beside close reading (commentary, careful character disambiguation, and the complete 38,341-verse text of all 86 books).
 
 Site: https://curtishoffmann.com/scripture/
 Source: https://github.com/phagehunter/scripture
@@ -8,7 +8,7 @@ Source: https://github.com/phagehunter/scripture
 ## Views
 
 - Character Network: 192 curated figures and collectives across four volumes, force-directed; node size by degree centrality, color by role group; eight typed edge classes (family, succession, teaching, conflict, alliance, divine encounter, vision, quotation). Homonyms carry subscript numbers (Alma₁/Alma₂, Nephi₁–₃, Moroni₁/₂).
-- Cross-References: 14,076 validated verse pairs, 7,543 from official study-edition footnotes (including the Pearl of Great Price apparatus) and 6,533 from a phrase-matching concordance, labelled as mechanical; aggregated into 1,171 book-to-book arcs; 63 annotated highlights with commentary; references shown verse by verse in the reader; any pair opens side by side in the Compare tab.
+- Cross-References: 7,052 verse pairs, 519 from verse-aligned quotation blocks (Isaiah, Malachi and Matthew quoted in the Book of Mormon) and 6,533 from the dataset's Bible / Book of Mormon reference listing (mechanical, generous, labeled as such); aggregated into 532 book-to-book arcs; 63 annotated highlights with commentary; references shown verse by verse in the reader; any pair opens side by side in the Compare tab.
 - Parallel Chronology: Old World and New World on one piecewise, zoomable time axis, from the patriarchs and the Jaredites to the Restoration era.
 - Text tab: full reader with volume, book and chapter navigation and context-aware linked names.
 
@@ -18,9 +18,16 @@ Source: https://github.com/phagehunter/scripture
 
 ## Data and method
 
-- Text: public-domain LDS Scriptures dataset (scriptures.nephi.org, 2020-12-08 edition), preprocessed into per-book JSON.
-- Characters, relationships, cross-references and chronology are hand-curated TypeScript datasets in `src/data/`. Book of Mormon dating follows the text's internal year counts; Old World pre-monarchy dates are flagged as traditional.
-- All client-side; no backend, no API keys, one URL (state-driven, no router).
+- Text: the LDS Scriptures dataset (scriptures.nephi.org, 2020-12-08 edition), which publishes the text as public domain; preprocessed into per-book JSON.
+- Characters, relationships, cross-references and chronology are hand-curated JSON datasets in `data/` (CC BY 4.0). Book of Mormon dating follows the text's internal year counts; Old World pre-monarchy dates are flagged as traditional.
+- All client-side; no backend, no API keys.
+
+## Plain pages (no JavaScript needed)
+
+- https://curtishoffmann.com/scripture/books/ : all 86 books with full text, figures and cross-references
+- https://curtishoffmann.com/scripture/people/ : 192 figures with disambiguators and every cited relationship
+- https://curtishoffmann.com/scripture/cross-references/ : the 63 annotated links with commentary
+- https://curtishoffmann.com/scripture/chronology/ : eras and dated events of both hemispheres
 
 ## Contact
 
