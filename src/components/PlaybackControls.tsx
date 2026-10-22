@@ -27,7 +27,7 @@ export default function PlaybackControls() {
           <span className="text-sm text-slate-100 font-semibold truncate">
             {era ? era.label : 'Play the canon'}
           </span>
-          <span className="hidden sm:inline text-[11px] text-slate-400 whitespace-nowrap">
+          <span className="hidden sm:inline text-[12px] text-slate-400 whitespace-nowrap">
             {active ? `era ${playEra} of 13` : 'era by era'}
           </span>
         </div>
@@ -39,7 +39,7 @@ export default function PlaybackControls() {
         </div>
       </div>
 
-      <div className="hidden sm:flex rounded-md overflow-hidden border border-slate-700 text-[11px]">
+      <div className="hidden sm:flex rounded-md overflow-hidden border border-slate-700 text-[12px]">
         {(
           [
             ['cumulative', 'Growing'],

@@ -30,18 +30,20 @@ const MARGIN = { top: 24, right: 96, bottom: 165, left: 24 };
 
 /**
  * Intertextual view, two layers:
- *  · Complete web — every book-pair from the extracted corpus (14,031 verse
- *    pairs: official footnotes + phrase concordance), arcs weighted by count.
- *  · Annotated highlights — 55 curated links with editorial commentary.
+ *  · Complete web — every book pair from the reference corpus: verse-aligned
+ *    quotation blocks ("f") plus the dataset's Bible / Book of Mormon
+ *    reference listing ("p"), arcs weighted by count.
+ *  · Annotated highlights — the curated links with editorial commentary.
  */
 export default function CrossRefArcs() {
   const { volumes, setSelection } = useAtlas();
   const { ref, width, height: containerH } = useElementSize<HTMLDivElement>();
   const [mode, setMode] = useState<Mode>('web');
-  const [sourceMode, setSourceMode] = useState<SourceMode>('f');
+  const [sourceMode, setSourceMode] = useState<SourceMode>('fp');
   const [minCount, setMinCount] = useState(4);
   const [hoverPair, setHoverPair] = useState<BookPair | null>(null);
   const [hoverRef, setHoverRef] = useState<CrossRef | null>(null);
+  const [showTable, setShowTable] = useState(false);
   // Device detection must use the viewport, NOT the container width — on
   // desktop the reading panel can squeeze this pane well below 640px.
   const [isPhone, setIsPhone] = useState(() => window.matchMedia('(max-width: 767px)').matches);
@@ -151,13 +153,13 @@ export default function CrossRefArcs() {
           <p className="hidden sm:block text-xs text-slate-400 max-w-2xl">
             {mode === 'web' ? (
               <>
-                The complete extracted reference web:{' '}
-                <b className="text-slate-300">{TOTAL_PAIRS.toLocaleString()} verse-pairs</b> from the official
-                footnotes and a phrase-matching concordance, aggregated by book. Click an arc to browse its
-                verse pairs.
+                The reference web:{' '}
+                <b className="text-slate-300">{TOTAL_PAIRS.toLocaleString()} verse pairs</b> from verse-aligned
+                quotation blocks and the dataset&apos;s Bible / Book of Mormon reference listing (generous,
+                mechanical matches), aggregated by book. Click an arc to browse its verse pairs.
               </>
             ) : (
-              <>Fifty-five annotated links with editorial commentary — the guided tour of the corpus.</>
+              <>{CROSSREFS.length} annotated links with editorial commentary, the guided tour of the corpus.</>
             )}
           </p>
         </div>
@@ -184,15 +186,15 @@ export default function CrossRefArcs() {
           </div>
 
           {mode === 'web' && (
-            <div className="flex items-center gap-3 text-[11px] text-slate-400">
-              <label className="flex items-center gap-1.5 cursor-pointer" title="The phrase concordance is mechanical and generous; footnotes are editorially curated.">
+            <div className="flex items-center gap-3 text-[12px] text-slate-400">
+              <label className="flex items-center gap-1.5 cursor-pointer min-h-[40px]" title="The reference listing is mechanical and generous; quotation blocks are verse-aligned direct quotations.">
                 <input
                   type="checkbox"
                   checked={sourceMode === 'fp'}
                   onChange={() => setSourceMode(sourceMode === 'f' ? 'fp' : 'f')}
                   className="accent-amber-500 w-4 h-4"
                 />
-                include phrase-concordance matches
+                include the reference listing
               </label>
               <label className="flex items-center gap-1.5">
                 min refs
@@ -208,7 +210,7 @@ export default function CrossRefArcs() {
           {mode === 'highlights' && (
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {(Object.keys(TYPE_LABELS) as CrossRefType[]).map((t) => (
-                <span key={t} className="flex items-center gap-1.5 text-[11px] text-slate-300">
+                <span key={t} className="flex items-center gap-1.5 text-[12px] text-slate-300">
                   <span className="w-4 h-[3px] rounded" style={{ background: TYPE_COLORS[t] }} />
                   {TYPE_LABELS[t]}
                 </span>
@@ -219,11 +221,52 @@ export default function CrossRefArcs() {
       </div>
 
       {isPhone && (
-        <p className="text-[10px] text-slate-500 mb-1">← swipe the diagram sideways · tap an arc for its verse pairs →</p>
+        <p className="text-[12px] text-slate-400 mb-1">← swipe the diagram sideways · tap an arc for its verse pairs →</p>
       )}
-      {width > 0 && axisBooks.length > 0 && (
+      <button
+        type="button"
+        onClick={() => setShowTable((v) => !v)}
+        aria-pressed={showTable}
+        className="mb-2 min-h-[40px] px-3 py-1.5 rounded-md border border-slate-700 bg-slate-900/90 text-[12px] text-slate-200 hover:border-amber-500 transition-colors duration-150"
+      >
+        {showTable ? 'Show diagram' : 'Show as table'}
+      </button>
+
+      {showTable && mode === 'web' && (
+        <table className="w-full max-w-3xl text-[13px] text-slate-200 mb-4">
+          <caption className="text-left text-slate-400 mb-2">{visiblePairs.length} book pairs at the current threshold, most-linked first.</caption>
+          <thead><tr className="text-left text-slate-400 border-b border-slate-700"><th className="py-1 pr-3 font-semibold">From</th><th className="py-1 pr-3 font-semibold">To</th><th className="py-1 pr-3 font-semibold text-right">Aligned</th><th className="py-1 font-semibold text-right">Listing</th></tr></thead>
+          <tbody>
+            {[...visiblePairs].sort((a, b) => pairCount(b) - pairCount(a)).map((bp) => (
+              <tr key={`${bp.s}>${bp.t}`} className="border-b border-slate-800">
+                <td className="py-1 pr-3">{BOOK_BY_SLUG[bp.s]?.title}</td>
+                <td className="py-1 pr-3">{BOOK_BY_SLUG[bp.t]?.title}</td>
+                <td className="py-1 pr-3 tabular-nums text-right">{bp.f}</td>
+                <td className="py-1 tabular-nums text-right">{bp.p}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {showTable && mode === 'highlights' && (
+        <table className="w-full max-w-3xl text-[13px] text-slate-200 mb-4">
+          <caption className="text-left text-slate-400 mb-2">{visibleRefs.length} annotated links for the selected volumes.</caption>
+          <thead><tr className="text-left text-slate-400 border-b border-slate-700"><th className="py-1 pr-3 font-semibold">Passages</th><th className="py-1 pr-3 font-semibold">Type</th><th className="py-1 font-semibold">Note</th></tr></thead>
+          <tbody>
+            {visibleRefs.map((c) => (
+              <tr key={c.id} className="border-b border-slate-800 align-top">
+                <td className="py-1 pr-3 whitespace-nowrap">{c.sourceRef} → {c.targetRef}</td>
+                <td className="py-1 pr-3">{TYPE_LABELS[c.type]}</td>
+                <td className="py-1">{c.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {width > 0 && axisBooks.length > 0 && !showTable && (
         <div className="overflow-x-auto">
-        <svg width={diagramW} height={height}>
+        <svg width={diagramW} height={height} role="img" aria-label="Arc diagram of cross-references between books; the table view gives the same counts">
           <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
             {/* ——— arcs ——— */}
             {mode === 'web' &&
@@ -313,7 +356,7 @@ export default function CrossRefArcs() {
               return (
                 <g key={v}>
                   <line x1={x1} x2={x2} y1={axisY + 96} y2={axisY + 96} stroke={VOLUME_COLORS[v]} strokeWidth={2.5} strokeLinecap="round" />
-                  <text x={(x1 + x2) / 2} y={axisY + 112} textAnchor="middle" className="text-[11px] font-semibold" fill={VOLUME_COLORS[v]}>
+                  <text x={(x1 + x2) / 2} y={axisY + 112} textAnchor="middle" className="text-[12px] font-semibold" fill={VOLUME_COLORS[v]}>
                     {label}
                   </text>
                 </g>
@@ -326,7 +369,7 @@ export default function CrossRefArcs() {
 
       {/* legend for web mode */}
       {mode === 'web' && (
-        <div className="mt-1 pt-2 border-t border-slate-800 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-[11px] text-slate-300">
+        <div className="mt-1 pt-2 border-t border-slate-800 flex flex-wrap items-center gap-x-6 gap-y-1.5 text-[12px] text-slate-300">
           <span className="inline-flex items-center gap-2 whitespace-nowrap">
             <span className="inline-block w-5 h-[3px] rounded bg-amber-400" />
             Bible ↔ Book of Mormon
@@ -339,7 +382,7 @@ export default function CrossRefArcs() {
             <span className="inline-block w-5 h-[3px] rounded bg-purple-400" />
             involving the Pearl of Great Price
           </span>
-          <span className="text-slate-500 whitespace-nowrap">arc thickness ∝ log(reference count) · loops = a book citing itself</span>
+          <span className="text-slate-400 whitespace-nowrap">arc thickness ∝ log(reference count) · loops = a book citing itself</span>
         </div>
       )}
 
@@ -350,10 +393,10 @@ export default function CrossRefArcs() {
             {BOOK_BY_SLUG[hoverPair.s].title} → {BOOK_BY_SLUG[hoverPair.t].title}
           </div>
           <div className="text-xs text-slate-300 mt-1 space-y-0.5">
-            <div>Footnote references: <b className="text-amber-300 tabular-nums">{hoverPair.f}</b></div>
-            <div>Phrase-concordance matches: <b className="text-slate-300 tabular-nums">{hoverPair.p}</b></div>
+            <div>Aligned quotation pairs: <b className="text-amber-300 tabular-nums">{hoverPair.f}</b></div>
+            <div>Reference-listing pairs: <b className="text-slate-300 tabular-nums">{hoverPair.p}</b></div>
           </div>
-          <div className="mt-1.5 text-[10px] text-slate-500">Click to browse the verse pairs</div>
+          <div className="mt-1.5 text-[12px] text-slate-400">Click to browse the verse pairs</div>
         </div>
       )}
       {hoverRef && !isPhone && (
@@ -362,7 +405,7 @@ export default function CrossRefArcs() {
             <span className="font-display text-sepia-200 text-sm">
               {hoverRef.sourceRef} → {hoverRef.targetRef}
             </span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded-full border" style={{ color: TYPE_COLORS[hoverRef.type], borderColor: TYPE_COLORS[hoverRef.type] }}>
+            <span className="text-[12px] px-1.5 py-0.5 rounded-full border" style={{ color: TYPE_COLORS[hoverRef.type], borderColor: TYPE_COLORS[hoverRef.type] }}>
               {hoverRef.type}
             </span>
           </div>

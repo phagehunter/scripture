@@ -36,7 +36,7 @@ export default function ControlsBar() {
           key={v}
           onClick={() => toggleVolume(v)}
           className={`px-2.5 py-1.5 md:py-1 rounded-full text-xs border transition-colors whitespace-nowrap ${
-            volumes[v] ? 'text-slate-950 font-semibold' : 'text-slate-500 border-slate-700 hover:text-slate-300'
+            volumes[v] ? 'text-slate-950 font-semibold' : 'text-slate-400 border-slate-700 hover:text-slate-300'
           }`}
           style={volumes[v] ? { background: VOLUME_COLORS[v], borderColor: VOLUME_COLORS[v] } : undefined}
           title={VOLUME_LABELS[v]}
@@ -85,7 +85,7 @@ export default function ControlsBar() {
           aria-expanded={open}
         >
           <span className="flex items-baseline gap-2 min-w-0">
-            <span className="text-[10px] uppercase tracking-widest text-slate-400 shrink-0">Filters</span>
+            <span className="text-[12px] uppercase tracking-widest text-slate-400 shrink-0">Filters</span>
             <span className="text-[13px] text-slate-300 truncate">
               {volCount === 4 ? 'All volumes' : `${volCount} of 4 volumes`} ·{' '}
               <span className="font-display text-sepia-200">{eraLabel}</span>

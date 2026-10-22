@@ -68,7 +68,7 @@ function Pane({ slot }: { slot: 'a' | 'b' }) {
         </select>
         <button
           onClick={() => openText(`${meta?.title} ${chapter}${loc.verse ? `:${loc.verse}` : ''}`)}
-          className="text-[11px] text-slate-400 hover:text-amber-200 whitespace-nowrap"
+          className="text-[12px] text-slate-400 hover:text-amber-200 whitespace-nowrap"
           title="Open this passage in the Scripture tab"
         >
           open ↗
@@ -77,7 +77,7 @@ function Pane({ slot }: { slot: 'a' | 'b' }) {
 
       {/* pane text */}
       <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3">
-        {!verses && <p className="text-sm text-slate-500 italic">Loading…</p>}
+        {!verses && <p className="text-sm text-slate-400 italic">Loading…</p>}
         {verses && book && (
           <div className="space-y-2">
             {verses.map((v, i) => {
@@ -90,7 +90,7 @@ function Pane({ slot }: { slot: 'a' | 'b' }) {
                     focused ? 'bg-amber-900/35 ring-1 ring-amber-600/50 px-2 -mx-2 text-slate-50' : 'text-slate-200'
                   }`}
                 >
-                  <sup className="text-[10px] text-slate-500 font-body font-semibold mr-1.5 select-none">{i + 1}</sup>
+                  <sup className="text-[12px] text-slate-400 font-body font-semibold mr-1.5 select-none">{i + 1}</sup>
                   <LinkedVerse text={v} slug={book.slug} volume={book.volume} />
                 </p>
               );

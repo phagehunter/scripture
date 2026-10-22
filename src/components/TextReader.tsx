@@ -17,12 +17,12 @@ function VerseRefs({ refs, here }: { refs: { f: string[]; p: string[] }; here: R
   const Chip = ({ r, dim }: { r: string; dim?: boolean }) => (
     <button
       onClick={() => go(r)}
-      className={`text-[10.5px] px-1.5 py-px rounded-full border transition-colors ${
+      className={`text-[12px] px-1.5 py-px rounded-full border transition-colors ${
         dim
-          ? 'border-slate-700 text-slate-500 hover:text-slate-300 hover:border-slate-500'
+          ? 'border-slate-700 text-slate-400 hover:text-slate-300 hover:border-slate-500'
           : 'border-amber-700/60 text-amber-300/90 hover:text-amber-200 hover:border-amber-500'
       }`}
-      title={`${dim ? 'Phrase parallel' : 'Footnote reference'}: ${r} — click to compare side-by-side`}
+      title={`${dim ? 'Reference-listing match' : 'Aligned quotation'}: ${r}, click to compare side by side`}
     >
       {r}
     </button>
@@ -32,17 +32,17 @@ function VerseRefs({ refs, here }: { refs: { f: string[]; p: string[] }; here: R
       {refs.f.slice(0, 6).map((r) => (
         <Chip key={r} r={r} />
       ))}
-      {refs.f.length > 6 && <span className="text-[10px] text-slate-500">+{refs.f.length - 6}</span>}
+      {refs.f.length > 6 && <span className="text-[12px] text-slate-400">+{refs.f.length - 6}</span>}
       {refs.p.length > 0 &&
         (showPhrase ? (
           refs.p.slice(0, 8).map((r) => <Chip key={r} r={r} dim />)
         ) : (
           <button
             onClick={() => setShowPhrase(true)}
-            className="text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted"
-            title="Mechanical phrase-concordance parallels — generous matches, browse critically"
+            className="text-[12px] text-slate-400 hover:text-slate-300 underline decoration-dotted"
+            title="Matches from the dataset's reference listing: generous and mechanical, browse critically"
           >
-            +{refs.p.length} phrase
+            +{refs.p.length} listed
           </button>
         ))}
     </span>
@@ -128,7 +128,7 @@ export default function TextReader() {
                 const first = CANON.find((b) => b.volume === v)!;
                 setReaderLoc({ slug: v === meta?.volume ? readerLoc.slug : first.slug, chapter: v === meta?.volume ? chapter : 1 });
               }}
-              className={`px-2 py-0.5 rounded-full text-[11px] border transition-colors ${
+              className={`px-2 py-0.5 rounded-full text-[12px] border transition-colors ${
                 meta?.volume === v ? 'font-semibold text-slate-950' : 'text-slate-400 border-slate-700 hover:text-slate-200'
               }`}
               style={meta?.volume === v ? { background: VOLUME_COLORS[v], borderColor: VOLUME_COLORS[v] } : undefined}
@@ -178,14 +178,14 @@ export default function TextReader() {
             <h3 className="font-display text-2xl text-sepia-200 tracking-wide">
               {meta?.title} {chapter}
             </h3>
-            <label className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer select-none whitespace-nowrap">
+            <label className="flex items-center gap-1.5 text-[12px] text-slate-400 cursor-pointer select-none whitespace-nowrap">
               <input type="checkbox" checked={showRefs} onChange={() => setShowRefs(!showRefs)} className="accent-amber-500 w-3 h-3" />
               cross-references
             </label>
           </div>
 
           {failed && <p className="text-sm text-rose-300">Could not load this book. Try reloading the page.</p>}
-          {!failed && !verses && <p className="text-sm text-slate-500 italic">Loading…</p>}
+          {!failed && !verses && <p className="text-sm text-slate-400 italic">Loading…</p>}
 
           {verses && book && (
             <div className="space-y-2.5">
@@ -200,7 +200,7 @@ export default function TextReader() {
                       flashed ? 'bg-amber-900/35 ring-1 ring-amber-600/50 px-2 -mx-2' : ''
                     }`}
                   >
-                    <sup className="text-[10.5px] text-slate-500 font-body font-semibold mr-1.5 select-none">{i + 1}</sup>
+                    <sup className="text-[12px] text-slate-400 font-body font-semibold mr-1.5 select-none">{i + 1}</sup>
                     <LinkedVerse text={v} slug={book.slug} volume={book.volume} />
                     {showRefs && vr && (vr.f.length > 0 || vr.p.length > 0) && (
                       <VerseRefs refs={vr} here={{ slug: book.slug, chapter, verse: i + 1 }} />
@@ -211,7 +211,7 @@ export default function TextReader() {
             </div>
           )}
 
-          <div className="mt-8 pt-4 border-t border-slate-800 text-[11px] text-slate-500 leading-relaxed space-y-2">
+          <div className="mt-8 pt-4 border-t border-slate-800 text-[12px] text-slate-400 leading-relaxed space-y-2">
             <p>
               <span className="text-amber-400/80">Names are linked and context-aware.</span> Hover any name to
               see who it resolves to here and to spotlight them in the network; click to fly to their node.
@@ -221,8 +221,9 @@ export default function TextReader() {
               read both passages side by side.
             </p>
             <p>
-              Text: King James Version &amp; Book of Mormon, from the public-domain LDS Scriptures dataset
-              (scriptures.nephi.org, 2020 edition).
+              Text: King James Bible, Book of Mormon and Pearl of Great Price from the LDS Scriptures dataset
+              (scriptures.nephi.org, 2020-12-08 edition), which publishes it as public domain. Every book is also
+              a plain page: <a href="books/" className="text-slate-400 underline hover:text-slate-300">all 86 books</a>.
             </p>
           </div>
         </div>

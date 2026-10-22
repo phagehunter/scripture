@@ -13,7 +13,7 @@ function CitationLink({ citation }: { citation: string }) {
   return (
     <button
       onClick={() => openText(citation)}
-      className="text-[11px] font-mono text-amber-400/90 hover:text-amber-300 hover:underline whitespace-nowrap"
+      className="text-[12px] font-mono text-amber-400/90 hover:text-amber-300 hover:underline whitespace-nowrap"
       title={`Open ${citation} in the Text tab`}
     >
       {citation} ↗
@@ -39,7 +39,7 @@ function RelCard({ r, from }: { r: Relationship; from?: string }) {
             {PERSON_BY_ID[r.source]?.name} ↔ {PERSON_BY_ID[r.target]?.name}
           </span>
         )}
-        <span className="text-[10px] px-1.5 py-0.5 rounded-full border whitespace-nowrap" style={{ color: REL_COLORS[r.type], borderColor: REL_COLORS[r.type] }}>
+        <span className="text-[12px] px-1.5 py-0.5 rounded-full border whitespace-nowrap" style={{ color: REL_COLORS[r.type], borderColor: REL_COLORS[r.type] }}>
           {REL_LABELS[r.type]}
         </span>
       </div>
@@ -88,16 +88,16 @@ function BookPairCard({ pair }: { pair: BookPair }) {
       <div className="font-display text-xl text-slate-50">
         {sBook.title} → {tBook.title}
       </div>
-      <div className="text-xs text-slate-500 -mt-2">
-        <b className="text-amber-300">{pair.f}</b> footnote reference{pair.f === 1 ? '' : 's'} ·{' '}
-        <b className="text-slate-300">{pair.p}</b> phrase-concordance match{pair.p === 1 ? '' : 'es'}
+      <div className="text-xs text-slate-400 -mt-2">
+        <b className="text-amber-300">{pair.f}</b> aligned quotation pair{pair.f === 1 ? '' : 's'} ·{' '}
+        <b className="text-slate-300">{pair.p}</b> reference-listing pair{pair.p === 1 ? '' : 's'}
       </div>
       <p className="text-[13px] text-slate-400 leading-relaxed">
-        Footnote references come from the official study apparatus; phrase matches are mechanical echoes of
-        shared wording — generous by design, best browsed critically. Click any pair to read both passages
-        side by side.
+        Aligned quotation pairs follow the verse-for-verse quotations of Isaiah, Malachi and Matthew in the Book
+        of Mormon; reference-listing pairs come from the dataset&apos;s Bible / Book of Mormon listing, which is
+        generous by design and best browsed critically. Click any pair to read both passages side by side.
       </p>
-      {!rows && <p className="text-sm text-slate-500 italic">Loading verse pairs…</p>}
+      {!rows && <p className="text-sm text-slate-400 italic">Loading verse pairs…</p>}
       {rows && (
         <div className="space-y-1">
           {shown.map((r, i) => (
@@ -112,7 +112,7 @@ function BookPairCard({ pair }: { pair: BookPair }) {
               title="Read these two passages side by side"
             >
               <span className="text-[12px] font-mono text-slate-300">{r.from}</span>
-              <span className={`text-[10px] ${r.curated ? 'text-amber-400' : 'text-slate-600'}`}>{r.curated ? '⇢' : '≈'}</span>
+              <span className={`text-[12px] ${r.curated ? 'text-amber-400' : 'text-slate-600'}`}>{r.curated ? '⇢' : '≈'}</span>
               <span className="text-[12px] font-mono text-slate-300">{r.to}</span>
             </button>
           ))}
@@ -135,7 +135,7 @@ export default function CommentaryPanel() {
     <div className="h-full overflow-y-auto p-4 space-y-3">
       {selection && (
         <div className="flex justify-end -mb-1">
-          <button onClick={() => setSelection(null)} className="text-xs text-slate-500 hover:text-slate-300">
+          <button onClick={() => setSelection(null)} className="text-xs text-slate-400 hover:text-slate-300">
             clear selection ✕
           </button>
         </div>
@@ -153,7 +153,7 @@ export default function CommentaryPanel() {
             Every citation links into the <b className="text-slate-100">Scripture</b> tab. Names in the text are
             context-aware.
           </p>
-          <p className="text-[13px] text-slate-500 italic font-reading">
+          <p className="text-[13px] text-slate-400 italic font-reading">
             One canon, two hemispheres, a dozen eras — and a network of quotation binding it together.
           </p>
         </div>
@@ -167,12 +167,12 @@ export default function CommentaryPanel() {
           <>
             <div className="flex items-baseline justify-between gap-2">
               <span className="font-display text-xl text-slate-50">{p.name}</span>
-              <span className="text-[11px] px-1.5 py-0.5 rounded-full border capitalize whitespace-nowrap" style={{ color: GROUP_COLORS[p.group], borderColor: GROUP_COLORS[p.group] }}>
+              <span className="text-[12px] px-1.5 py-0.5 rounded-full border capitalize whitespace-nowrap" style={{ color: GROUP_COLORS[p.group], borderColor: GROUP_COLORS[p.group] }}>
                 {p.group}
               </span>
             </div>
             <div className="italic text-[13.5px] font-reading text-sepia-300 -mt-1">{p.disambiguator}</div>
-            <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
+            <div className="flex flex-wrap items-center gap-1.5 text-[12px]">
               {p.volumes.map((v) => (
                 <span key={v} className="px-1.5 py-0.5 rounded-full font-semibold text-slate-950" style={{ background: VOLUME_COLORS[v] }}>
                   {v.toUpperCase()}
@@ -219,7 +219,7 @@ export default function CommentaryPanel() {
                 {highlight?.id === p.id ? 'Spotlight off' : 'Spotlight node'}
               </button>
             </div>
-            <div className="text-[11px] uppercase tracking-widest text-slate-500 pt-1">
+            <div className="text-[12px] uppercase tracking-widest text-slate-400 pt-1">
               Relationships ({involved.length})
             </div>
             {involved.map((r, idx) => (
@@ -234,7 +234,7 @@ export default function CommentaryPanel() {
           <div className="font-display text-xl text-slate-50">
             {PERSON_BY_ID[selection.a]?.name} ↔ {PERSON_BY_ID[selection.b]?.name}
           </div>
-          <div className="text-xs text-slate-500 -mt-2">
+          <div className="text-xs text-slate-400 -mt-2">
             {selection.relationships.length} recorded relationship{selection.relationships.length === 1 ? '' : 's'}
           </div>
           {selection.relationships.map((r, idx) => (
@@ -250,7 +250,7 @@ export default function CommentaryPanel() {
             <div className="font-display text-xl text-slate-50">
               {c.sourceRef} → {c.targetRef}
             </div>
-            <div className="text-xs text-slate-500 -mt-2 capitalize">{c.type} · weight {c.weight}</div>
+            <div className="text-xs text-slate-400 -mt-2 capitalize">{c.type} · weight {c.weight}</div>
             <p className="text-[15px] text-slate-100 leading-relaxed">{c.note}</p>
             <div className="rounded-lg border border-slate-700 bg-slate-900/70 p-3 space-y-2">
               <button
@@ -283,7 +283,7 @@ export default function CommentaryPanel() {
               <span className="font-display text-xl text-slate-50">{e.label}</span>
               <span className="text-sm text-amber-300 tabular-nums whitespace-nowrap">{yr}</span>
             </div>
-            <div className="text-xs text-slate-500 -mt-2">
+            <div className="text-xs text-slate-400 -mt-2">
               {e.track === 'oldworld' ? 'Old World — Bible' : 'New World — Book of Mormon'} · {ERA_BY_ID[e.era]?.label}
             </div>
             {e.detail && <p className="text-[15px] text-slate-100 leading-relaxed">{e.detail}</p>}
@@ -294,7 +294,7 @@ export default function CommentaryPanel() {
                     <button
                       key={id}
                       onClick={() => setSelection({ kind: 'person', id })}
-                      className="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 hover:border-amber-600/60 hover:text-amber-200"
+                      className="text-[12px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 hover:border-amber-600/60 hover:text-amber-200"
                     >
                       {PERSON_BY_ID[id].name}
                     </button>
